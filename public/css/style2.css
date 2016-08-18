@@ -13,9 +13,9 @@ ul#tabs {
     color: #fff;
     cursor: pointer; }
     ul#tabs li:hover {
-      background-color: gray; }
+      background-color: #bc8b3c; }
     ul#tabs li.active {
-      background-color: gray; }
+      background-color: #bc8b3c; }
 
 ul#tab {
   list-style-type: none;
