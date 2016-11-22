@@ -1,0 +1,85 @@
+<form id="formu" onsubmit="authUser(); return false;">
+    <div class="log log1"><input type="text" name="user" placeholder="Correo Electr&oacute;nico" style="height: 30px; border-radius: 0; margin-top: 5px;"></div>
+        <div class="log"><input  type="text" name="pass" placeholder="Contraseña" style="height: 30px; border-radius: 0; margin-top: 5px;"></div>
+        <div class="">
+          <input type="submit" class="button" value="Ingresar" style="padding: 10px 98px; width:100%;">
+        </div>
+        
+</form>
+<div style="">
+        <div class="">
+            <div style="color: #929292; font-size: 21px; width: 100%; height: 30px; margin: 0 auto; padding-top: 30px; margin-bottom: 37px;">
+                Recuperar Contrase&ntilde;a
+            </div>
+        </div>
+        <form id="formu_recuperar" onsubmit="recoverPass(this); return false;">
+            <div style="">
+                <input type="text" name="emailRecover" style="width: 100%; height: 30px; border-radius: 0; background-color: transparent;" placeholder="Correo Electr&oacute;nico">
+            </div>
+                        
+            <div class="">
+                <input type="submit" class="button" value="Enviar" class="" style="padding: 10px 104px;width: 100%;">
+            </div>
+        </form>
+</div>
+<script>
+var currentUser = null;
+function isLogued() {
+    var usuarioManager = new UsuarioManagerHandler();
+    usuarioManager.isLogued(function (responseManager) {
+            console.log(responseManager);
+             currentUser = responseManager.getObject();
+             $(".inicio_sesion").html("Cerrar Sesi&oacute;n");
+        },  function (responseManager) {
+            console.log(responseManager);
+            currentUser = null;
+        });
+}
+
+function recoverPass(form) {
+    var email = form.emailRecover.value;
+    if (email.length > 0) {
+        var usuarioManager = new UsuarioManagerHandler();
+            usuarioManager.recoverPass(email, function (responseManager) {
+                alert("Si tu correo esta registrado con nosotros, hemos enviado un mensaje con tu contraseña");
+            }, function (responseManager) {
+                alert("Si tu correo esta registrado con nosotros, hemos enviado un mensaje con tu contraseña");
+            });
+    } else { 
+        alert("Debe ingresar un correo electronico");
+    }
+}
+
+function getForm() {
+    return document.getElementById("formu");
+}
+
+function authUser() {
+    var form = getForm();
+    if (form.user.value.length > 0 && form.pass.value.length > 0) {
+        var usuarioManager = new UsuarioManagerHandler();
+        usuarioManager.authCliente(form.user.value, form.pass.value, 1, function (responseManager) {
+            console.log(responseManager);
+            currentUser = responseManager.getObject();
+            $(".inicio_sesion").html("Cerrar Sesi&oacute;n");
+            $(".close_btn_log").click();
+            window.location.replace("http://www.upli.co");
+        },  function (responseManager) {
+            console.log(responseManager);
+            alert("Usuario o password incorrectos, intente de nuevo."); 
+        });
+    } else {
+        alert("Debe ingresar el usuario y el password");
+    }
+}
+
+function logout() { 
+    var usuarioManager = new UsuarioManagerHandler();
+        usuarioManager.logOut(function (rm) {
+             $(".inicio_sesion").html("Iniciar Sesi&oacute;n");
+        }, function(rm) {
+            $(".inicio_sesion").html("Iniciar Sesi&oacute;n");
+        });
+}
+isLogued();
+</script>

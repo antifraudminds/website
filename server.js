@@ -1,7 +1,16 @@
 #!/bin/env node
-//  OpenShift sample Node application
+//  NodeJs requires
 var express = require('express');
+var session = require('express-session');
 var fs      = require('fs');
+var bodyParser = require('body-parser');
+var connect = require('connect');
+
+// Controlador requires
+var UsuarioControlador = require(__dirname + "/controllers/usuarioControlador.js");
+var EmpresaControlador = require(__dirname + "/controllers/empresaControlador.js");
+var BannersControlador = require(__dirname + "/controllers/bannersController.js");
+var SolicitudControlador = require(__dirname + "/controllers/solicitudControlador.js");
 
 
 /**
@@ -21,9 +30,10 @@ var SampleApp = function() {
      *  Set up server IP address and port # using env variables/defaults.
      */
     self.setupVariables = function() {
+        console.log('entro');
         //  Set the environment variables we need.
-        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
-        self.port      = process.env.OPENSHIFT_NODEJS_PORT || 8080;
+        self.ipaddress = process.env.OPENSHIFT_NODEJS_IP ? process.env.OPENSHIFT_NODEJS_IP : process.env.IP || "0.0.0.0";
+        self.port      = process.env.OPENSHIFT_NODEJS_PORT ? process.env.OPENSHIFT_NODEJS_PORT || 8080 : process.env.PORT || 3000;
 
         if (typeof self.ipaddress === "undefined") {
             //  Log errors on OpenShift but continue w/ 127.0.0.1 - this
@@ -33,17 +43,11 @@ var SampleApp = function() {
         };
     };
 
-
     /**
      *  Populate the cache.
      */
     self.populateCache = function() {
-        if (typeof self.zcache === "undefined") {
-            self.zcache = { 'index.html': '' };
-        }
-
-        //  Local cache for static content.
-        self.zcache['index.html'] = fs.readFileSync('./index.html');
+       
     };
 
 
@@ -93,9 +97,11 @@ var SampleApp = function() {
      *  Create the routing table entries + handlers for the application.
      */
     self.createRoutes = function() {
-        self.routes = { };
-
-       
+        self.routes = [];
+        self.routes = UsuarioControlador(self.routes);
+        self.routes = EmpresaControlador(self.routes);
+        self.routes = BannersControlador(self.routes);
+        self.routes = SolicitudControlador(self.routes);
     };
 
 
@@ -105,10 +111,67 @@ var SampleApp = function() {
      */
     self.initializeServer = function() {
         self.createRoutes();
-        self.app = express.createServer();
-        self.app.use(express.static(__dirname + '/public'));
+        self.app = express();
 
-      
+        //  Add handlers for the app (from the routes).
+        self.app.use(express.cookieParser());
+        self.app.use(session({saveUninitialized: true, resave: true, secret: '1234567890QWERTY'}));
+        self.app.use('/', function(req, res, next) {
+                if (req.originalUrl.indexOf(".html") != -1 && req.originalUrl.indexOf("/admin") != -1 && req.originalUrl.indexOf("index.html") == -1) {
+                    var session = req.session;
+                    console.log(session);
+                    if (session != null && session.cliente != null) {
+                        if (req.originalUrl.indexOf("indexAdmin.html") != -1 && session.cliente.tipo == 1) {
+                            res.writeHead(302, {
+                              'Location': '/admin/indexUser.html'
+                              //add other headers here...
+                            });
+                            res.end();    
+                        } else {
+                            next();
+                        }
+                    } else {
+                        res.writeHead(302, {
+                          'Location': '/admin/index.html'
+                          //add other headers here...
+                        });
+                        res.end();
+                    }
+                } else {
+                 next();   
+                }
+            });
+        self.app.use(express.static(__dirname + '/public'));
+        if (process.env.OPENSHIFT_DATA_DIR != null) {
+            self.app.use(express.static(process.env.OPENSHIFT_DATA_DIR + '/public'));
+        }
+        self.app.use(bodyParser.urlencoded({extended: false}));
+        self.app.use(bodyParser.json());
+        
+        for (var r in self.routes) {
+            if (self.routes[r].type == "GET") {
+                self.app.get(self.routes[r].path, self.routes[r].func);
+            }
+            
+            if (self.routes[r].type == "POST") {
+                self.app.post(self.routes[r].path, self.routes[r].func);
+            }
+            
+            if (self.routes[r].type == "PUT") {
+                if (self.routes[r].middleware) {
+                    self.app.put(self.routes[r].path, self.routes[r].middleware, self.routes[r].func);
+                } else {
+                    self.app.put(self.routes[r].path, self.routes[r].func);
+                }
+            }
+            
+            if (self.routes[r].type == "DELETE") {
+                self.app.delete(self.routes[r].path, self.routes[r].func);
+            }
+        }
+        
+        
+        
     };
 
 
@@ -138,12 +201,9 @@ var SampleApp = function() {
 
 };   /*  Sample Application.  */
 
-
-
 /**
  *  main():  Main code.
  */
 var zapp = new SampleApp();
 zapp.initialize();
 zapp.start();
-
