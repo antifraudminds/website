@@ -3,11 +3,11 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Antifraud Minds | Web-side</title>
+	<title>Antifraud Minds</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta name="description" content="Free HTML5 Website Template by FreeHTML5.co" />
-	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
-	<meta name="author" content="FreeHTML5.co" />
+	<meta name="description" content="Antifraud minds " />
+	<meta name="keywords" content="seguridad, antifraude, empresas" />
+	<meta name="author" content="kalpani.com" />
 
   	<!-- Facebook and Twitter integration -->
 	<meta property="og:title" content=""/>
@@ -68,7 +68,7 @@
 						<li><a href="psicologia.html">PSICOLOGÍA DEL FRAUDE</a></li>
 						<li><a href="consultorias.html">CONSULTORIAS Y ASESORIAS</a></li>
 						<li><a href="investigacion.html">INVESTIGACIÓN</a></li>
-						<li><a style="border-bottom: 2px solid white;" href="servicios.html">SERVICIOS</a></li>
+						<li><a style="border-bottom: 2px solid white; padding: 22px 10px;" href="servicios.html">SERVICIOS</a></li>
 						<li><a href="contacto.html">CONTACTENOS</a></li>
 						<li><a href="admin/login.html">INICIAR SESÍON</a></li>
 					</ul>
@@ -100,12 +100,25 @@
 		</div>
 	</header>
 	
-	
 		<div id="gtco-features">
 			<div class="gtco-container animate-box">
 				 <h2 style="color: black; text-align: left;">Servicios</h2>
-						<div style="" class="contBtnTab">
-					 		<div class="rowTabUno">
+				 <div style="width:900px;height: 270px;margin:0 auto;">
+				 	<a href="#uno" onclick="tabBtn('uno');" class="contCircularBtn"><div class="circularBtn">APP Antifraude</div></a>
+				 	<a href="#uno" onclick="tabBtn('dos');" class="contCircularBtn"><div class="circularBtn">Capacitación Antifraude</div></a>
+				 	<a href="#uno" onclick="tabBtn('tres');" class="contCircularBtn"><div class="circularBtn">Esquemas antifraudes</div></a>
+				 	<a href="#uno" onclick="tabBtn('cuatro');" class="contCircularBtn"><div class="circularBtn">Formación en PEACE</div></a>
+				 	<a href="#uno" onclick="tabBtn('cinco');" class="contCircularBtn"><div class="circularBtn">Capacitaciones en criminología</div></a>
+				 	<a href="#uno" onclick="tabBtn('seis');" class="contCircularBtn"><div class="circularBtn">Selección de personal</div></a>
+				 	<a href="#uno" onclick="tabBtn('siete');" class="contCircularBtn"><div class="circularBtn">Inteligencia empresarial</div></a>
+				 	<a href="#uno" onclick="tabBtn('ocho');" class="contCircularBtn"><div class="circularBtn">Análisis criminal I2</div></a>
+				 	<a href="#uno" onclick="tabBtn('nueve');" class="contCircularBtn"><div class="circularBtn">Validación y visitas de seguridad</div></a>
+				 	<a href="#uno" onclick="tabBtn('dies');" class="contCircularBtn"><div class="circularBtn">Siniestros en seguros</div></a>
+				 	<a href="#uno" onclick="tabBtn('once');" class="contCircularBtn"><div class="circularBtn">Departamentos de seguridad</div></a>
+					
+				 </div>
+				 <!--	<div style="" class="contBtnTab">
+					 		<div class="rowTabUno">   
 				 				<div class="contTabRow">
 				 					<div id="1" class="btnTab" style="float:left;background:gray;"><a data-toggle="tab"  href="#uno" onclick="clickUno('unoT','1');" style="color:white;"><div>APP Antifraude</div></a></div>
 					                <div id="2" class="btnTab" style="float:left;"><a data-toggle="tab" href="#dos"  onclick="clickUno('dosT','2');" style="color:white;"><div>Capacitación Antifraude</div></div>
@@ -392,7 +405,7 @@
 						    </div>
 						  </div>
 			            
-			</div>
+			</div>-->
 		</div>
 	</div>
 
@@ -454,7 +467,15 @@
 	<div class="gototop js-top">
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 	</div>
-	
+	<div id="idIntUno" class="animated zoomIn" style="display:none; width:100%; height:1100px; position:fixed; background:rgba(0, 0, 0, 0.88); z-index:9999999;top:0;">
+		<div id="uno" class="tab-pane fade in active" style=" width:900px; height: 400px; margin: 0 auto; margin-top: 122px;">
+		  <a href="#Uno" onclick="exit();" style="margin-left: 96%; font-size: 30px; color: white;">x</a>
+	       <h3 id="titleServices" style="color:white; border-bottom:1px solid white;height:40px;"></h3>
+	       <p id="descripServices" style="color:white;" class="">
+		      	
+	        </p>
+	    </div>
+	</div>
 	<!-- jQuery -->
 	<script src="js/web/jquery.min.js"></script>
 	<!-- jQuery Easing -->
@@ -473,28 +494,161 @@
 	<script src="js/web/main.js"></script>
 	
 	<script>
-		var tabAnterior = 'unoT';
+		/*var tabAnterior = 'unoT';
 		var idTabAnterior = '1';
 		var scrollTopPosition = 1100;
 		function clickUno(tabClick,idTab) {
-			
 		    document.getElementById(idTab).style.background = "gray";
 		    if(tabAnterior != tabClick){
-		    	
 		    	document.getElementById(idTabAnterior).style.background = "black";
 		    	idTabAnterior = idTab;
 		    	tabAnterior = tabClick;
 		    	var width = document.body.clientWidth;
 		    	console.log(width);
-		    	
 		    	if(width <= 1024){
 		    		$("html, body").scrollTop($("#contTextTab").offset().top);	
 		    	}
-		    	
-		    	
-		    	
 		    }
+		}*/
+		
+	
+		function tabBtn(btnClick){
+			document.getElementById('idIntUno').style.display = "block";
+			if(btnClick == 'uno'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.uno;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'dos'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.dos;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'tres'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.tres;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'cuatro'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.cuatro;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'cinco'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.cinco;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'seis'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.seis;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'siete'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.siete;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'ocho'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.ocho;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'nueve'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.nueve;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'dies'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.dies;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			if(btnClick == 'once'){
+				$.getJSON("dataServicios.txt", function(json) {
+	               var data = json.once;
+	               for (var key in data) {
+	            	 var title = document.getElementById("titleServices");
+					 title.innerHTML = '<span class="animated fideIn">'+ data[key].title +'</span>';
+					 var descrip = document.getElementById("descripServices");
+					 descrip.innerHTML = '<span class="animated fideIn">'+ data[key].description +'</span>';
+	               } 
+	            });
+			}
+			
 		}
+		
+		function exit(){
+			
+			document.getElementById("idIntUno").className = "animated zoomOut";
+			setTimeout(disNone, 1000);
+		}
+		
+		function disNone(){
+			document.getElementById("idIntUno").className = "animated zoomIn";
+			document.getElementById('idIntUno').style.display = "none";
+		}
+		
 </script>
 	</body>
 </html>

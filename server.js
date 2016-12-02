@@ -11,6 +11,8 @@ var UsuarioControlador = require(__dirname + "/controllers/usuarioControlador.js
 var EmpresaControlador = require(__dirname + "/controllers/empresaControlador.js");
 var BannersControlador = require(__dirname + "/controllers/bannersController.js");
 var SolicitudControlador = require(__dirname + "/controllers/solicitudControlador.js");
+var ServicioControlador = require(__dirname + "/controllers/servicioControlador.js");
+var DecrimDataController = require(__dirname + "/controllers/decrimDataController.js");
 
 
 /**
@@ -102,6 +104,8 @@ var SampleApp = function() {
         self.routes = EmpresaControlador(self.routes);
         self.routes = BannersControlador(self.routes);
         self.routes = SolicitudControlador(self.routes);
+        self.routes = ServicioControlador(self.routes);
+        self.routes = DecrimDataController(self.routes);
     };
 
 

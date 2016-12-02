@@ -6,7 +6,7 @@ var EmpresaControlador = function (routes) {
         type:"PUT",
         func: function (req,res) {
             var empresa = new Empresa();
-            empresa.insertar(req.body, function(responseManager) {
+            empresa.insertar(req.body, -1, function(responseManager) {
                res.send(responseManager); 
             });
         }
@@ -29,6 +29,17 @@ var EmpresaControlador = function (routes) {
         func: function (req,res) {
             var empresa = new Empresa();
             empresa.get(req.params.idEmpresa, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
+        path:"/empresa/get/qrcode/:idEmpresa",
+        type:"GET",
+        func: function (req,res) {
+            var empresa = new Empresa();
+            empresa.getQRCode(req.params.idEmpresa, function(responseManager) {
                res.send(responseManager); 
             });
         }

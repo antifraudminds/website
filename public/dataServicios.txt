@@ -1,0 +1,48 @@
+{
+	"uno": [{
+		"title": "APP Antifraude",
+		"description": "La primera herramienta tecnológica creada en Colombia para la lucha contra el fraude que genera en tiempo real un filtro de prevención para la suplantación de identidad y el análisis de la probabilidad de riesgo de la persona; todo esto en un solo informe con un tiempo de respuesta promedio de 90 segundos.<br><br> Este es un sistema automatizado creado por ANTIFRAUD MINDS, que le permite al sector empresarial contar con la garantía de poder conocer a su cliente o aliado, esto se logra por medio de una identificación plena y real de la persona que tiene en sus instalaciones y la que se encuentra en el documento de identificación, generando en poco tiempo cotejos de documentologia, dactiloscopia y grafología. Al mismo tiempo realiza una búsqueda de información de la persona en publicaciones web, bases de datos privadas y noticias en medios de comunicación (previo consentimiento y autorización mediante firma del consultado).<br><br> ANTIFRAUD MINDS SAS creó una fórmula estadística con base en los reactivos positivos al riesgo encontrados para la persona consultada, logrando así una ponderación de la probabilidad de riesgo de la persona."
+	}],
+	"dos": [{
+		"title": "Capacitación Antifraude",
+		"description": "Nuestra experiencia, formación académica y la generación de nuevo conocimiento en nuestra área de psicología del defraudador; nos permite crear y diseñar capacitaciones teórico-practicas según la necesidad actual del sector empresarial, Llevándoles así a su personal y colaboradores el conocimiento científico y técnico de la criminalística o ciencias forenses en forma sencilla y aplicable mediante tips que pueden ser utilizados en su labor día a día. Esta formación y conocimiento producirá al interior de las organizaciones un incremento en la cultura y lucha antifraude generando así un ambiente de seguridad en su empresa.<br><br> ANTIFRAUD MINDS SAS, posee entre su portafolio capacitaciones como: Suplantación o robo de identidad, análisis criminal, criminología ambiental, documentologia, dactiloscopia, técnicas de entrevista, investigación criminal, fraude empresarial, psicología del fraude entre otras."
+	}],
+	"tres": [{
+		"title": "Implementación de esquemas antifraudes",
+		"description": "El fraude no se debe ver, analizar y tratar solo como un acto de una persona u organización sino como un fenómeno que rodea todo el sector empresarial y que tiene la capacidad de permear cualquier institución o persona. Esta premisa nos plantea una nueva forma de trabajo no solo como buro antifraude o unidad antifraude, sino que se debe trabajar en conjunto con las gerencias de riesgo al interior de las empresas y tratarlo de forma especial como un riesgo operativo.<br><br> Se debe reconocer que el fraude no es un riesgo operativo para el cual se tiene un plan de contingencia que permite mitigar el daño y estabilizar el riesgo; sino que es un riesgo operativo que se debe mitigar y controlar desde la selección del personal para los cargos de mayor riesgo al fraude dentro de la compañía, hasta la entrega final del producto o servicio a nuestros clientes. Lo anterior teniendo como referencia en la práctica que este fenómeno no solo afecta desde adentro de las compañías sino que también lo afecta desde el exterior, factor que no puede ser controlado fácilmente.<br><br> La medida más efectiva para poder controlar este fenómeno es la implementación de esquemas, planes o unidades antifraudes al interior de las compañías, ya que estos producen impacto no solo en la cultura antifraude al interior de la compañía sino que generan una imagen de seguridad y cero tolerancia al fraude al exterior de las compañías."
+	}],
+	"cuatro": [{
+		"title": "Formación en PEACE",
+		"description": "ANTIFRAUD MINDS SAS trae a Colombia esta técnica inglesa; es un modelo ideal para entrevistar, orientado a ofrecer una alternativa más eficaz y ética de la entrevista persuasiva. Este modelo ha sido acogido por jurisdicciones policiales en países como Australia, Canadá, Nueva Zelanda y Europa.<br><br> Estos países han basado su propio material de formación casi exclusivamente en el material de Inglaterra y Gales. ANTIFRAUD MINDS SAS es la única empresa en Colombia que cuenta con el personal formado en Inglaterra y certificado en PEACE por parte de la firma xxx en Estados Unidos de Norte América."
+	}],
+	"cinco": [{
+		"title": "Capacitaciones en criminología",
+		"description": "Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+	}],
+	"seis": [{
+		"title": "Selección antifraude para personal",
+		"description": "Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+	}],
+	"siete": [{
+		"title": "Inteligencia empresarial",
+		"description": "ANTIFRAUD MINDS SAS ha diseñado un servicio que conjuga: software especializados en el monitoreo de comunicaciones, software de análisis criminal, gestión de análisis y tratamientos de riesgos operativos, técnicas de criminalística científica y otros medios tecnológicos utilizados en inteligencia. Con el fin de identificar fenómenos de pérdidas que pueden atacar al sector empresarial y que permiten la identificación del modus operandi utilizado por los delincuentes o empleados fraudulentos."
+	}],
+	"ocho": [{
+
+		"title": "Análisis criminal I2",
+		"description": "Siguiendo la línea de creencia entre la unión de la parte privada y las autoridades públicas en la lucha contra el crimen y encontrándonos totalmente convencidos de la importancia de nuestros organismos judiciales y del aporte de la parte privada en nuestro sistema civil y judicial; generamos apoyo en el manejo y aplicación del software I2 NOTEBOOK conocido en al ámbito de la policía judicial como análisis link.<br><br> Integramos esta herramienta en la lucha contra el fraude para el análisis e investigación de casos en masa e identificación de fenómenos delincuenciales que emergen como nuevas tendencias o mutaciones del actuar criminal."
+	}],
+	"nueve": [{
+		"title": "Validación y visitas de seguridad",
+		"description": "Servicio que se integra los enfoques de seguridad y prevención de fraudes, con el fin de brindar un mayor conocimiento acerca de los colaboradores que ingresan a su empresa a laborar.<br><br> Este servicio brinda el apoyo para que su empresa previa a la contratación se informe del nivel de riesgo de fraude que puede tener su candidato. Para esto ANTIFRAUD MINDS SAS integra actividades como visitas, validación de riesgo reputacional, verificación de documentos, poligrafía y pruebas psicológicas."
+	}],
+	"dies": [{
+		"title": "Análisis y gestión antifraude para siniestros en seguros",
+		"description": "Servicio que integra los conocimientos del CONSULTOR ANTIFRAUDE, INVESTIGADOR CRIMINAL Y EL ANALISTA DE SEGUROS para la definición y toma de decisiones seguras en indemnizaciones de los ramos de seguros AUTOS, TRANSPORTES, VIDA, SOAT Y GENERALES.<br><br> Este servicio le permite a las compañías:<br><br><ul style='color: white;'><li>Pagos sin riesgo de fraude.</li><li>Identificación de indicadores de fraude.</li><li>Identificación de participes o actores de fraudes.</li><li>Ahorro en pagos con riesgo de fraude.</li><li>Recomendaciones para el fortalecimiento de sus procesos en la disminución de riesgos operativos; de forma específica en el riesgo de fraudes, implementando medidas de prevención y control.</li><li>Ambiente de seguridad y cero tolerancia al fraude.</li><li>Clasificación y explicación de los casos de fraude identificados para su adecuado tratamiento.</li></ul>"
+	}],
+	"once": [{
+		"title": "Asesoría y creación departamentos de seguridad",
+		"description": "La gestión empresarial lleva a ordenar sus prioridades y ante la trascendencia que conllevan la protección y la seguridad de los bienes y las personas, se pone de manifiesto la importancia de la seguridad y en definitiva, el Departamento de Seguridad de la empresa es el factor determinante para controlar y mitigar todos los eventos relacionados a la seguridad empresarial. Bajo lo anterior cada departamento de seguridad deberá ser creado bajo la estructura y necesidad de cada empresa; Esto quiere decir que la empresa, dada su estructura, convendrá que es suficiente para hacer frente a su propia seguridad.<br><br> ANTIFRAUD MINDS SAS brinda el apoyo y la asesoría necesaria para su implementación o acompañamiento."
+	}]
+
+}

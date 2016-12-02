@@ -44,6 +44,7 @@
   <script  type="text/javascript" src="../js/responsemanager.js"></script>
   <script  type="text/javascript" src="../js/usuariomanager.js"></script>
   <script  type="text/javascript" src="../js/empresamanager.js"></script>
+  <script  type="text/javascript" src="../js/serviciosmanager.js"></script>
   
   
 </head>
@@ -52,14 +53,14 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="indexAdmin.html" class="logo" style="background-color: #9e851e;">
+   <a href="indexAdmin.html" class="logo" style="background-color: #656463;">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>M</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>Antifraud</b>Minds</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top" style="background-color: #c5a628;">
+    <nav class="navbar navbar-static-top" style="background-color: #383838;">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
@@ -200,41 +201,20 @@
 
                   <p class="help-block">La imagen debe tener una resoluci&oacute;n de 128px X 128px</p>
                 </div>
-                <div style="height: 67px;">
-                  <div style="margin-left:0px; font-weight: 700;">Selecionar servicios</div>
-                  <div class="checkbox" style="float:left;">
-                   
-                    <label>
-                      <input id="servicio1" type="checkbox" onchange="servicioChanged(1, this);"> Validaci&oacute;n Informaci&oacute;n
-                    </label>
-                  </div>
-                  <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;">
-                    <label>
-                      <input id="servicio2" type="checkbox" onchange="servicioChanged(2, this);"> Gesti&oacute;n
-                    </label>
-                  </div>
-                  <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;">
-                    <label>
-                      <input id="servicio3" type="checkbox" onchange="servicioChanged(3, this);"> Siniestro
-                    </label>
-                  </div>
-                  <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;">
-                    <label>
-                      <input id="servicio4" type="checkbox" onchange="servicioChanged(4, this);"> Estudio de Seguridad
-                    </label>
-                  </div>
-                  <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;">
-                    <label>
-                      <input id="servicio5" type="checkbox" onchange="servicioChanged(5, this);"> Atenci&oacute;n Comercial
-                    </label>
-                  </div>
-                  <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;">
-                    <label>
-                      <input id="servicio6" type="checkbox" onchange="servicioChanged(6, this);"> Atenci&oacute;n Antifraude
-                    </label>
+                <div class="form-group">
+                  <div style="height: 100px;">
+                    <div style="margin-left:0px; font-weight: 700;">Selecionar servicios</div>
+                    <div id="serviciosContainer">
+                      <div class="checkbox" style="float:left;">
+                        <label>
+                          <input type="checkbox" onchange="servicioChanged(1, this);"> Validaci&oacute;n Informaci&oacute;n
+                        </label>
+                      </div>
+                      
+                    </div>
                   </div>
                 </div>
-              </div>
+              
               <div class="box-footer">
                 <button type="submit" class="btn btn-primary">Editar Usuario</button>
               </div>
@@ -306,8 +286,39 @@
   data.servicios = [];
   
   $(document).ready(function() {
-    loadEmpresa(getParameterByName("idEmpresa"));
+    loadServicios();
   });
+ 
+ function loadServicios() {
+    var servicioManager = new ServiciosManager();
+    servicioManager.getAll(function (rm) {
+      renderServicios(rm.getObject());
+    }, function (rm) {
+      console.log(rm);
+    });
+  }
+  
+  function renderServicios(servicios) {
+    /*
+    <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged(2, this);"> Gesti&oacute;</label></div>    
+    */
+    var serviciosContainer = $("#serviciosContainer");
+    serviciosContainer.html("");
+    var serviciosHtmlString = "";
+    for (var index = 0; index < servicios.length; index++) {
+      var servicio = servicios[index];
+      if (serviciosHtmlString.length <= 0) {
+        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+      } else {
+        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+      }
+    }
+    serviciosContainer.html(serviciosHtmlString);
+    setTimeout(function () {
+      loadEmpresa(getParameterByName("idEmpresa"));  
+    }, 500);
+    
+  }
  
  function loadEmpresa(idEmpresa) {
    var empresaManager = new EmpresaManager();
@@ -365,19 +376,29 @@
 
 function fillForm(empresa) {
   data.idEmpresa = empresa.id;
+  data.idUsuarioDenuncia = empresa.idUsuarioDenuncia;
+  data.email = empresa.email;
+  data.tipo = empresa.tipo;
   var form = document.getElementById("formu");
   form.nombre.value = empresa.nombre;
   form.nit.value = empresa.nit;
   document.getElementById("imgEmpresa").src = empresa.logo;
   seleccionarCiudad(form, empresa.ciudad);
-  checkServicios(empresa.servicios);
+  var servicioManager = new ServiciosManager();
+    servicioManager.getServiciosByEmpresa(empresa.id, function (rm) {
+      //renderServicios(rm.getObject());
+      checkServicios(rm.getObject());
+    }, function (rm) {
+      console.log(rm);
+    });
+  
 }
 
 function checkServicios(servicios) {
   for (var i = 0; i < servicios.length; i++) {
     var servicio = servicios[i];
-    data.servicios.push(servicio.idServicio);
-    document.getElementById("servicio"+servicio.idServicio).checked = true;
+    data.servicios.push(servicio.id);
+    document.getElementById("servicio"+servicio.id).checked = true;
   }
 }
 

@@ -167,7 +167,7 @@ h6,
 }
 /* General Links */
 a {
-  color: #bf9e19;
+  color: black;
 }
 a:hover,
 a:active,
@@ -1544,7 +1544,7 @@ a:focus {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
 }
 .box.box-primary {
-  border-top-color: #c5a628;
+  border-top-color: black;
 }
 .box.box-info {
   border-top-color: #00c0ef;
@@ -2236,8 +2236,8 @@ a:focus {
   
 }
 .btn-primary {
-  background-color: #c5a628;
-  border-color: #b59822;
+  background-color: #000000;
+  border-color: #000000;
 }
 .btn-primary:hover,
 .btn-primary:active,

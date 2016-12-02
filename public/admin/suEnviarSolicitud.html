@@ -37,14 +37,14 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="indexUser.html" class="logo" style="background-color: #9e851e;">
+    <a href="indexUser.html" class="logo" style="background-color: #656463;">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>M</span>
       <!-- logo for regular state and mobile devices -->
       <span class="logo-lg"><b>Antifraud</b>Minds</span>
     </a>
     <!-- Header Navbar: style can be found in header.less -->
-    <nav class="navbar navbar-static-top" style="background-color: #c5a628;">
+    <nav class="navbar navbar-static-top" style="background-color: #383838;">
       <!-- Sidebar toggle button-->
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
@@ -163,14 +163,8 @@
               
               <div class="form-group">
                 <label>Solicitud</label>
-                <select class="form-control select2" style="width: 100%;" name="servicio">
+                <select class="form-control select2" style="width: 100%;" name="servicio" id="cmbServicio">
                   <option selected="selected" value="0">Seleccione el tipo de solicitud</option>
-                  <option value="1">Validaci&oacute;n Informaci&oacute;n</option>
-                  <option value="2">Gesti&oacute;n</option>
-                  <option value="3">Siniestro</option>
-                  <option value="4">Estudio de Seguridad</option>
-                  <option value="5">Atenci&oacute;n Comercial</option>
-                  <option value="6">Atenci&oacute;n Antifraude</option>
                 </select>
               </div>
               <div class="form-group">
@@ -361,6 +355,7 @@
 <script  type="text/javascript" src="../js/responsemanager.js"></script>
 <script  type="text/javascript" src="../js/usuariomanager.js"></script>
 <script  type="text/javascript" src="../js/solicitudmanager.js"></script>
+<script  type="text/javascript" src="../js/serviciosmanager.js"></script>
 <script  type="text/javascript" src="js/login.js"></script>
 <!-- Page Script -->
 <script>
@@ -378,8 +373,32 @@ var currentCliente = null;
 postLogin = function (cliente) {
   currentCliente = cliente;
   renderData(cliente);
+  loadServicios();
 }
 
+function loadServicios() {
+    var servicioManager = new ServiciosManager();
+    servicioManager.getServiciosByEmpresa(currentCliente.id, function (rm) {
+      renderServicios(rm.getObject());
+    }, function (rm) {
+      console.log(rm);
+    });
+  }
+  
+  function renderServicios(servicios) {
+    var cmbServicio = document.getElementById("cmbServicio");
+    for (var index = 0; index < servicios.length; index++) {
+      var servicio = servicios[index];
+      if (servicio.id == 7) {
+        continue;
+      }
+      var option = document.createElement("option");
+      option.setAttribute("value", servicio.id);
+      option.innerHTML = servicio.nombre;
+      cmbServicio.appendChild(option);
+    }
+  }
+  
 function renderData(cliente) {
   
   $(".user-image").attr("src", cliente.logo);

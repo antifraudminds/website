@@ -3,6 +3,7 @@ var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
 var Connection = require("../model/connection.js");
 var Usuario = require("../model/usuario.js");
+var qrCode = require('qrcode-npm');
 //Clase Empresa
 var Empresa = function () {
 
@@ -29,7 +30,7 @@ var Empresa = function () {
         });
     }
     
-    this.insertar = function (data, responseCallback) {
+    this.insertar = function (data, prevIdEmpresa,responseCallback) {
         //insertar Usuario
         var usuario = new Usuario();
         usuario.insertarUsuario(data.usuarioData, function (rm) {
@@ -49,19 +50,35 @@ var Empresa = function () {
                            responseCallback(responseManager);
                         } else {
                             console.log("Empresa Insertada");
+                            var shouldInsertDenuncia = false;
                             if (data.servicios.length > 0) {
                                 var indexServicioDenuncia = data.servicios.indexOf(7);
                                 if (indexServicioDenuncia != -1) {
-                                    data.servicios.pop();
+                                    data.servicios = removeFromArray(indexServicioDenuncia, data.servicios);
+                                    shouldInsertDenuncia = true;
                                 }
-                                instance.crearConexion(function (connServicios) {
-                                    var sqlInsertEmpresas = "CALL InsertarServiciosAEmpresas ("+rows[0][0].id+",'"+data.servicios.join(",")+"')";
-                                    connServicios.query(sqlInsertEmpresas, function (err, rows) {
-                                        responseManager.error = "NO_ERROR";
-                                        responseManager.object = data;
-                                        responseCallback(responseManager);
+                                if (data.servicios.length > 0) {
+                                    insertarServiciosAEmpresas(rows[0][0].id, data.servicios, function () {
+                                        if (shouldInsertDenuncia) {
+                                            
+                                                data.usuarioData.password = Math.random().toString(36).slice(-22);
+                                                data.servicios = [7];
+                                                instance.insertar(data, rows[0][0].id,responseCallback);    
+                                        } else {
+                                            responseManager.error = "NO_ERROR";
+                                            responseManager.object = data;
+                                            responseCallback(responseManager);
+                                        }
                                     });
-                                });
+                                } else {
+                                    insertarServiciosAEmpresas(rows[0][0].id, [7], function () {
+                                        setEmpresaDenuncia(prevIdEmpresa, rows[0][0].id, function () {
+                                            responseManager.error = "NO_ERROR";
+                                            responseManager.object = data;
+                                            responseCallback(responseManager);    
+                                        });
+                                    });
+                                }
                             }
                         }
                      
@@ -70,6 +87,34 @@ var Empresa = function () {
             });
         });
         
+    }
+    
+    function setEmpresaDenuncia(idEmpresa, valor, callback) {
+        instance.crearConexion(function (connServicios) {
+            connServicios.query("CALL SetEmpresaDenuncia(" + idEmpresa + ", " + valor + ");", function(err, rows) {
+                callback();
+            });
+        });
+    }
+    
+    function insertarServiciosAEmpresas(idEmpresa, servicios, callback) {
+        instance.crearConexion(function (connServicios) {
+            var sqlInsertEmpresas = "CALL InsertarServiciosAEmpresas ("+idEmpresa+",'"+servicios.join(",")+"')";
+            connServicios.query(sqlInsertEmpresas, function (err, rows) {
+                callback();
+            });
+        });
+    }
+    
+    function removeFromArray(indexToDelete, array) {
+        var newArray = new Array();
+        array[indexToDelete] = null;
+        for (var index = 0;index < array.length; index++) {
+            if (array[index] != null) {
+                newArray.push(array[index]);
+            }
+        }
+        return newArray;
     }
     
     this.update = function (data, responseCallback) {
@@ -89,14 +134,41 @@ var Empresa = function () {
                         } else {
                             console.log("Empresa Modificada");
                             if (data.servicios.length > 0) {
-                                instance.crearConexion(function (connServicios) {
-                                    var sqlInsertEmpresas = "CALL InsertarServiciosAEmpresas ("+data.idEmpresa+",'"+data.servicios.join(",")+"')";
-                                    connServicios.query(sqlInsertEmpresas, function (err, rows) {
-                                        responseManager.error = "NO_ERROR";
-                                        responseManager.object = data;
-                                        responseCallback(responseManager);
+                                var hasDenunciaServicio = false;
+                                if (data.idUsuarioDenuncia >= 0) {
+                                    hasDenunciaServicio = true;
+                                }
+                                var shouldInsertDenuncia = false;
+                                var indexServicioDenuncia = data.servicios.indexOf(7);
+                                if (indexServicioDenuncia != -1) {
+                                    //agregando
+                                    data.servicios = removeFromArray(indexServicioDenuncia, data.servicios);
+                                    shouldInsertDenuncia = true;
+                                }
+                                
+                                if (data.servicios.length > 0) {
+                                    insertarServiciosAEmpresas(data.idEmpresa, data.servicios, function () {
+                                        if (shouldInsertDenuncia && !hasDenunciaServicio) {
+                                                data.usuarioData = {};
+                                                data.usuarioData.email = data.email;
+                                                data.usuarioData.tipo = data.tipo;
+                                                data.usuarioData.nombres = data.nombre;
+                                                data.usuarioData.password = Math.random().toString(36).slice(-22);
+                                                data.servicios = [7];
+                                                instance.insertar(data, data.idEmpresa, responseCallback);    
+                                        } else {
+                                            if (!shouldInsertDenuncia && hasDenunciaServicio) {
+                                                setEmpresaDenuncia(data.idEmpresa, -1, function() {
+                                                   instance.delete(data.idUsuarioDenuncia, responseCallback); 
+                                                });
+                                            } else {
+                                                responseManager.error = "NO_ERROR";
+                                                responseManager.object = data;
+                                                responseCallback(responseManager);
+                                            }
+                                        }
                                     });
-                                });
+                                }
                             }
                         }
                      
@@ -162,7 +234,7 @@ var Empresa = function () {
     }
     
     function groupDataByIdEmpresaQuery(data, idEmpresaRequired) {
-        var empresa = copyFields(data[0],["id", "ciudad","idUsuario","logo","nit","nombre"]);
+        var empresa = copyFields(data[0],["id", "ciudad","idUsuario","logo","nit","nombre","idUsuarioDenuncia","email","password","tipo"]);
         empresa.servicios = getServicios(data, empresa.id);
         return empresa;
     }
@@ -197,6 +269,36 @@ var Empresa = function () {
             }
         }
         return servicios;
+    }
+    
+    this.getQRCode = function(id, responseCallback) {
+        instance.crearConexion(function(connection) {
+           var sql = "CALL GetQRCodeData("+id+")";
+           connection.query(sql, function (err, rows) {
+               var responseManager = new ResponseManager();
+                if (err) {
+                    responseManager.error = err;
+                   console.log(responseManager.error);
+                   responseCallback(responseManager);
+                } else {
+                    if (rows.length > 0 && rows[0].length > 0) {
+                        responseManager.error = "NO_ERROR";
+                        console.log(rows);
+                        //Haciendo el QRCode
+                        var qr = qrCode.qrcode(4, 'M');
+                        qr.addData(rows[0][0].password);
+                        qr.make();
+                        responseManager.object = qr.createImgTag(4);
+                        responseCallback(responseManager);
+                     } else {
+                         responseManager.error = "NO_ERROR";
+                         responseManager.object = "";
+                         responseCallback(responseManager);
+                     }
+                    
+                }
+           });
+        });
     }
     
     var instance = this;
