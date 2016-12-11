@@ -2242,8 +2242,8 @@ a:focus {
 .btn-primary:hover,
 .btn-primary:active,
 .btn-primary.hover {
-    background-color: #9e851f;
-    border-color: #927b1c;
+    background-color: gray;
+    border-color: gray;
 }
 .btn-success {
   background-color: #00a65a;

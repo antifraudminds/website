@@ -31,7 +31,7 @@ var DecrimData = function () {
     this.insertar = function(decrimData, responseCallback) {
         instance.crearConexion(function (connection) {
            if (connection) {
-               var sqlInsert = "CALL InsertarDecrimValidacion("+decrimData.idCaso+",'"+decrimData.nombres+"','"+decrimData.apellidos+"','"+decrimData.numDocumento+"','"+decrimData.fechaNacimiento+"','"+decrimData.sexo+"','"+decrimData.rh+"','"+decrimData.huella+"')";
+               var sqlInsert = "CALL InsertarDecrimValidacion("+decrimData.idCaso+",'"+decrimData.nombres+"','"+decrimData.apellidos+"','"+decrimData.numDocumento+"','"+decrimData.fechaNacimiento+"','"+decrimData.rh+"','"+decrimData.sexo+"','"+decrimData.foto+"',"+decrimData.idEmpresa+")";
                connection.query(sqlInsert, function (err, rows) {
                    var responseManager = new ResponseManager();
                     if (err) {
@@ -47,16 +47,11 @@ var DecrimData = function () {
         });
     }
     
-    this.insertarArchivo = function (decrimData, files, responseCallback) {
-        console.log("Files");
-        console.log(files);
-        if (Object.keys(files).length > 0) {
-            console.log("hay archivos");
-            var fileManager = new FileManager("../public/uploads/", files);
-            fileManager.saveFiles(function (filesPath, err) {
+    this.insertarArchivo = function (decrimData, responseCallback) {
+        
                     instance.crearConexion(function (connection) {
                         if (connection) {
-                            var sqlInsert = "CALL InsertarDecrimValidacionArchivo("+decrimData.idCaso+",'"+decrimData.nombre+"','"+filesPath[0].path+"')";
+                            var sqlInsert = "CALL InsertarDecrimValidacionArchivo("+decrimData.idCaso+",'"+decrimData.nombre+"','"+decrimData.archivoUrl+"')";
                             connection.query(sqlInsert, function (err, rows) {
                                var responseManager = new ResponseManager();
                                 if (err) {
@@ -69,10 +64,10 @@ var DecrimData = function () {
                                 }
                            });
                         }
-                    })
-            }, []);
-        }
+                    });
+        
     }
+    
     
     this.getDecrimData = function (idCaso, responseCallback) {
         instance.crearConexion(function (connection) {
@@ -96,12 +91,12 @@ var DecrimData = function () {
         });
     }
     
-    this.getAllDecrimData = function (responseCallback) {
+    this.getAllDecrimData = function (idEmpresa, responseCallback) {
         instance.crearConexion(function (connection) {
             
             if (connection) {
                 
-                var sqlUpdate = "select * from DecrimValidacion";
+                var sqlUpdate = "select * from DecrimValidacion where idEmpresa = " + idEmpresa;
                  connection.query(sqlUpdate, function(err, rows) {
                             var responseManager = new ResponseManager();
                             if (err) {
@@ -138,6 +133,115 @@ var DecrimData = function () {
                 
             }
         });
+    }
+    
+    this.getSearchListaNegra = function (dataListaNegra, responseCallback) {
+        instance.crearConexion(function (connection) {
+            
+            if (connection) {
+                
+                var sqlUpdate = "select * from ListaNegra where NumDoc = '" + dataListaNegra.NumDoc + "' or NombreCompleto='%" + dataListaNegra.NombreCompleto + "%'";
+                 connection.query(sqlUpdate, function(err, rows) {
+                            var responseManager = new ResponseManager();
+                            if (err) {
+                                responseManager.error = err;
+                                responseCallback(responseManager);   
+                            } else {
+                                responseManager.object = rows;
+                                responseManager.error = "NO_ERROR";            
+                                responseCallback(responseManager);
+                            }
+                 });
+            }
+        });
+    }
+    
+    this.createPDF = function(dataResult, responseCallback) {
+        instance.crearConexion(function (connection) {
+            
+            if (connection) {
+                
+                var sqlUpdate = "select d.*,da.nombre,da.archivoUrl from DecrimValidacion as d, DecrimValidacionArchivos as da where d.idCaso = da.idCaso and d.idCaso = " + dataResult.idCaso + " order by da.nombre";
+                
+                 connection.query(sqlUpdate, function(err, rows) {
+                     
+                    var pathPdfTemplate = instance.path.join(__dirname, "../public/admin/pdf.html");
+                    var identifier = (new Date()).getTime();
+                    var pathPdfForUse = instance.path.join(__dirname, "../pdfgenerated/pdf_nuevo_"+identifier+".html");
+                    var pathPdfResult = instance.path.join(__dirname, "../pdfgenerated/pdf_nuevo_"+identifier+".pdf");
+                    var filename = "pdf_nuevo_"+identifier+".pdf";
+                    instance.fs.createReadStream(pathPdfTemplate).pipe(instance.fs.createWriteStream(pathPdfForUse));
+                    
+                    instance.fs.readFile(pathPdfForUse, 'utf8', function read(err, data) {
+                        if (err) {
+                            throw err;
+                        }
+                        
+                        data = data.replace("%nombres%", rows[0].nombres);
+                        data = data.replace("%apellidos%", rows[0].apellidos);
+                        data = data.replace("%numDocumento%", rows[0].numDocumento);
+                        data = data.replace("%sexo%", rows[0].sexo);
+                        data = data.replace("%rh%", rows[0].rh);
+                        data = data.replace("%fechaNacimiento%", rows[0].fechaNacimiento);
+                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+rows[0].foto+'"/>');
+                        data = data.replace("%cedulaAnverso%", '<img src="data:image/jpeg;base64,'+rows[0].archivoUrl+'"/>');
+                        data = data.replace("%cedulaReverso%", '<img src="data:image/jpeg;base64,'+rows[1].archivoUrl+'"/>');
+                        data = data.replace("%huella%", '<img src="data:image/jpeg;base64,'+rows[2].archivoUrl+'"/>');
+                        data = data.replace("%resultadoValidacion%", dataResult.resultadoValidacion);
+                        data = data.replace("%resultadoIdentificacion%", dataResult.resultadoIdentificacion);
+                        data = data.replace("%resultadoHuella%", dataResult.resultadoHuella);
+                        data = data.replace("%listaNegra%", dataResult.listaNegra);
+                        
+                        instance.fs.writeFile(pathPdfForUse, data, "utf8", function(errWrite) {
+                            var options = {
+                                html : pathPdfForUse,
+                                paperSize : {format: 'A4', orientation: 'portrait', border: '1cm'},
+                                deleteOnAction : false
+                            }
+                            
+                            var pdf = require('phantom-html2pdf');
+ 
+                            pdf.convert(options, function(error, result) {
+                             
+                                if (error) {
+                                    console.log("Error");
+                                    console.log(error);
+                                    responseCallback.send({error:error});
+                                } else {
+                                    result.toFile(pathPdfResult, function() {
+                                        var responseManager = new ResponseManager();
+                                        if (err) {
+                                            responseManager.error = err;
+                                            responseCallback(responseManager);   
+                                        } else {
+                                            responseManager.object = filename;
+                                            responseManager.error = "NO_ERROR";            
+                                            responseCallback(responseManager);
+                                        }
+                                    });
+                                    
+                                }
+                                /* Using the file writer and callback */
+                                
+                            });
+                        });
+                    });
+                 });
+            }
+        });
+        
+        
+        
+    }
+    
+    this.getFile = function(filename, response) {
+        var pathPdfResult = instance.path.join(__dirname, "../pdfgenerated/" + filename);
+        var file = instance.fs.createReadStream(pathPdfResult);
+        var stat = instance.fs.statSync(pathPdfResult);
+        response.setHeader('Content-Type', 'application/pdf');
+        response.setHeader('Content-Disposition', 'attachment; filename=' + filename);
+        response.setHeader('Content-Length', stat.size);
+        file.pipe(response);
     }
     
     

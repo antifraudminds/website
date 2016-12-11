@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminAM | Inicio</title>
+  <title>Admin | Antifraud Minds</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,7 +55,6 @@
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
-
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           
@@ -88,12 +88,12 @@
           </li>
         </ul>
       </div>
+      
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+  <aside class="main-sidebar" >
+      <section class="sidebar">
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
@@ -148,82 +148,88 @@
        
       </ul>
     </section>
-    <!-- /.sidebar -->
   </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" style="min-height: 671px;">
+   <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Inicio
-        <small>Panel de Control</small>
+        Mensajes
+        <small>Contacto </small>
       </h1>
       <ol class="breadcrumb">
-        <li><i class="fa fa-dashboard">: </i>Inicio</li>
-        <li class="active">Perfil</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Inicio</a></li>
+        <li class="active">Mensajes</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="col-md-12">
-          <!-- Widget: user widget style 1 -->
-          <div class="box box-widget widget-user">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header bg-black" style="background: url('img/fondo.jpg') center center;">
-              <h3 class="widget-user-username" id="nombre">Seguros Bolivar</h3>
-              <h5 class="widget-user-desc" id="ciudad">Bogot&aacute;</h5>
-            </div>
-            <div class="widget-user-image">
-              <img class="img-circle" id="logo" src="dist/img/user1-128x128.jpg" alt="User Avatar">
-            </div>
-            <div class="box-footer">
-              <div class="row">
-                <div class="col-sm-4 border-right">
-                  <!-- <div class="description-block">
-                    <h5 class="description-header">3,200</h5>
-                    <span class="description-text">SALES</span>
-                  </div>-->
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 border-right">
-                 <!-- <div class="description-block">
-                    <h5 class="description-header">13,000</h5>
-                    <span class="description-text">FOLLOWERS</span>
-                  </div>-->
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4">
-                  <!--<div class="description-block">
-                    <h5 class="description-header">35</h5>
-                    <span class="description-text">PRODUCTS</span>
-                  </div>-->
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
+      <div class="row">
+        
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Mensajes</h3>
+
+              <div class="box-tools pull-right">
+                
               </div>
-              <!-- /.row -->
+              <!-- /.box-tools -->
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-controls">
+                <!-- Check all button -->
+                
+                <!-- /.btn-group -->
+                <button type="button" class="btn btn-default btn-sm" onclick="loadLoquedicen();"><i class="fa fa-refresh"></i></button>
+                <div class="pull-right">
+                 
+                  
+                  <!-- /.btn-group -->
+                </div>
+                <!-- /.pull-right -->
+              </div>
+              <div class="table-responsive mailbox-messages">
+                <table class="table table-hover table-striped">
+                  <tbody id="tableMensaje">
+                  
+                  
+                  </tbody>
+                </table>
+                <!-- /.table -->
+              </div>
+              <!-- /.mail-box-messages -->
+            </div>
+            <!-- /.box-body -->
+            <div class="box-footer no-padding">
+              <div class="mailbox-controls">
+                <button type="button" class="btn btn-default btn-sm" onclick="loadLoquedicen();"><i class="fa fa-refresh"></i></button>
+                <div class="pull-right">
+                 
+                </div>
+                <!-- /.pull-right -->
+              </div>
             </div>
           </div>
-          <!-- /.widget-user -->
+          <!-- /. box -->
         </div>
         <!-- /.col -->
-       
+      </div>
+      <!-- /.row -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.1
+      <b>Versi&oacute;n</b> 0.1
     </div>
-    <strong>Todos los derechos reservados &copy; 2016 </strong>
+     <strong>Todos los derechos reservados &copy; 2016 </strong>
   </footer>
 
- 
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
@@ -263,7 +269,7 @@
 <!-- FastClick -->
 <script src="plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/app.min.js"></script>
+<script src="dist/js/app.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -271,37 +277,88 @@
 <script  type="text/javascript" src="../js/responsemanager.js"></script>
 <script  type="text/javascript" src="../js/usuariomanager.js"></script>
 <script  type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="../js/mensajesManager.js"></script>
 <script type="text/javascript">
-$(document).ready(function () {
-  isLogued();
-});
+  
+  $(document).ready(function () {
+    isLogued();
+    loadLoquedicen();
+  });
+  
+  function loadLoquedicen() {
+    /*
+    <tr><th style="width: 10px">#</th><th>Ingredientes</th><th>Eliminar</th></tr>
+    
+    */
+    var mensajeTabla = document.getElementById("tableMensaje");
+    var initTable = '<tr><th style="width: 10px">#</th><th>Nombre</th><th>Asunto</th><th>Email</th><th>Fecha</th></tr>';
+    mensajeTabla.innerHTML = initTable;
+    var mensajeManager = new MensajeManager();
+    mensajeManager.obtener(function (rm) {
+      console.log(rm);
+      var mensajes = rm.getObject();
+      var tabletItem = "";
+      for (var i = 0;i < mensajes.length ; i++) {
+        var mensaje = mensajes[i];
+        tabletItem += '<tr><td>'+(i+1)+'</td><td class="mailbox-name"><a href="verMensajesInterna.html?idMensaje=' + mensaje.id + '">'+mensaje.nombre+'</a></td><td class="mailbox-subject">'+mensaje.asunto+'</td><td class="mailbox-subject"><b>'+mensaje.email+'</b></td><td class="mailbox-date">' + formatFecha(mensaje.fecha) +'</td></tr>';    
 
-postLogin = function (cliente) {
-  renderData(cliente);
-}
-
-function renderData(cliente) {
-  $("#nombre").html(cliente.nombre);
-  $("#ciudad").html(cliente.ciudad);
-  $("#logo").attr("src", cliente.logo);
-  $(".user-image").attr("src", cliente.logo);
-  $("#nombreMini").html(cliente.nombre);
-  $("#nombrePopup").html(cliente.nombre);
-  $("#ciudadPopup").html(cliente.ciudad);
-  $("#logoPopup").attr("src", cliente.logo);
-}
-
-postLogout = function (data) {
-  window.location.href = "/admin/index.html";
-}
-
-function toogleMenu() {
-  if ($(".dropdown-menu").is(":hidden")) {
-    $(".dropdown-menu").show();  
-  } else {
-    $(".dropdown-menu").hide();
+      }
+      mensajeTabla.innerHTML += tabletItem;
+    }, function (rm) {
+      console.log("error");
+      console.log(rm);
+    });
+    
+    
   }
-}
+  
+  function eliminarComment(id) {
+    if (confirm("Seguro desea eliminar esta Solicitud de Receta?")) {
+      var loquedicenManager = new SolicitudRecetaClubManager();
+      loquedicenManager.eliminar(id, function (rm) {
+        loadLoquedicen();
+      }, function (rm) {
+        
+      });
+    }
+  }
+  
+  function formatFecha(fecha) {
+            console.log(fecha.split("T")[0]);
+            var date = new Date(fecha.split("T")[0]+"Z");
+            date = new Date(date.getTime() + 86400000);
+            return fixZero(date.getDate()) + "/" + fixZero((date.getMonth() + 1)) + "/" + date.getFullYear();
+        }
+        
+  function fixZero(num) {
+      return num < 10 ? "0" + num : num;
+  }
+  postLogin = function (cliente) {
+    renderData(cliente);
+  }
+  
+  function renderData(cliente) {
+    $("#nombre").html(cliente.nombre);
+    $("#ciudad").html(cliente.ciudad);
+    $("#logo").attr("src", cliente.logo);
+    $(".user-image").attr("src", cliente.logo);
+    $("#nombreMini").html(cliente.nombre);
+    $("#nombrePopup").html(cliente.nombre);
+    $("#ciudadPopup").html(cliente.ciudad);
+    $("#logoPopup").attr("src", cliente.logo);
+  }
+  
+  postLogout = function (data) {
+    window.location.href = "/admin/index.html";
+  }
+  
+  function toogleMenu() {
+    if ($(".dropdown-menu").is(":hidden")) {
+      $(".dropdown-menu").show();  
+    } else {
+      $(".dropdown-menu").hide();
+    }
+  }
 </script>
 </body>
 </html>

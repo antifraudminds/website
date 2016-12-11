@@ -3,9 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminAM | Inicio</title>
+  <title>Admin | Antifraud Minds</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  
+   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    
+    <meta property="og:nombre"             content="%nombre%" />
+    <meta property="og:asunto"             content="%asunto%" />
+    <meta property="og:email"              content="%email%" />
+    <meta property="og:mensaje"            content="%mensaje%" />
+    <meta property="og:fecha"              content="%fecha%" />
+  
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -29,6 +38,7 @@
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -54,7 +64,6 @@
       <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
         <span class="sr-only">Toggle navigation</span>
       </a>
-
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
           
@@ -91,9 +100,8 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
+   <aside class="main-sidebar" >
+      <section class="sidebar">
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
@@ -148,82 +156,69 @@
        
       </ul>
     </section>
-    <!-- /.sidebar -->
   </aside>
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper" style="min-height: 671px;">
+ <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Inicio
-        <small>Panel de Control</small>
+        Read Mail
       </h1>
       <ol class="breadcrumb">
-        <li><i class="fa fa-dashboard">: </i>Inicio</li>
-        <li class="active">Perfil</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li class="active">Mailbox</li>
       </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="col-md-12">
-          <!-- Widget: user widget style 1 -->
-          <div class="box box-widget widget-user">
-            <!-- Add the bg color to the header using any of the bg-* classes -->
-            <div class="widget-user-header bg-black" style="background: url('img/fondo.jpg') center center;">
-              <h3 class="widget-user-username" id="nombre">Seguros Bolivar</h3>
-              <h5 class="widget-user-desc" id="ciudad">Bogot&aacute;</h5>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Mensaje interna</h3>
             </div>
-            <div class="widget-user-image">
-              <img class="img-circle" id="logo" src="dist/img/user1-128x128.jpg" alt="User Avatar">
-            </div>
-            <div class="box-footer">
-              <div class="row">
-                <div class="col-sm-4 border-right">
-                  <!-- <div class="description-block">
-                    <h5 class="description-header">3,200</h5>
-                    <span class="description-text">SALES</span>
-                  </div>-->
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4 border-right">
-                 <!-- <div class="description-block">
-                    <h5 class="description-header">13,000</h5>
-                    <span class="description-text">FOLLOWERS</span>
-                  </div>-->
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
-                <div class="col-sm-4">
-                  <!--<div class="description-block">
-                    <h5 class="description-header">35</h5>
-                    <span class="description-text">PRODUCTS</span>
-                  </div>-->
-                  <!-- /.description-block -->
-                </div>
-                <!-- /.col -->
+            <!-- /.box-header -->
+            <div class="box-body no-padding">
+              <div class="mailbox-read-info">
+                <h3 id="asunto"></h3>
+                <h3 id="nombre"></h3>
+                <h5 id="email">
+                  <span class="mailbox-read-time pull-right" id="fecha">15 Feb. 2016 11:03 PM</span></h5>
               </div>
-              <!-- /.row -->
+             
+              <div class="mailbox-read-message">
+                <p id="mensaje"></p>
+              </div>
+              <!-- /.mailbox-read-message -->
             </div>
+            <!-- /.box-body -->
+            
+            <div class="box-footer">
+              <div class="pull-right">
+                
+              </div>
+              <button type="button" class="btn btn-default" onClick="eliminarComment(currentMessageId);"><i class="fa fa-trash-o"></i> Delete</button>
+            </div>
+            <!-- /.box-footer -->
           </div>
-          <!-- /.widget-user -->
+          <!-- /. box -->
         </div>
         <!-- /.col -->
-       
+      </div>
+      <!-- /.row -->
     </section>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
   <footer class="main-footer">
     <div class="pull-right hidden-xs">
-      <b>Version</b> 0.1
+      <b>Versi&oacute;n</b> 0.1
     </div>
     <strong>Todos los derechos reservados &copy; 2016 </strong>
   </footer>
 
- 
   <!-- /.control-sidebar -->
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
@@ -263,7 +258,7 @@
 <!-- FastClick -->
 <script src="plugins/fastclick/fastclick.js"></script>
 <!-- AdminLTE App -->
-<script src="dist/js/app.min.js"></script>
+<script src="dist/js/app.js"></script>
 <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
@@ -271,37 +266,88 @@
 <script  type="text/javascript" src="../js/responsemanager.js"></script>
 <script  type="text/javascript" src="../js/usuariomanager.js"></script>
 <script  type="text/javascript" src="js/login.js"></script>
+<script type="text/javascript" src="../js/mensajesManager.js"></script>
 <script type="text/javascript">
-$(document).ready(function () {
-  isLogued();
-});
+  
+  $(document).ready(function () {
+    isLogued();
+    loadMensaje(getParameterByName("idMensaje"));
+  });
 
-postLogin = function (cliente) {
-  renderData(cliente);
-}
+  var currentMessageId = -1;
 
-function renderData(cliente) {
-  $("#nombre").html(cliente.nombre);
-  $("#ciudad").html(cliente.ciudad);
-  $("#logo").attr("src", cliente.logo);
-  $(".user-image").attr("src", cliente.logo);
-  $("#nombreMini").html(cliente.nombre);
-  $("#nombrePopup").html(cliente.nombre);
-  $("#ciudadPopup").html(cliente.ciudad);
-  $("#logoPopup").attr("src", cliente.logo);
-}
-
-postLogout = function (data) {
-  window.location.href = "/admin/index.html";
-}
-
-function toogleMenu() {
-  if ($(".dropdown-menu").is(":hidden")) {
-    $(".dropdown-menu").show();  
-  } else {
-    $(".dropdown-menu").hide();
+  
+  function loadMensaje(idMensaje) {
+    
+    currentMessageId = idMensaje;
+    var mensajesManager = new MensajeManager();
+          mensajesManager.obtenerMensajeId(idMensaje, function (rm) {
+            console.log("mensaje:");
+            console.log(rm);
+            var mensaje = rm.getObject();
+            if (mensaje.id == idMensaje) {
+              
+              $("#nombre").html(mensaje.nombre);
+              $("#asunto").html(mensaje.asunto);
+              $("#email").html(mensaje.email);
+              $("#mensaje").html(mensaje.mensaje);
+              $("#fecha").html(formatFecha(mensaje.fecha));
+            }
+            
+          }, function (rm) {
+            console.log("error");
+            console.log(rm);
+          });
+    
   }
-}
+  
+  function getParameterByName(name, url) {
+      if (!url) url = window.location.href;
+      name = name.replace(/[\[\]]/g, "\\$&");
+      var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+          results = regex.exec(url);
+      if (!results) return null;
+      if (!results[2]) return '';
+      return decodeURIComponent(results[2].replace(/\+/g, " "));
+  }
+  function formatFecha(fecha) {
+      console.log(fecha.split("T")[0]);
+      var date = new Date(fecha.split("T")[0]+"Z");
+      date = new Date(date.getTime() + 86400000);
+      return fixZero(date.getDate()) + "/" + fixZero((date.getMonth() + 1)) + "/" + date.getFullYear();
+  }
+  
+  function fixZero(num) {
+      return num < 10 ? "0" + num : num;
+  }
+  
+  postLogin = function (cliente) {
+    renderData(cliente);
+  }
+  
+  function renderData(cliente) {
+    $("#nombre").html(cliente.nombre);
+    $("#ciudad").html(cliente.ciudad);
+    $("#logo").attr("src", cliente.logo);
+    $(".user-image").attr("src", cliente.logo);
+    $("#nombreMini").html(cliente.nombre);
+    $("#nombrePopup").html(cliente.nombre);
+    $("#ciudadPopup").html(cliente.ciudad);
+    $("#logoPopup").attr("src", cliente.logo);
+  }
+  
+  postLogout = function (data) {
+    window.location.href = "/admin/index.html";
+  }
+  
+  function toogleMenu() {
+    if ($(".dropdown-menu").is(":hidden")) {
+      $(".dropdown-menu").show();  
+    } else {
+      $(".dropdown-menu").hide();
+    }
+  }
+  
 </script>
 </body>
 </html>

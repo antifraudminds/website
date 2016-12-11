@@ -39,7 +39,9 @@
     "nodemailer-smtp-transport" : "~2.4.1",
     "https" : "~1.0.0 ",
     "sequelize" : "~3.24.6",
-    "qrcode-npm": "~0.0.3"
+    "qrcode-npm": "~0.0.3",
+    "html5-to-pdf" : "~2.1.1",
+    "phantom-html2pdf" : "4.0.0"
   },
   "devDependencies": {},
   "bundleDependencies": [],

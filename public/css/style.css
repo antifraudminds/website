@@ -586,7 +586,7 @@ h1, h2, h3, h4, h5, h6, figure {
   padding-right: 10px;
 }
 .gtco-social-icons li a i {
-  font-size: 20px;
+  font-size: 35px;
 }
 
 .gtco-contact-info {
@@ -1904,13 +1904,13 @@ form label {
 .circularBtn{
    width: 130px; 
    height: 130px; 
-   background: black; 
+   background: #056543; 
    border-radius: 50%; 
    text-align: center; 
    line-height: 20px; 
    font-size: 14px;     
    padding-top: 50px; color: white;
-   border:3px solid black;
+   border:3px solid white;
    -webkit-transition: border-color 1s ease;
   -moz-transition: border-color 1s ease;
   -o-transition: border-color 1s ease;
@@ -1922,6 +1922,7 @@ form label {
   -o-transition: background 1s ease;
   -ms-transition: background 1s ease;
   transition: background 1s ease;
+  box-shadow: 3px 3px 5px grey;
   
   
   
@@ -1936,4 +1937,5 @@ form label {
    font-size: 14px;     
    padding-top: 50px; color: black;
    border:2px solid gray;
+   box-shadow: 3px 3px 5px grey;
 }

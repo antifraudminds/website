@@ -4,26 +4,25 @@ var multipart = require('connect-multiparty');
 var DecrimDataController = function (routes) {
     
     routes.push({
-        path:"/decrimdata/file",
+        path:"/decrimdata/insert",
         type:"PUT",
         func: function (req,res) {
             var decrimData = new DecrimData();
-            decrimData.insertar(req.body, req.files, function(responseManager) {
+            decrimData.insertar(req.body, function(responseManager) {
                res.send(responseManager); 
             });
         }
     });
     
     routes.push({
-        path:"/decrimdata/insert",
+        path:"/decrimdata/file",
         type:"PUT",
         func: function (req,res) {
             var decrimData = new DecrimData();
-            decrimData.insertarArchivo(req.body, req.files, function(responseManager) {
+            decrimData.insertarArchivo(req.body, function(responseManager) {
                res.send(responseManager); 
             });
-        },
-        middleware: multipart()
+        }
     });
     
     routes.push({
@@ -38,11 +37,11 @@ var DecrimDataController = function (routes) {
     });
     
     routes.push({
-        path:"/decrimdata/getall",
+        path:"/decrimdata/getall/:idEmpresa",
         type:"GET",
         func: function (req,res) {
             var decrimData = new DecrimData();
-            decrimData.getAllDecrimData(function(responseManager) {
+            decrimData.getAllDecrimData(req.params.idEmpresa, function(responseManager) {
                res.send(responseManager); 
             });
         }
@@ -56,6 +55,38 @@ var DecrimDataController = function (routes) {
             decrimData.getDecrimDataFiles(req.params.idCaso, function(responseManager) {
                res.send(responseManager); 
             });
+        }
+    });
+    
+    routes.push({
+        path:"/decrimdata/getresultlistanegra",
+        type:"POST",
+        func: function (req,res) {
+            var decrimData = new DecrimData();
+            decrimData.getSearchListaNegra(req.body, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
+        path:"/decrimdata/createpdf",
+        type:"POST",
+        func: function (req,res) {
+            var decrimData = new DecrimData();
+            
+            decrimData.createPDF(req.body, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
+        path:"/decrimdata/getfile/:filename",
+        type:"GET",
+        func: function (req,res) {
+            var decrimData = new DecrimData();
+            decrimData.getFile(req.params.filename, res);
         }
     });
   

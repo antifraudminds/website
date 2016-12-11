@@ -43,6 +43,8 @@
 
 	<!-- Modernizr JS -->
 	<script src="js/web/modernizr-2.6.2.min.js"></script>
+    <script type="text/javascript" src="/js/responsemanager.js"></script>
+    <script type="text/javascript" src="/js/mensajesManager.js"></script>
 	<!-- FOR IE9 below -->
 	<!--[if lt IE 9]>
 	<script src="js/respond.min.js"></script>
@@ -69,7 +71,7 @@
 						<li><a href="investigacion.html">INVESTIGACIÓN</a></li>
 						<li><a href="servicios.html">SERVICIOS</a></li>
 						<li><a style="border-bottom: 2px solid white; padding: 22px 10px;" href="contacto.html">CONTACTENOS</a></li>
-						<li><a href="admin/login.html">INICIAR SESÍON</a></li>
+						<li><a href="admin/index.html">INICIAR SESÍON</a></li>
 					</ul>
 				</div>
 			</div>
@@ -105,11 +107,11 @@
 				<div class="col-md-12">
 					<div class="col-md-6 animate-box">
 					<h3>Contactenos</h3>
-					<form action="#">
+					<form onsubmit="sendContacto(this); return false;">
 						<div class="row form-group">
 							<div class="col-md-12">
 								<label class="sr-only" for="name">Nombre</label>
-								<input type="text" id="name" class="form-control" placeholder="Nombre y apellido">
+								<input type="text" name="nombre" id="name" class="form-control" placeholder="Nombre y apellido">
 							</div>
 							
 						</div>
@@ -117,21 +119,21 @@
 						<div class="row form-group">
 							<div class="col-md-12">
 								<label class="sr-only" for="email">Email</label>
-								<input type="text" id="email" class="form-control" placeholder="Correo eléctronico">
+								<input type="text" name="email" id="email" class="form-control" placeholder="Correo eléctronico">
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-md-12">
 								<label class="sr-only" for="subject">Asunto</label>
-								<input type="text" id="subject" class="form-control" placeholder="Asunto">
+								<input type="text" name="asunto" id="subject" class="form-control" placeholder="Asunto">
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-md-12">
 								<label class="sr-only" for="message">Mensaje</label>
-								<textarea name="message" id="message" cols="30" rows="10" class="form-control" placeholder="Mensaje"></textarea>
+								<textarea name="mensaje" id="message" cols="30" rows="10" class="form-control" placeholder="Mensaje"></textarea>
 							</div>
 						</div>
 						<div class="form-group">
@@ -157,14 +159,62 @@
 			</div>
 		</div>
 	</div>
+	<div id="idIntUnoA" class="animated zoomIn" style="display:none; width:100%; height:1100px; position:fixed; background:#072708; z-index:9999999;top:0;">
+		<div id="uno" class="tab-pane fade in active" style=" width:900px; height: 400px; margin: 0 auto; margin-top: 122px;">
+		  <a href="#Uno" onclick="exit2();" style="margin-left: 96%; font-size: 30px; color: white;">x</a>
+	       <h3 style="color:white; border-bottom:1px solid white;height:40px;">Quienes somos</h3>
+	       <p style="color:white;" class="">
+		      	Somos una empresa enfocada a la investigación, identificación, predicción y explicación de fenómenos de
+
+				fraude en todos los gremios empresariales, esto a través del análisis de datos y comportamientos criminales; lo
+				
+				que nos permite ofrecer servicios que se ajustan a la generación de cultura antifraude y estrategias antifraudes
+				
+				que permiten dar a la sociedad la tranquilidad de la política de cero tolerancia al fraude por parte del sector
+				
+				empresarial.<br><br>
+				
+				Nuestro compromiso no es solo entregar un resultado de una investigación o de una gestión, nuestro
+				
+				compromiso y profesionalismo va enfocado a establecer “el que hacer” con esos resultados entregados y en la
+				
+				retroalimentación de sus colaboradores para poder actualizar la gestión antifraude al interior de las
+				
+				organizaciones; generando así estrategias novedosas en la lucha contra el fraude y herramientas a la vanguardia
+				
+				de la dinámica y la transformación de los fenómenos delincuenciales.<br><br>
+				
+				Esto nos permite ser innovadores en la lucha contra el fraude en
+				
+				Colombia y pioneros al ser los desarrolladores de la primera APP
+				
+				antifraude que permite a las empresas no solo tener la tecnología para
+				
+				evitar la suplantación de personas sino que también permite un
+				
+				acercamiento al nivel de riesgo que esta pueda tener. Nuestra APP
+				
+				antifraude también les permite a las empresas poder tener una
+				
+				herramienta efectiva para la administración de sus líneas éticas o
+				
+				antifraudes, ya que por medio de la aplicación cualquier persona puede
+				
+				crear un reporte de caso de fraude de manera anónima y segura. <br><br>
+				Antifraud Minds SAS estructuro su organización de forma adecuada a una atención integral de sus clientes y a
+				
+				la aplicación de las ciencias del comportamiento del criminal y del defraudador;
+	        </p>
+	    </div>
+	</div>
 	<footer id="gtco-footer" role="contentinfo" style="background-color:black;">
 		<div class="gtco-container">
 			<div class="row row-p	b-md">
-
 				<div class="col-md-4">
 					<div class="gtco-widget">
 						<h3 style="color:white;">Sobre  <span class="footer-logo">Antifraud Minds</span></h3>
-						<p style="color:white;">Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore eos molestias quod sint ipsum possimus temporibus officia iste perspiciatis consectetur in fugiat repudiandae cum. Totam cupiditate nostrum ut neque ab?</p>
+						<p style="color:white;">Somos una empresa enfocada a la investigación, identificación, predicción y explicación de fenómenos de fraude en todos los gremios empresariales, esto a través del análisis de datos y comportamientos criminales; lo que nos permite ofrecer servicios que se ajustan a la generación de cultura antifraude y estrategias ...</p>
+						<a  href="#1" onclick="tabBtnQuienes();" ><div style="width: 100px; height: 35px; color: black; background: white; text-align: center; padding: 4px; border-radius: 5px; font-weight: 500;">Ver +</div></a>
 					</div>
 				</div>
 
@@ -174,6 +224,10 @@
 						<ul class="gtco-footer-links">
 							<li><a href="https://antecedentes.policia.gov.co:7005/WebJudicial/"  style="color:white;">Policia Nacional</a></li>
 							<li><a href="http://siri.procuraduria.gov.co:8086/CertWEB/Certificado.aspx?tpo=1"  style="color:white;">Procuraduria</a></li>
+						</ul>
+						<h3 style="color:white;">Blog</h3>
+						<ul class="gtco-footer-links">
+							<li><a href="https://www.blogger.com/"  style="color:white;">Blog Antifraud Minds</a></li>
 						</ul>
 					</div>
 				</div>
@@ -233,7 +287,38 @@
 	<script src="js/web/magnific-popup-options.js"></script>
 	<!-- Main -->
 	<script src="js/web/main.js"></script>
-
+	<script>
+		 /* contacto data form */
+        
+        function sendContacto(form) {
+            if (form.nombre.value.length > 0 && form.email.value.length > 0 && form.asunto.value.length > 0 && form.mensaje.value.length > 0) {
+                var mensajeManager = new MensajeManager();
+                mensajeManager.insertar({nombre:form.nombre.value, email:form.email.value, asunto:form.asunto.value, mensaje:form.mensaje.value}, function (rm) {
+                    console.log(rm);
+                    form.reset();
+                    alert("Tu mensaje de contacto ha sido enviado");
+                }, function (rm) {
+                    console.log("error");
+                    console.log(rm);
+                });
+            } else {
+                alert("Debes llenar todos los cuadros de texto");
+            }
+        }
+        function tabBtnQuienes(){
+			document.getElementById('idIntUnoA').style.display = "block";
+			
+		}
+		function exit2(){
+			
+			document.getElementById("idIntUnoA").className = "animated zoomOut";
+			setTimeout(disNone2, 1000);
+		}
+		function disNone2(){
+			document.getElementById("idIntUnoA").className = "animated zoomIn";
+			document.getElementById('idIntUnoA').style.display = "none";
+		}
+	</script>
 	</body>
 </html>
 
