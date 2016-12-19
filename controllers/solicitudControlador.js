@@ -15,6 +15,29 @@ var SolicitudControlador = function (routes) {
     });
     
     routes.push({
+        path:"/solicitud/respuesta",
+        type:"PUT",
+        func: function (req,res) {
+            var solicitud = new Solicitud();
+            solicitud.respuestaSolicitud(req.body, req.files, function(responseManager) {
+               res.send(responseManager); 
+            });
+        },
+        middleware: multipart()
+    });
+    
+    routes.push({
+        path:"/solicitud/respuesta/:idSolicitud",
+        type:"GET",
+        func: function (req,res) {
+            var solicitud = new Solicitud();
+            solicitud.getRespuestaSolicitud(req.params.idSolicitud, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
         path:"/solicitud/get/:idEmpresa",
         type:"GET",
         func: function (req,res) {

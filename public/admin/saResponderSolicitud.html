@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminAM | Ver Solicitud</title>
+  <title>AdminAM | Enviar Solicitud</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -22,6 +22,9 @@
   <link rel="stylesheet" href="dist/css/skins/_all-skins.css">
   <!-- iCheck -->
   <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+  <!-- bootstrap wysihtml5 - text editor -->
+  <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -61,7 +64,7 @@
                 <img id="logoPopup" src="dist/img/user1-128x128.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  <label id="nombrePopup"></label>
+                  <label id="nombrePopup">Seguros Bolivar</label>
                   <small id="ciudadPopup">Bogot&aacute;</small>
                 </p>
               </li>
@@ -73,7 +76,7 @@
                   
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-primary btn-flat" onclick="logout();">Cerrar Sesi&oacute;n</a>
+                  <a href="#" class="btn btn-primary btn-flat">Cerrar Sesi&oacute;n</a>
                 </div>
               </li>
             </ul>
@@ -83,40 +86,77 @@
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
-  <aside class="main-sidebar">
+  <aside class="main-sidebar" style="background-color:#000000;">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
       
       <!-- sidebar menu: : style can be found in sidebar.less -->
       <ul class="sidebar-menu">
         <li class="header">MEN&Uacute; DE NAVEGAVCI&Oacute;N</li>
-        <li class="active treeview">
-          <a href="#" style="border-left-color: #c5a628;">
+        <li class=" treeview">
+          <a href="#" >
+            <i class="fa fa-laptop"></i> <span>Crear Usuario</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="crearUsuario.html"><i class="fa fa-circle-o"></i>Crear</a></li>
+          </ul>
+          <ul class="treeview-menu">
+            <li class=""><a href="verUsuario.html"><i class="fa fa-circle-o"></i>Ver</a></li>
+          </ul>
+        </li>
+        <li class=" treeview">
+          <a href="#" >
+            <i class="fa fa-folder"></i> <span>Ingresar aliados antifraude</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="agregarAliado.html"><i class="fa fa-circle-o"></i>Agregar</a></li>
+          </ul>
+        </li>
+        <li class=" treeview">
+          <a href="#">
             <i class="fa fa-envelope"></i> <span>Envi&oacute; de Solicitudes</span>
             <span class="pull-right-container">
               <i class="fa fa-angle-left pull-right"></i>
             </span>
           </a>
           <ul class="treeview-menu">
-            <li class="active"><a href="suVerSolicitudesAll.html"><i class="fa fa-circle-o"></i>Solicitud</a></li>
+            <li class="active"><a href="saVerSolicitudesAll.html"><i class="fa fa-circle-o"></i>Solicitud</a></li>
           </ul>
         </li>
-        <li><a href="suEnviarMensaje.html"><i class="fa fa-circle-o text-aqua" style="color: white !important;"></i> <span>Contactenos</span></a></li>
+        <li class=" treeview">
+          <a href="#">
+            <i class="fa fa-envelope"></i> <span>Mensajes</span>
+            <span class="pull-right-container">
+              <i class="fa fa-angle-left pull-right"></i>
+            </span>
+          </a>
+          <ul class="treeview-menu">
+            <li class="active"><a href="verMensajes.html"><i class="fa fa-circle-o"></i>Ver Mensajes</a></li>
+          </ul>
+        </li>
       </ul>
     </section>
     <!-- /.sidebar -->
   </aside>
 
+
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
-    <section class="content-header">
+   <section class="content-header">
       <h1>
-        Ver Solicitud
+        Crear Solicitud
+        <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="indexUser.html"><i class="fa fa-dashboard"></i> Inicio</a></li>
-        <li class="active">Ver Solicitud</li>
+        <li class="active">Crear Solicitud</li>
       </ol>
     </section>
 
@@ -124,7 +164,7 @@
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-          <a href="suEnviarSolicitud.html" class="btn btn-primary btn-block margin-bottom">Crear solicitud</a>
+          <a href="saVerSolicitudesAll.html" class="btn btn-primary btn-block margin-bottom">Ver Solicitud</a>
 
           <div class="box box-solid">
             <div class="box-header with-border">
@@ -137,7 +177,7 @@
             </div>
             <div class="box-body no-padding">
               <ul class="nav nav-pills nav-stacked">
-                <li class=""><a href="suVerSolicitudesAll.html"><i class="fa fa-inbox"></i>Enviadas</a></li>
+                <li class=""><a href="saVerSolicitudesAll.html"><i class="fa fa-inbox"></i>Enviadas</a></li>
                 
               </ul>
             </div>
@@ -146,52 +186,45 @@
           
         </div>
         <!-- /.col -->
+        <form onsubmit="enviarSolicitud(this); return false;">
+          
         <div class="col-md-9">
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Ver Solicitud</h3>
-
-              
+              <h3 class="box-title">Crear Solicitud</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body no-padding">
-              <div class="mailbox-read-info">
-                <h3 id="servicio"></h3>
-                <h5>Por: <label id="nombre"></label>
-                  <span class="mailbox-read-time pull-right" id="fecha"></span></h5>
+            <div class="box-body">
+              
+              <div class="form-group">
+                <label>Solicitud</label>
+                <select class="form-control select2" style="width: 100%;" name="servicio" id="cmbServicio">
+                  <option selected="selected" value="0">Seleccione el tipo de solicitud</option>
+                </select>
               </div>
-              <!-- /.mailbox-read-info -->
-              <div class="mailbox-controls with-border text-center">
-                <div class="btn-group">
-                  <button type="button" class="btn btn-default btn-sm" data-toggle="tooltip" data-container="body" title="Delete" onclick="deleteSolicitud();">
-                    <i class="fa fa-trash-o"></i>
-                  </button>
+              <div class="form-group">
+                    <textarea id="compose-textarea" class="form-control" style="height: 300px">
+                    </textarea>
+              </div>
+              <div class="form-group">
+                <div class="btn btn-default btn-file">
+                  <i class="fa fa-paperclip"></i> Attachment
+                  <input type="file" name="attachment">
                 </div>
-                <!-- /.btn-group -->
-                <button type="button" class="btn btn-default btn-sm" onclick="window.print();" data-toggle="tooltip" title="Print">
-                  <i class="fa fa-print"></i></button>
+                <p class="help-block">Max. 32MB</p>
               </div>
-              <!-- /.mailbox-controls -->
-              <div class="mailbox-read-message" id="textRequerimiento">
-                
-              </div>
-              <!-- /.mailbox-read-message -->
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
-              <ul class="mailbox-attachments clearfix" id="archivos">
-              </ul>
-            </div>
-            <!-- /.box-footer -->
-            <div class="box-footer">
-              <button type="button" class="btn btn-default" onclick="deleteSolicitud();"><i class="fa fa-trash-o"></i> Delete</button>
-              <button type="button" class="btn btn-default" onclick="window.print();"><i class="fa fa-print"></i> Print</button>
-              <button type="button" class="btn btn-default"><i class="fa fa-print" onclick="manageRespuesta();" id="btnRespuesta"></i> Respuesta</button>
+              <div class="pull-right">
+                <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Enviar</button>
+              </div>
             </div>
             <!-- /.box-footer -->
           </div>
           <!-- /. box -->
         </div>
+        </form>
         <!-- /.col -->
       </div>
       <!-- /.row -->
@@ -205,6 +238,7 @@
     </div>
     <strong>Todos los derechos reservados &copy; 2016 </strong>
   </footer>
+
   <!-- Control Sidebar -->
   <aside class="control-sidebar control-sidebar-dark">
     <!-- Create the tabs -->
@@ -325,71 +359,7 @@
       <!-- /.tab-pane -->
       <!-- Settings tab content -->
       <div class="tab-pane" id="control-sidebar-settings-tab">
-        <form method="post">
-          <h3 class="control-sidebar-heading">General Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Report panel usage
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Some information about this general settings option
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Allow mail redirect
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Other sets of options are available
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Expose author name in posts
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-
-            <p>
-              Allow the user to show his name in blog posts
-            </p>
-          </div>
-          <!-- /.form-group -->
-
-          <h3 class="control-sidebar-heading">Chat Settings</h3>
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Show me as online
-              <input type="checkbox" class="pull-right" checked>
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Turn off notifications
-              <input type="checkbox" class="pull-right">
-            </label>
-          </div>
-          <!-- /.form-group -->
-
-          <div class="form-group">
-            <label class="control-sidebar-subheading">
-              Delete chat history
-              <a href="javascript:void(0)" class="text-red pull-right"><i class="fa fa-trash-o"></i></a>
-            </label>
-          </div>
-          <!-- /.form-group -->
-        </form>
+        
       </div>
       <!-- /.tab-pane -->
     </div>
@@ -412,16 +382,25 @@
 <!-- AdminLTE App -->
 <script src="dist/js/app.min.js"></script>
 <!-- AdminLTE for demo purposes -->
+<script src="dist/js/demo.js"></script>
+<!-- iCheck -->
+<script src="plugins/iCheck/icheck.min.js"></script>
+<!-- Bootstrap WYSIHTML5 -->
+<script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 <script  type="text/javascript" src="../js/responsemanager.js"></script>
 <script  type="text/javascript" src="../js/usuariomanager.js"></script>
 <script  type="text/javascript" src="../js/solicitudmanager.js"></script>
+<script  type="text/javascript" src="../js/serviciosmanager.js"></script>
 <script  type="text/javascript" src="js/login.js"></script>
 <!-- Page Script -->
 <script>
 
 var currentCliente = null;
 var currentSolicitud = null;
-  
+  $(function () {
+    //Add text editor
+    $("#compose-textarea").wysihtml5();
+  });
   
   $(document).ready(function () {
   isLogued();
@@ -437,58 +416,35 @@ function loadSolicitud(idSolicitud) {
   var solicitudesManager = new SolicitudManager();
   solicitudesManager.getSolicitud(idSolicitud, function (rm) {
     console.log(rm);
-    renderSolicitudes(rm.getObject()[0]);  
+    currentSolicitud = rm.getObject()[0];
+    loadServicio(currentSolicitud.idServicio);
   }, function (rm) {
     console.log(rm);
   });
 }
 
-function renderSolicitudes(solicitud) {
-  console.log(solicitud);
-  currentSolicitud = solicitud;
-   
-  $("#servicio").html("Servicio: " + solicitud.nombreServicio);
-  $("#nombre").html(solicitud.nombre);
-  $("#fecha").html(formatFecha(solicitud.fecha));
-  $("#textRequerimiento").html(solicitud.textRequerimiento);
+function loadServicio(idServicio) {
+    var servicioManager = new ServiciosManager();
+    servicioManager.get(id, function (rm) {
+      renderServicios(rm.getObject());
+    }, function (rm) {
+      console.log(rm);
+    });
+  }
   
-  var extArchivo = solicitud.urlArchivo.split(".")[1];
-  var archivoHTMLStr = '<li><span class="mailbox-attachment-icon"><i class="fa fa-file-'+extArchivo+'-o"></i></span><div class="mailbox-attachment-info"><a class="mailbox-attachment-name" href="#"><i class="fa fa-paperclip"></i> '+solicitud.urlArchivo+'</a><span class="mailbox-attachment-size"><a href="'+solicitud.urlArchivo+'" target="_blank" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a></span></div></li>';
-  $("#archivos").html(archivoHTMLStr);
-  loadRespuestas(solicitud);
-}
-
-function loadRespuestas(solicitud) {
-  var solicitudesManager = new SolicitudManager();
-  solicitudesManager.getRespuestaSolicitud(solicitud.id, function (rm) {
-    console.log(rm);
-    renderRespuesta(rm.getObject());  
-  }, function (rm) {
-    console.log(rm);
-  });
-}
-
-var hasRespuesta = false;
-
-function manageRespuesta() {
-  if (!hasRespuesta) {
-    alert("No hay respuesta aun, pronto una respuesta estará disponible");
-  } else {
-    window.location.href = "suVerSolicitud.html?idSolicitud=" + currentSolicitud.id;
+  function renderServicios(servicios) {
+    var cmbServicio = document.getElementById("cmbServicio");
+    for (var index = 0; index < servicios.length; index++) {
+      var servicio = servicios[index];
+      var option = document.createElement("option");
+      option.setAttribute("value", servicio.id);
+      option.innerHTML = servicio.nombre;
+      cmbServicio.appendChild(option);
+    }
   }
-}
-
-function renderRespuesta(respuestas) {
-  if (respuestas.length > 0) {
-    hasRespuesta = true;
-    $("#btnRespuesta").html("Ver Respuesta");
-  } else {
-    hasRespuesta = false;
-    $("#btnRespuesta").html("No hay Respuesta");
-  }
-}
 
 function renderData(cliente) {
+  
   $(".user-image").attr("src", cliente.logo);
   $("#nombreMini").html(cliente.nombre);
   $("#nombrePopup").html(cliente.nombre);
@@ -517,75 +473,33 @@ function getParameterByName(name, url) {
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, " "));
         }
-        
-        function formatFecha(fecha) {
-            console.log(fecha.split("T")[0]);
-            var date = new Date(fecha.split("T")[0]+"Z");
-            date = new Date(date.getTime() + 86400000);
-            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear();
-        }
-        
-        function meses(mes) {
-            switch (mes) {
-                case 0:
-                    return "Enero";
-                    break;
-                case 1:
-                    return "Febrero";
-                    break;
-                case 2:
-                    return "Marzo";
-                    break;
-                case 3:
-                    return "Abril";
-                    break;
-                case 4:
-                    return "Mayo";
-                    break;
-                case 5:
-                    return "Junio";
-                    break;
-                case 6:
-                    return "Julio";
-                    break;
-                case 7:
-                    return "Agosto";
-                    break;
-                case 8:
-                    return "Septiembre";
-                    break;
-                case 9:
-                    return "Octubre";
-                    break;
-                case 10:
-                    return "Noviembre";
-                    break;
-                case 11:
-                    return "Diciembre";
-                    break;
-                
-                default:
-                    return "Enero";
-            }
-        }
-        
-        function fixZero(num) {
-            return num < 10 ? "0" + num : num;
-        }
-        
-        function deleteSolicitud() {
-          if (confirm("Seguro desea eliminar esta solicitud?")) {
-            var idSolicitud = getParameterByName("idSolicitud");
-            var solicitudesManager = new SolicitudManager();
-            solicitudesManager.delete(idSolicitud, function (rm) {
-              console.log(rm);
-              window.href = "suVerSolicitudesAll.html";
-            }, function (rm) {
-              console.log(rm);
-            });
-          }
-        }
-
+  
+  function enviarSolicitud(form) {
+    var textRequerimiento = null;
+    var tituloSolicitud = null;
+    try {
+       textRequerimiento = $('iframe').contents().find('.wysihtml5-editor').html();
+       tituloSolicitud = $('iframe').contents().find('.wysihtml5-editor').text();
+    } catch(exp) {
+    }
+    if (form.servicio.value > 0 && textRequerimiento != null && textRequerimiento.length > 0 && form.attachment.files.length > 0) {
+      var newsolicitud = new SolicitudManager();
+      tituloSolicitud = tituloSolicitud.length > 15 ? tituloSolicitud.substr(0,15) : tituloSolicitud;
+      var data = {idEmpresa:currentCliente.id, idServicio:form.servicio.value, txtRequerimiento: textRequerimiento, tituloSolicitud: tituloSolicitud, idSolicitud:currentSolicitud.id}; 
+      newsolicitud.respuestaSolicitud(data, form.attachment.files, function (rm) {
+        console.log(rm);
+        form.reset();
+        window.location.href = "saVerSolicitudesAll.html";
+      }, function (rm) {
+        console.log(rm);
+      });
+      
+    } else {
+      alert("Debe completar y diligenciar todos los campos para enviar una solicitud");
+    }
+    
+  }
+  
 </script>
 </body>
 </html>

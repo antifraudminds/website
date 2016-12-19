@@ -222,6 +222,7 @@
             <div class="box-footer">
               <button type="button" class="btn btn-default"><i class="fa fa-trash-o" onclick="deleteSolicitud();"></i> Delete</button>
               <button type="button" class="btn btn-default"><i class="fa fa-print" onclick="window.print();"></i> Print</button>
+              <button type="button" class="btn btn-default"><i class="fa fa-print" onclick="manageRespuesta();" id="btnRespuesta"></i> Respuesta</button>
             </div>
             <!-- /.box-footer -->
           </div>
@@ -455,6 +456,7 @@
 <script>
 
 var currentCliente = null;
+var currentSolicitud = null;
   
   
   $(document).ready(function () {
@@ -479,6 +481,7 @@ function loadSolicitud(idSolicitud) {
 
 function renderSolicitudes(solicitud) {
   console.log(solicitud);
+  currentSolicitud = solicitud;
    
   $("#servicio").html("Servicio: " + solicitud.nombreServicio);
   $("#nombre").html(solicitud.nombre);
@@ -488,6 +491,39 @@ function renderSolicitudes(solicitud) {
   var extArchivo = solicitud.urlArchivo.split(".")[1];
   var archivoHTMLStr = '<li><span class="mailbox-attachment-icon"><i class="fa fa-file-'+extArchivo+'-o"></i></span><div class="mailbox-attachment-info"><a class="mailbox-attachment-name" href="#"><i class="fa fa-paperclip"></i> '+solicitud.urlArchivo+'</a><span class="mailbox-attachment-size"><a href="'+solicitud.urlArchivo+'" target="_blank" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a></span></div></li>';
   $("#archivos").html(archivoHTMLStr);
+  loadRespuestas(solicitud);
+}
+
+function loadRespuestas(solicitud) {
+  var solicitudesManager = new SolicitudManager();
+  solicitudesManager.getRespuestaSolicitud(solicitud.id, function (rm) {
+    console.log(rm);
+    renderRespuesta(rm.getObject());  
+  }, function (rm) {
+    console.log(rm);
+  });
+}
+
+var hasRespuesta = false;
+
+function manageRespuesta() {
+  if (!hasRespuesta) {
+    if (currentSolicitud.tipo == 1) {
+      window.location.href = "saResponderSolicitud.html?idSolicitud=" + currentSolicitud.id;
+    }
+  } else {
+    window.location.href = "saVerSolicitud.html?idSolicitud=" + currentSolicitud.id;
+  }
+}
+
+function renderRespuesta(respuestas) {
+  if (respuestas.length > 0) {
+    hasRespuesta = true;
+    $("#btnRespuesta").html("Ver Respuesta");
+  } else {
+    hasRespuesta = false;
+    $("#btnRespuesta").html("Agregar Respuesta");
+  }
 }
 
 function renderData(cliente) {
