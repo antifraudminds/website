@@ -161,7 +161,6 @@
     <section class="content">
       <div class="row">
         <div class="col-md-3">
-          <a href="saResponderSolicitud.html" class="btn btn-primary btn-block margin-bottom">Crear solicitud</a>
 
           <div class="box box-solid">
             <div class="box-header with-border">
@@ -478,7 +477,7 @@ function renderSolicitudes(solicitudes) {
   for (var i = 0; i < solicitudes.length; i++) {
     var solicitud = solicitudes[i];
     var fileAttachment = solicitud.urlArchivo.length > 0 ? '<a href="'+solicitud.urlArchivo+'" target="_blank"><i class="fa fa-paperclip"></i></a>' : '';
-    contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name"><a href="suVerSolicitud.html?idSolicitud='+solicitud.id+'">'+solicitud.nombre+'</a></td><td class="mailbox-subject">'+solicitud.tituloSolicitud+'</td><td class="mailbox-attachment">' + fileAttachment +  '</td><td class="mailbox-date">'+formatFecha(solicitud.fecha)+'</td></tr>';
+    contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name"><a href="saVerSolicitud.html?idSolicitud='+solicitud.id+'">'+solicitud.nombre+'</a></td><td class="mailbox-subject">'+solicitud.tituloSolicitud+'</td><td class="mailbox-attachment">' + fileAttachment +  '</td><td class="mailbox-date">'+formatFecha(solicitud.fecha)+'</td></tr>';
   }
   tableContentSolicitudes.innerHTML = contentStr;
   /**
