@@ -482,7 +482,7 @@ function getParameterByName(name, url) {
        tituloSolicitud = $('iframe').contents().find('.wysihtml5-editor').text();
     } catch(exp) {
     }
-    if (form.servicio.value > 0 && textRequerimiento != null && textRequerimiento.length > 0 && form.attachment.files.length > 0) {
+    if (textRequerimiento != null && textRequerimiento.length > 0) {
       var newsolicitud = new SolicitudManager();
       tituloSolicitud = tituloSolicitud.length > 15 ? tituloSolicitud.substr(0,15) : tituloSolicitud;
       var data = {idEmpresa:currentCliente.id, idServicio:form.servicio.value, txtRequerimiento: textRequerimiento, tituloSolicitud: tituloSolicitud, idSolicitud:currentSolicitud.id}; 
