@@ -485,7 +485,7 @@ function getParameterByName(name, url) {
     if (textRequerimiento != null && textRequerimiento.length > 0) {
       var newsolicitud = new SolicitudManager();
       tituloSolicitud = tituloSolicitud.length > 15 ? tituloSolicitud.substr(0,15) : tituloSolicitud;
-      var data = {idEmpresa:currentCliente.id, idServicio:form.servicio.value, txtRequerimiento: textRequerimiento, tituloSolicitud: tituloSolicitud, idSolicitud:currentSolicitud.id}; 
+      var data = {idEmpresa:currentCliente.id, idServicio:form.servicio.value, textRequerimiento: textRequerimiento, tituloSolicitud: tituloSolicitud, idSolicitud:currentSolicitud.id}; 
       newsolicitud.respuestaSolicitud(data, form.attachment.files, function (rm) {
         console.log(rm);
         form.reset();
