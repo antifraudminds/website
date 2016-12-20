@@ -421,6 +421,7 @@
 
 var currentCliente = null;
 var currentSolicitud = null;
+var currentRespuestas = null;
   
   
   $(document).ready(function () {
@@ -474,12 +475,13 @@ function manageRespuesta() {
   if (!hasRespuesta) {
     alert("No hay respuesta aun, pronto una respuesta estará disponible");
   } else {
-    window.location.href = "suVerSolicitud.html?idSolicitud=" + currentSolicitud.id;
+    window.location.href = "suVerSolicitud.html?idSolicitud=" + currentRespuestas[currentRespuestas.length-1].idRespuesta;
   }
 }
 
 function renderRespuesta(respuestas) {
   if (respuestas.length > 0) {
+    currentRespuestas = respuestas;
     hasRespuesta = true;
     $("#btnRespuesta").html("Ver Respuesta");
   } else {
