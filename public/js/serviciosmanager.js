@@ -50,7 +50,7 @@
      this.get = function (id, callBackUpdated, callBackError) {
      
          $.ajax({
-            url: '/servicio/get/' + id,
+            url: '/servicio/get/servicio/' + id,
             type: 'GET', //Hace un update - Por definición insert ó update.
             beforeSend: function (request) {
                 request.setRequestHeader( "manager-method","ClienteManager");
