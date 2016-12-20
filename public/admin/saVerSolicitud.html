@@ -524,7 +524,11 @@ function renderRespuesta(respuestas) {
     $("#btnRespuesta").html("Ver Respuesta");
   } else {
     hasRespuesta = false;
-    $("#btnRespuesta").html("Agregar Respuesta");
+    if (currentSolicitud.tipo == 1) {
+      $("#btnRespuesta").html("Agregar Respuesta"); 
+    } else {
+      $("#btnRespuesta").hide(); 
+    }
   }
 }
 
