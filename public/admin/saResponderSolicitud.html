@@ -426,7 +426,7 @@ function loadSolicitud(idSolicitud) {
 function loadServicio(idServicio) {
     var servicioManager = new ServiciosManager();
     servicioManager.get(idServicio, function (rm) {
-      renderServicios(rm.getObject());
+      renderServicios([rm.getObject()]);
     }, function (rm) {
       console.log(rm);
     });
