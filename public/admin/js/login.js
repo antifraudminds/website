@@ -48,3 +48,18 @@ function logout() {
             
         });
 }
+
+function recuperarPass(form) {
+    if (form.user.value.length > 0) {
+        var usuarioManager = new UsuarioManagerHandler();
+        usuarioManager.recoverPass(form.user.value, function (responseManager) {
+                console.log(responseManager);
+                alert(responseManager.object);
+            },  function (responseManager) {
+                console.log(responseManager);
+                alert(responseManager.object);
+            });
+    } else {
+        alert("Debe ingresar un correo electrónico");
+    }
+}

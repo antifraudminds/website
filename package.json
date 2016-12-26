@@ -41,7 +41,8 @@
     "sequelize" : "~3.24.6",
     "qrcode-npm": "~0.0.3",
     "html5-to-pdf" : "~2.1.1",
-    "phantom-html2pdf" : "4.0.0"
+    "phantom-html2pdf" : "4.0.0",
+    "mailgun-js": "~0.7.12"
   },
   "devDependencies": {},
   "bundleDependencies": [],

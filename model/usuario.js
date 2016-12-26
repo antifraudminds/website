@@ -1,6 +1,7 @@
 var ResponseManager = require("../model/responsemanager.js");
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
+var MailManager = require("../model/mailmanager.js");
 var Connection = require("../model/connection.js");
 //Clase Usuario
 var Usuario = function () {
@@ -111,20 +112,25 @@ var Usuario = function () {
     this.recoverPass = function (email, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
-                connection.query("select * from usuarios where email = '" + email + "'", function(err, rows) {
+                connection.query("select * from usuarios where email = '" + email + "' and tipo = 1", function(err, rows) {
                     var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
+                        responseCallback(responseManager);
                     } else {
-                       responseManager.error = "NO_ERROR";
-                       
-                       responseManager.object = "contraseña enviada a su correo"; 
-                       var useremail = rows[0].email;
-                       var userpass = rows[0].password;
-                       sendEmail(useremail, userpass);
+                       if (rows.length > 0) {
+                           responseManager.error = "NO_ERROR";
+                           
+                           responseManager.object = "contraseña enviada a su correo"; 
+                           var useremail = rows[0].email;
+                           var userpass = rows[0].password;
+                           sendEmail(useremail, userpass, responseCallback);
+                       } else {
+                           responseManager.error = "Usuario no encontrado, verifique sus datos y vuelva a intentarlo.";
+                           responseCallback(responseManager);
+                       }
                        
                     }
-                    responseCallback(responseManager);
                 });
             }
         });
@@ -175,41 +181,11 @@ var Usuario = function () {
         }
     }
     
-    function sendEmail(email, password) {
-        /*var smtpConfig = {
-            host: 'smtp.office365.com',
-            port: 587,
-            secure: true, // use SSL
-            auth: {
-                user: 'developer@upli.co',
-                pass: 'D1m3t1l102938.'
-            }
-        };*/
-        var smtpConfig = {
-            service:'gmail',
-            auth: {
-                user: 'uplideveloper@gmail.com',
-                pass: 'D1m3t1l102938.'
-            }
-        };
+    function sendEmail(email, password, responseCallback) {
+        var mailManager = new MailManager();
+        var mensajeData = mailManager.buildEmailMessage("Antifraudminds <info@antifraudminds.com>",email,"Recuperación de Contraseña - www.antifraudminds.com","Los datos de inicio de sesión son: usuario:" + email + " password:" + password);
+        mailManager.sendEmail(mensajeData, responseCallback);
         
-        var transporter = nodemailer.createTransport(smtpConfig);
-        //var transporter = nodemailer.createTransport(smtpTransport(smtpConfig));
-        console.log(transporter);
-        if (transporter) {
-            console.log("enviando correo");
-            transporter.sendMail(
-                {
-                    from:"uplideveloper@gmail.com",
-                    to:email,
-                    subject: 'Su Contraseña de Upli.co ✔',
-                    html:"La contrase;a registrada para <b>" + email + "</b> es " + password
-                }, function (errEmail, response) {
-                    console.log("Estatus correo.....");
-                    console.log(errEmail);
-                    console.log(response);
-                });
-        }
     }
     
     var instance = this;
