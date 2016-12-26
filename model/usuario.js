@@ -182,6 +182,8 @@ var Usuario = function () {
     }
     
     function sendEmail(email, password, responseCallback) {
+        console.log(email);
+        console.log(password);
         var mailManager = new MailManager();
         var mensajeData = mailManager.buildEmailMessage("Antifraudminds <info@antifraudminds.com>",email,"Recuperación de Contraseña - www.antifraudminds.com","Los datos de inicio de sesión son: usuario:" + email + " password:" + password);
         mailManager.sendEmail(mensajeData, responseCallback);
