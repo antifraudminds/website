@@ -1,7 +1,7 @@
 var ResponseManager = require("../model/responsemanager.js")
 var Connection = require("../model/connection.js")
 
-//Clase LoQueDicent
+//Clase MailManager
 var MailManager = function () {
     var api_key = 'key-13aec7df096d9cdc1dffa9efc06a80ba';
     var domain = 'mailgun.antifraudminds.com';
@@ -17,6 +17,7 @@ var MailManager = function () {
     }
     
     this.sendEmail = function(data, responseCallback) {
+        console.log(data);
         mailgun.messages().send(data, function (error, body) {
           var responseManager = new ResponseManager();
             if (error) {
