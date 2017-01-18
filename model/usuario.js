@@ -126,7 +126,7 @@ var Usuario = function () {
                            var userpass = rows[0].password;
                            sendEmail(useremail, userpass, responseCallback);
                        } else {
-                           responseManager.error = "Usuario no encontrado, verifique sus datos y vuelva a intentarlo.";
+                           responseManager.object = "Usuario no encontrado, verifique sus datos y vuelva a intentarlo.";
                            responseCallback(responseManager);
                        }
                        
