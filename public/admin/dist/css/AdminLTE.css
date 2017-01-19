@@ -3040,7 +3040,7 @@ table.text-center th {
 }
 .widget-user .widget-user-image > img {
   width: 90px;
-  height: auto;
+  height: 90px;
   border: 3px solid #fff;
 }
 .widget-user .box-footer {

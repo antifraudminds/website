@@ -61,16 +61,16 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user1-128x128.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Seguros Bolivar</span>
+              <span class="hidden-xs">Antifraud Minds</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header" style="background-image: url(img/fondo.jpg);">
-                <img src="dist/img/user1-128x128.jpg" class="img-circle" alt="User Image">
+                <img id="logoPopup" src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Seguros Bolivar
-                  <small>Bogot&aacute;</small>
+                  <label id="nombrePopup">Antifraud</label>
+                  <small id="ciudadPopup">Bogot&aacute;</small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -81,7 +81,7 @@
                   
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-primary btn-flat">Cerrar Sesi&oacute;n</a>
+                  <a href="#" class="btn btn-primary btn-flat" onclick="logout();">Cerrar Sesi&oacute;n</a>
                 </div>
               </li>
             </ul>
@@ -165,7 +165,7 @@
     </section>
 
     <!-- Main content -->
-    <section class="content">
+    <section class="content" style="display: table; width: 100%;">
       
         <div class="col-md-3" style="width:100%" id="container">
           <!-- Widget: user widget style 1 -->
@@ -419,14 +419,35 @@
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
 <script  type="text/javascript" src="../js/responsemanager.js"></script>
-  <script  type="text/javascript" src="../js/usuariomanager.js"></script>
-  <script  type="text/javascript" src="../js/empresamanager.js"></script>
+<script  type="text/javascript" src="../js/usuariomanager.js"></script>
+<script  type="text/javascript" src="../js/empresamanager.js"></script>
+<script  type="text/javascript" src="js/login.js"></script>
 
 <script type="text/javascript">
   var empresasMap = null;
   $(document).ready(function() {
     loadEmpresas();
+    isLogued();
   });
+  
+  postLogin = function (cliente) {
+    renderData(cliente);
+  }
+  
+  function renderData(cliente) {
+    $("#nombre").html(cliente.nombre);
+    $("#ciudad").html(cliente.ciudad);
+    $("#logo").attr("src", cliente.logo);
+    $(".user-image").attr("src", cliente.logo);
+    $("#nombreMini").html(cliente.nombre);
+    $("#nombrePopup").html(cliente.nombre);
+    $("#ciudadPopup").html(cliente.ciudad);
+    $("#logoPopup").attr("src", cliente.logo);
+  }
+  
+  postLogout = function (data) {
+    window.location.href = "/admin/index.html";
+  }
  
  function loadEmpresas() {
    empresasMap = [];
@@ -449,7 +470,7 @@
        continue;
      }
      empresasMap[empresa.id] = empresa;
-     htmlstr += '<div class="box box-primary" style="float:left;width: 25%;" id="empresa'+empresa.id+'"><div class="box-body box-profile"><img class="profile-user-img img-responsive img-circle" src="'+empresa.logo+'" alt="'+empresa.nombre+'"><h3 class="profile-username text-center">'+empresa.nombre+'</h3><p class="text-muted text-center">'+empresa.ciudad+'</p><ul class="list-group list-group-unbordered">  <li class="list-group-item">    <b>Total Solicitudes</b> <a class="pull-right">'+getTotalSolicitudes(empresa.servicios)+'</a>  </li> '+getNumerosServicios(empresa.servicios)+' </ul><a href="editarUsuario.html?idEmpresa='+empresa.id+'" class="btn btn-primary btn-block" ><b>Editar</b></a><a href="javascript:borrar('+empresa.id+');" class="btn btn-primary btn-block" style="background-color:red; border-color:red;"><b>Borrar</b></a></div></div><div style="width:2%;float:left">&nbsp;</div>';
+     htmlstr += '<div class="box box-primary" style="float:left;width: 300px; margin-right:10px; height: 700px;" id="empresa'+empresa.id+'"><div class="box-body box-profile"><img class="profile-user-img img-responsive img-circle" src="'+empresa.logo+'" alt="'+empresa.nombre+'"><h3 class="profile-username text-center">'+empresa.nombre+'</h3><p class="text-muted text-center">'+empresa.ciudad+'</p><ul class="list-group list-group-unbordered">  <li class="list-group-item">    <b>Total Solicitudes</b> <a class="pull-right">'+getTotalSolicitudes(empresa.servicios)+'</a>  </li> '+getNumerosServicios(empresa.servicios)+' </ul><a href="editarUsuario.html?idEmpresa='+empresa.id+'" style="position: absolute; bottom: 48px; width: 280px;" class="btn btn-primary btn-block" ><b>Editar</b></a><a href="javascript:borrar('+empresa.id+');" class="btn btn-primary btn-block" style="background-color:red; border-color:red; bottom: 8px; position: absolute; width: 280px;"><b>Borrar</b></a></div></div>';
    }
    document.getElementById("container").innerHTML = htmlstr;
    
@@ -474,8 +495,8 @@
        empresaManager.getQRCode(key, function (rm) {
          if (rm.getObject().length > 0) {
             var container = document.getElementById("empresa"+key);
-            container.innerHTML = "<a href='javascript:nWin("+key+", true);' target='_blank' style='margin-left:10px'>QRCode / Denuncia (C)</a>"  + container.innerHTML;
-            container.innerHTML = "<a href='javascript:nWin("+key+", false);' target='_blank' style='margin-left:10px'>QRCode / Denuncia (S)</a><br>"  + container.innerHTML;
+            //container.innerHTML = "<a href='javascript:nWin("+key+", true);' target='_blank' style='margin-left:10px'>QRCode / Denuncia (C)</a>"  + container.innerHTML;
+            container.innerHTML = "<div style='width: 80px; height: 50px; margin-left: 73%;'><a href='javascript:nWin("+key+", false);' target='_blank' style='background:black; padding:5px; color:white; margin-left:10px; position: absolute; margin-top: 15px; border-radius: 5px;'>QRCode</a><br></div>"  + container.innerHTML;
             empresasMap[key].qrcode = rm.getObject();
             key = empresasids.pop();
             loadQRCodeGeneration(key, empresasids);
