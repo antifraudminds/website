@@ -15,6 +15,18 @@ var SolicitudControlador = function (routes) {
     });
     
     routes.push({
+        path:"/solicitud/nofile",
+        type:"PUT",
+        func: function (req,res) {
+            var solicitud = new Solicitud();
+            solicitud.insertar(req.body, {}, function(responseManager) {
+               res.send(responseManager); 
+            });
+        },
+        middleware: multipart()
+    });
+    
+    routes.push({
         path:"/solicitud/respuesta",
         type:"PUT",
         func: function (req,res) {
