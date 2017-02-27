@@ -1,5 +1,5 @@
 /**
- * Clase IngredienteManager
+ * Clase BannersManager
  */
 
 /* global $*/
