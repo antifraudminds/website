@@ -17,7 +17,7 @@
 	}],
 	"cinco": [{
 		"title": "Capacitaciones en criminología",
-		"description": "Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo."
+		"description": "Con profesionales en criminología capacitamos al sector empresarial y público en el estudio del crimen y la conducta del criminal, basándonos en la conducta antisocial y las conductas que se desvían de lo socialmente aceptado.<br><br> Dentro de los aspectos que analizamos, no solo están los rasgos conductuales del criminal sino también el ambiente que facilita o limita la acción delincuencial.<br><br> Nuestros expertos en materia de criminología, se encuentra enfocados en la prevención de delitos o siniestros que pongan en riesgos los bienes y patrimonios del sector empresarial; así como el patrimonio de sus clientes. Esto por medio de capacitaciones y seminarios que programamos a solicitud de nuestros clientes."
 	}],
 	"seis": [{
 		"title": "EVALUACIÓN ANTIFRAUDE",
