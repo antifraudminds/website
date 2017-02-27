@@ -120,10 +120,30 @@ h1, h2, h3, h4, h5, h6, figure {
   height:600px; 
   float:left;
 }
+.btnDescarga{
+  width: 201px;
+  margin: 0 auto; 
+  margin-top: 28px;
+}
 @media screen and (max-width: 768px) {
   .gtco-nav {
     padding: 20px 0;
   }
+  .style_cont_row{
+  width:100%px; 
+  height:600px;
+  margin:0 auto;
+}
+.style_cont_row_item{
+  width:50%;
+  height:600px; 
+  float:left;
+}
+.btnDescarga{
+  width: 201px;
+  margin: 0 auto; 
+  margin-top: 28px;
+}
 }
 .gtco-nav #gtco-logo {
   font-size: 20px;
