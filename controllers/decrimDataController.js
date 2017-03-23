@@ -26,6 +26,17 @@ var DecrimDataController = function (routes) {
     });
     
     routes.push({
+        path:"/decrimdata/insertarresultadovalidacion",
+        type:"POST",
+        func: function (req,res) {
+            var decrimData = new DecrimData();
+            decrimData.insertarResultadoValidacion(req.body, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
         path:"/decrimdata/get/:idCaso",
         type:"GET",
         func: function (req,res) {

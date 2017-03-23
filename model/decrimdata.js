@@ -76,6 +76,26 @@ var DecrimData = function () {
         });
     }
     
+    this.insertarResultadoValidacion = function(decrimData, responseCallback) {
+        instance.crearConexion(function (connection) {
+                if (connection) {
+                        var sqlInsert = "CALL AgregarResultadoValidacion("+decrimData.idCaso+",'"+decrimData.resultadoValidacion+"','"+decrimData.resultadoIdentificacion+"','"+decrimData.resultadoHuella+"','"+decrimData.resultadoBasedeDatos+"')";
+                        connection.query(sqlInsert, function (err, rows) {
+                           var responseManager = new ResponseManager();
+                            if (err) {
+                                responseManager.error = err;
+                                responseCallback(responseManager);   
+                            } else {
+                                responseManager.object = decrimData;
+                                responseManager.error = "NO_ERROR";            
+                                responseCallback(responseManager);
+                            }
+                       });
+                    
+                }
+            });
+    }
+    
     
     this.getDecrimData = function (idCaso, responseCallback) {
         instance.crearConexion(function (connection) {
