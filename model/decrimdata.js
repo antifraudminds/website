@@ -197,10 +197,29 @@ var DecrimData = function () {
                         data = data.replace("%sexo%", rows[0].sexo);
                         data = data.replace("%rh%", rows[0].rh);
                         data = data.replace("%fechaNacimiento%", rows[0].fechaNacimiento);
-                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+rows[0].foto+'"/>');
-                        data = data.replace("%cedulaAnverso%", '<img src="data:image/jpeg;base64,'+rows[0].archivoUrl+'"/>');
-                        data = data.replace("%cedulaReverso%", '<img src="data:image/jpeg;base64,'+rows[1].archivoUrl+'"/>');
-                        data = data.replace("%huella%", '<img src="data:image/jpeg;base64,'+rows[2].archivoUrl+'"/>');
+                        if (rows[0].foto.indexOf("upload/") == -1) {
+                            data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+rows[0].foto+'"/>');
+                        } else {
+                            data = data.replace("%foto%", '<img src="'+rows[0].foto+'"/>');
+                        }
+                        if (rows[0].archivoUrl.indexOf("upload/") == -1) {
+                            data = data.replace("%cedulaAnverso%", '<img src="data:image/jpeg;base64,'+rows[0].archivoUrl+'"/>');
+                        } else {
+                            data = data.replace("%cedulaAnverso%", '<img src="'+rows[0].archivoUrl+'"/>');
+                        }
+                        
+                        if (rows[1].archivoUrl.indexOf("upload/") == -1) {
+                            data = data.replace("%cedulaReverso%", '<img src="data:image/jpeg;base64,'+rows[1].archivoUrl+'"/>');
+                        } else {
+                            data = data.replace("%cedulaReverso%", '<img src="'+rows[1].archivoUrl+'"/>');
+                        }
+                        if (rows[2]) {
+                            if (rows[2].archivoUrl.indexOf("upload/") == -1) {
+                                data = data.replace("%huella%", '<img src="data:image/jpeg;base64,'+rows[2].archivoUrl+'"/>');
+                            } else {
+                                data = data.replace("%huella%", '<img src="'+rows[2].archivoUrl+'"/>');
+                            }
+                        }
                         data = data.replace("%resultadoValidacion%", dataResult.resultadoValidacion);
                         data = data.replace("%resultadoIdentificacion%", dataResult.resultadoIdentificacion);
                         data = data.replace("%resultadoHuella%", dataResult.resultadoHuella);
