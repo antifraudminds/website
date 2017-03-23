@@ -50,9 +50,11 @@ var FileManager = function (pathForFiles, files) {
             pathForFiles = instance.pathForFiles.replace("../", "");
             console.log(process.env.OPENSHIFT_DATA_DIR);
         }
-        require("fs").writeFile(instance.path.join(dirPath, pathForFiles + filePath), base64Image, 'base64', function(err) {
+        instance.fs.writeFile(instance.path.join(dirPath, pathForFiles + filePath), base64Image, 'base64', function(err) {
           if (!err) {
-              callback(instance.pathForFiles.replace("../public","") + filePath);
+              var publicFile = instance.pathForFiles.replace("../public","") + filePath;
+              console.log("publicFile:" + publicFile);
+              callback(publicFile);
           }
         });
     }
