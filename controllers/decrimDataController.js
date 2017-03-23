@@ -74,7 +74,6 @@ var DecrimDataController = function (routes) {
         type:"POST",
         func: function (req,res) {
             var decrimData = new DecrimData();
-            
             decrimData.createPDF(req.body, function(responseManager) {
                res.send(responseManager); 
             });
