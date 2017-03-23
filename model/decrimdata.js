@@ -175,8 +175,14 @@ var DecrimData = function () {
                      
                     var pathPdfTemplate = instance.path.join(__dirname, "../public/admin/pdf.html");
                     var identifier = (new Date()).getTime();
-                    var pathPdfForUse = instance.path.join(__dirname, "../pdfgenerated/pdf_nuevo_"+identifier+".html");
-                    var pathPdfResult = instance.path.join(__dirname, "../pdfgenerated/pdf_nuevo_"+identifier+".pdf");
+                    var dirName = __dirname;
+                    var filenamePath = "../pdfgenerated/pdf_nuevo_" + identifier;
+                    if (process.env.OPENSHIFT_DATA_DIR != null) {
+                        dirName = process.env.OPENSHIFT_DATA_DIR;
+                        filenamePath = "pdfgenerated/pdf_nuevo_" + identifier;
+                    }
+                    var pathPdfForUse = instance.path.join(dirName, filenamePath+".html");
+                    var pathPdfResult = instance.path.join(dirName, filenamePath+".pdf");
                     var filename = "pdf_nuevo_"+identifier+".pdf";
                     instance.fs.createReadStream(pathPdfTemplate).pipe(instance.fs.createWriteStream(pathPdfForUse));
                     
