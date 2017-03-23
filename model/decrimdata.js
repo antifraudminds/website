@@ -31,40 +31,47 @@ var DecrimData = function () {
     this.insertar = function(decrimData, responseCallback) {
         instance.crearConexion(function (connection) {
            if (connection) {
-               var sqlInsert = "CALL InsertarDecrimValidacion("+decrimData.idCaso+",'"+decrimData.nombres+"','"+decrimData.apellidos+"','"+decrimData.numDocumento+"','"+decrimData.fechaNacimiento+"','"+decrimData.rh+"','"+decrimData.sexo+"','"+decrimData.foto+"',"+decrimData.idEmpresa+")";
-               connection.query(sqlInsert, function (err, rows) {
-                   var responseManager = new ResponseManager();
-                    if (err) {
-                        responseManager.error = err;
-                        responseCallback(responseManager);   
-                    } else {
-                        responseManager.object = decrimData;
-                        responseManager.error = "NO_ERROR";            
-                        responseCallback(responseManager);
-                    }
+               //Insertar firmar.... TODO.....
+               var fileManager = new FileManager("../public/uploads/", {});
+               fileManager.saveBase64(decrimData.foto, function (urlFoto) {
+                   var sqlInsert = "CALL InsertarDecrimValidacion("+decrimData.idCaso+",'"+decrimData.nombres+"','"+decrimData.apellidos+"','"+decrimData.numDocumento+"','"+decrimData.fechaNacimiento+"','"+decrimData.rh+"','"+decrimData.sexo+"','"+urlFoto+"',"+decrimData.idEmpresa+")";
+                   connection.query(sqlInsert, function (err, rows) {
+                       var responseManager = new ResponseManager();
+                        if (err) {
+                            responseManager.error = err;
+                            responseCallback(responseManager);   
+                        } else {
+                            responseManager.object = decrimData;
+                            responseManager.error = "NO_ERROR";            
+                            responseCallback(responseManager);
+                        }
+                   });       
                });
+               
            } 
         });
     }
     
     this.insertarArchivo = function (decrimData, responseCallback) {
-        
-                    instance.crearConexion(function (connection) {
-                        if (connection) {
-                            var sqlInsert = "CALL InsertarDecrimValidacionArchivo("+decrimData.idCaso+",'"+decrimData.nombre+"','"+decrimData.archivoUrl+"')";
-                            connection.query(sqlInsert, function (err, rows) {
-                               var responseManager = new ResponseManager();
-                                if (err) {
-                                    responseManager.error = err;
-                                    responseCallback(responseManager);   
-                                } else {
-                                    responseManager.object = decrimData;
-                                    responseManager.error = "NO_ERROR";            
-                                    responseCallback(responseManager);
-                                }
-                           });
+        instance.crearConexion(function (connection) {
+            if (connection) {
+                var fileManager = new FileManager("../public/uploads/", {});
+                fileManager.saveBase64(decrimData.archivoUrl, function (urlFoto) {
+                    var sqlInsert = "CALL InsertarDecrimValidacionArchivo("+decrimData.idCaso+",'"+decrimData.nombre+"','"+urlFoto+"')";
+                    connection.query(sqlInsert, function (err, rows) {
+                       var responseManager = new ResponseManager();
+                        if (err) {
+                            responseManager.error = err;
+                            responseCallback(responseManager);   
+                        } else {
+                            responseManager.object = decrimData;
+                            responseManager.error = "NO_ERROR";            
+                            responseCallback(responseManager);
                         }
-                    });
+                   });
+                });
+            }
+        });
         
     }
     

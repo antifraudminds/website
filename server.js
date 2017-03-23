@@ -151,7 +151,7 @@ var SampleApp = function() {
         if (process.env.OPENSHIFT_DATA_DIR != null) {
             self.app.use(express.static(process.env.OPENSHIFT_DATA_DIR + '/public'));
         }
-        self.app.use(bodyParser.urlencoded({extended: false}));
+        self.app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
         self.app.use(bodyParser.json({limit: '50mb'}));
         
         for (var r in self.routes) {

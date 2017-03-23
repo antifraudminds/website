@@ -40,6 +40,23 @@ var FileManager = function (pathForFiles, files) {
             callback(filesPath ? filesPath.length >0 ? filesPath : null : null, null);
         }
     }
+    
+    this.saveBase64 = function(base64Image, callback) {
+        var filePath = guid() + ".png";
+        var dirPath = __dirname;
+        var pathForFiles = instance.pathForFiles;
+        if (process.env.OPENSHIFT_DATA_DIR != null) {
+            dirPath = process.env.OPENSHIFT_DATA_DIR;
+            pathForFiles = instance.pathForFiles.replace("../", "");
+            console.log(process.env.OPENSHIFT_DATA_DIR);
+        }
+        require("fs").writeFile(instance.path.join(dirPath, pathForFiles + filePath), base64Image, 'base64', function(err) {
+          if (!err) {
+              callback(instance.pathForFiles.replace("../public","") + filePath);
+          }
+        });
+    }
+    
     var instance = this;
     
 }
