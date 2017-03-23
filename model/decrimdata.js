@@ -36,6 +36,7 @@ var DecrimData = function () {
                    //Insertar firmar.... TODO.....
                    
                        var sqlInsert = "CALL InsertarDecrimValidacion("+decrimData.idCaso+",'"+decrimData.nombres+"','"+decrimData.apellidos+"','"+decrimData.numDocumento+"','"+decrimData.fechaNacimiento+"','"+decrimData.rh+"','"+decrimData.sexo+"','"+urlFoto+"',"+decrimData.idEmpresa+")";
+                       console.log(sqlInsert);
                        connection.query(sqlInsert, function (err, rows) {
                            var responseManager = new ResponseManager();
                             if (err) {
@@ -46,9 +47,7 @@ var DecrimData = function () {
                                 responseManager.error = "NO_ERROR";            
                                 responseCallback(responseManager);
                             }
-                       });       
-                   
-                   
+                       });
                } 
             });
         });
@@ -171,7 +170,7 @@ var DecrimData = function () {
             if (connection) {
                 
                 var sqlUpdate = "select d.*,da.nombre,da.archivoUrl from DecrimValidacion as d, DecrimValidacionArchivos as da where d.idCaso = da.idCaso and d.idCaso = " + dataResult.idCaso + " order by da.nombre";
-                
+                console.log(sqlUpdate);
                  connection.query(sqlUpdate, function(err, rows) {
                      
                     var pathPdfTemplate = instance.path.join(__dirname, "../public/admin/pdf.html");
