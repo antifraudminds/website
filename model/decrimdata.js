@@ -268,7 +268,14 @@ var DecrimData = function () {
     }
     
     this.getFile = function(filename, response) {
-        var pathPdfResult = instance.path.join(__dirname, "../pdfgenerated/" + filename);
+        
+        var dirName = __dirname;
+        var filenamePath = "../pdfgenerated/";
+        if (process.env.OPENSHIFT_DATA_DIR != null) {
+            dirName = process.env.OPENSHIFT_DATA_DIR;
+            filenamePath = "pdfgenerated/";
+        }
+        var pathPdfResult = instance.path.join(dirName, filenamePath + filename);
         var file = instance.fs.createReadStream(pathPdfResult);
         var stat = instance.fs.statSync(pathPdfResult);
         response.setHeader('Content-Type', 'application/pdf');
