@@ -193,6 +193,10 @@ var DecrimData = function () {
                 console.log(sqlUpdate);
                  connection.query(sqlUpdate, function(err, rows) {
                      
+                     var archivos = getArchivosFromQuery(rows);
+                     archivos = getArchivosBase64IfRequired(archivos);
+                     
+                     
                     var pathPdfTemplate = instance.path.join(__dirname, "../public/admin/pdf.html");
                     var identifier = (new Date()).getTime();
                     var dirName = __dirname;
@@ -217,29 +221,20 @@ var DecrimData = function () {
                         data = data.replace("%sexo%", rows[0].sexo);
                         data = data.replace("%rh%", rows[0].rh);
                         data = data.replace("%fechaNacimiento%", rows[0].fechaNacimiento);
-                        if (rows[0].foto.indexOf("upload/") == -1) {
-                            data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+rows[0].foto+'"/>');
-                        } else {
-                            data = data.replace("%foto%", '<img src="'+rows[0].foto+'"/>');
+                        var fotoBase64 = rows[0].foto;
+                        if (rows[0].foto.indexOf("/uploads") != -1) {
+                            fotoBase64 = getArchivosBase64IfRequired([{nombre:"foto",archivo:rows[0].foto}])[0];
                         }
-                        if (rows[0].archivoUrl.indexOf("upload/") == -1) {
-                            data = data.replace("%cedulaAnverso%", '<img src="data:image/jpeg;base64,'+rows[0].archivoUrl+'"/>');
-                        } else {
-                            data = data.replace("%cedulaAnverso%", '<img src="'+rows[0].archivoUrl+'"/>');
+                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'"/>');
+                        
+                        data = data.replace("%cedulaAnverso%", '<img src="data:image/jpeg;base64,'+archivos[0].archivo+'"/>');
+                        if (archivos[1]) {
+                            data = data.replace("%cedulaReverso%", '<img src="data:image/jpeg;base64,'+archivos[1].archivo+'"/>');
+                        }
+                        if (archivos[2]) {
+                            data = data.replace("%huella%", '<img src="data:image/jpeg;base64,'+archivos[2].archivo+'"/>');
                         }
                         
-                        if (rows[1].archivoUrl.indexOf("upload/") == -1) {
-                            data = data.replace("%cedulaReverso%", '<img src="data:image/jpeg;base64,'+rows[1].archivoUrl+'"/>');
-                        } else {
-                            data = data.replace("%cedulaReverso%", '<img src="'+rows[1].archivoUrl+'"/>');
-                        }
-                        if (rows[2]) {
-                            if (rows[2].archivoUrl.indexOf("upload/") == -1) {
-                                data = data.replace("%huella%", '<img src="data:image/jpeg;base64,'+rows[2].archivoUrl+'"/>');
-                            } else {
-                                data = data.replace("%huella%", '<img src="'+rows[2].archivoUrl+'"/>');
-                            }
-                        }
                         data = data.replace("%resultadoValidacion%", dataResult.resultadoValidacion);
                         data = data.replace("%resultadoIdentificacion%", dataResult.resultadoIdentificacion);
                         data = data.replace("%resultadoHuella%", dataResult.resultadoHuella);
@@ -285,6 +280,43 @@ var DecrimData = function () {
         
         
         
+    }
+    
+    function getArchivosFromQuery(rows) {
+        var archivos = [];
+        for (var index = 0; index < rows.length; index++) {
+            if (rows[index] && rows[index].archivoUrl) {
+                var archivo = rows[index].archivoUrl
+                var nombre = rows[index].nombre;
+                archivos.push({nombre:nombre, archivo: archivo});
+            }
+        }
+        
+        return archivos;
+    }
+    
+    function getArchivosBase64IfRequired(archivos) {
+        var dirPath = __dirname;
+        var pathForFiles = "../public";
+        if (process.env.OPENSHIFT_DATA_DIR != null) {
+            dirPath = process.env.OPENSHIFT_DATA_DIR;
+            pathForFiles = instance.pathForFiles.replace("../", "");
+            console.log(process.env.OPENSHIFT_DATA_DIR);
+        }
+        for (var index = 0; index < archivos.length; index++) {
+            var archivo = archivos[index];
+            if (archivo.archivo.indexOf("/uploads") != -1) {
+                archivos[index].archivo = base64_encode(instance.path.join(dirPath, pathForFiles + archivo.archivo)); 
+            }
+        }
+        return archivos;
+    }
+    
+    function base64_encode(file) {
+        // read binary data
+        var bitmap = fs.readFileSync(file);
+        // convert binary data to base64 encoded string
+        return new Buffer(bitmap).toString('base64');
     }
     
     this.getFile = function(filename, response) {
