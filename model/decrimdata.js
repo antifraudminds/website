@@ -208,12 +208,10 @@ var DecrimData = function () {
                     var pathPdfForUse = instance.path.join(dirName, filenamePath+".html");
                     var pathPdfResult = instance.path.join(dirName, filenamePath+".pdf");
                     var filename = "pdf_nuevo_"+identifier+".pdf";
-                    instance.fs.createReadStream(pathPdfTemplate).pipe(instance.fs.createWriteStream(pathPdfForUse));
-                    
-                    instance.fs.readFile(pathPdfForUse, 'utf8', function read(err, data) {
-                        if (err) {
-                            throw err;
-                        }
+                    //instance.fs.createReadStream(pathPdfTemplate).pipe(instance.fs.createWriteStream(pathPdfForUse));
+                    var data = instance.fs.readFileSync(pathPdfTemplate, "utf8");
+                    //instance.fs.readFile(pathPdfForUse, 'utf8', function read(err, data) {
+                        
                         
                         data = data.replace("%nombres%", rows[0].nombres);
                         data = data.replace("%apellidos%", rows[0].apellidos);
@@ -273,7 +271,7 @@ var DecrimData = function () {
                                 
                             });
                         });
-                    });
+                    //});
                  });
             }
         });
