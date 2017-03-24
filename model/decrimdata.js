@@ -300,7 +300,7 @@ var DecrimData = function () {
         var pathForFiles = "../public";
         if (process.env.OPENSHIFT_DATA_DIR != null) {
             dirPath = process.env.OPENSHIFT_DATA_DIR;
-            pathForFiles = instance.pathForFiles.replace("../", "");
+            pathForFiles = pathForFiles.replace("../", "");
             console.log(process.env.OPENSHIFT_DATA_DIR);
         }
         for (var index = 0; index < archivos.length; index++) {
