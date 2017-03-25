@@ -220,18 +220,49 @@ var DecrimData = function () {
                         data = data.replace("%rh%", rows[0].rh);
                         data = data.replace("%fechaNacimiento%", rows[0].fechaNacimiento);
                         var fotoBase64 = rows[0].foto;
-                        if (rows[0].foto.indexOf("/uploads") != -1) {
-                            fotoBase64 = getArchivosBase64IfRequired([{nombre:"foto",archivo:rows[0].foto}])[0];
+                        if (fotoBase64.indexOf("/uploads") != -1) {
+                            fotoBase64 = getArchivosBase64IfRequired([{nombre:"foto",archivo:fotoBase64}])[0].archivo;
                         }
-                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'"/>');
+                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" width="200" height="266"/>');
                         
-                        data = data.replace("%cedulaAnverso%", '<img src="data:image/jpeg;base64,'+archivos[0].archivo+'"/>');
+                        var tags = [
+                            {
+                                nombre:"Cedula Adelante", 
+                                tag:"cedulaAnverso", 
+                                hasDimensions:true, 
+                                width:300, 
+                                height:225
+                                
+                            }, {
+                                nombre:"Cedula Atras", 
+                                tag:"cedulaReverso", 
+                                hasDimensions:true, 
+                                width:300, 
+                                height:225
+                                
+                            }, {
+                                nombre:"Huella", 
+                                tag:"huella", 
+                                hasDimensions:false, 
+                                width:0, 
+                                height:0
+                                
+                            } 
+                            ];
+                        
+                        data = addArchivos(archivos, tags, data);
+                        /*
+                        //Cedula Adelante
+                        data = data.replace("%cedulaAnverso%", '<img src="data:image/jpeg;base64,'+archivos[0].archivo+'" width="300" height="225"/>');
+                        //Cedula Atras
                         if (archivos[1]) {
-                            data = data.replace("%cedulaReverso%", '<img src="data:image/jpeg;base64,'+archivos[1].archivo+'"/>');
+                            data = data.replace("%cedulaReverso%", '<img src="data:image/jpeg;base64,'+archivos[1].archivo+'" width="300" height="225"/>');
                         }
+                        //Huella
                         if (archivos[2]) {
                             data = data.replace("%huella%", '<img src="data:image/jpeg;base64,'+archivos[2].archivo+'"/>');
                         }
+                        */
                         
                         data = data.replace("%resultadoValidacion%", dataResult.resultadoValidacion);
                         data = data.replace("%resultadoIdentificacion%", dataResult.resultadoIdentificacion);
@@ -278,6 +309,28 @@ var DecrimData = function () {
         
         
         
+    }
+    
+    function addArchivos(archivos, tags, data) {
+        for (var indexTags = 0; indexTags < tags.length; indexTags++) {
+            var found = false;
+            for (var indexArchivos = 0; indexArchivos < archivos.length; indexArchivos++) {
+                var tag = tags[indexTags];
+                var archivo = archivos[indexArchivos];
+                if (tag.nombre == archivo.nombre) {
+                    found = true;
+                    if (tag.hasDimensions) {
+                        data = data.replace("%" + tag.tag + "%", '<img src="data:image/jpeg;base64,'+archivo.archivo+'" width="'+tag.width+'" height="'+tag.height+'"/>');
+                    } else {
+                        data = data.replace("%" + tag.tag + "%", '<img src="data:image/jpeg;base64,'+archivo.archivo+'"/>');
+                    }
+                }
+            }
+            if (!found) {
+                data = data.replace("%" + tag.tag + "%", 'No encontrado');
+            }
+        }
+        return data;
     }
     
     function getArchivosFromQuery(rows) {
