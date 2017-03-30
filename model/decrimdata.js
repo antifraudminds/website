@@ -219,12 +219,15 @@ var DecrimData = function () {
                         data = data.replace("%sexo%", rows[0].sexo);
                         data = data.replace("%rh%", rows[0].rh);
                         data = data.replace("%fechaNacimiento%", rows[0].fechaNacimiento);
+                        
+                        //Agrega foto del usuario
                         var fotoBase64 = rows[0].foto;
                         if (fotoBase64.indexOf("/uploads") != -1) {
                             fotoBase64 = getArchivosBase64IfRequired([{nombre:"foto",archivo:fotoBase64}])[0].archivo;
                         }
                         data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" width="200" height="266"/>');
                         
+                        //Tags para los archivos, y posición en el pdf de reporte.
                         var tags = [
                             {
                                 nombre:"Cedula Adelante", 
@@ -250,19 +253,9 @@ var DecrimData = function () {
                             } 
                             ];
                         
+                        //Agrega los archivos que tenga el usuario, Fotos cédula adelante-atrás, Huella. 
                         data = addArchivos(archivos, tags, data);
-                        /*
-                        //Cedula Adelante
-                        data = data.replace("%cedulaAnverso%", '<img src="data:image/jpeg;base64,'+archivos[0].archivo+'" width="300" height="225"/>');
-                        //Cedula Atras
-                        if (archivos[1]) {
-                            data = data.replace("%cedulaReverso%", '<img src="data:image/jpeg;base64,'+archivos[1].archivo+'" width="300" height="225"/>');
-                        }
-                        //Huella
-                        if (archivos[2]) {
-                            data = data.replace("%huella%", '<img src="data:image/jpeg;base64,'+archivos[2].archivo+'"/>');
-                        }
-                        */
+                        
                         
                         data = data.replace("%resultadoValidacion%", dataResult.resultadoValidacion);
                         data = data.replace("%resultadoIdentificacion%", dataResult.resultadoIdentificacion);
