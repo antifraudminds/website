@@ -250,6 +250,12 @@ var DecrimData = function () {
                                 width:0, 
                                 height:0
                                 
+                            }, {
+                                nombre:"UFirma", 
+                                tag:"firma", 
+                                hasDimensions:true, 
+                                width:350, 
+                                height:171
                             } 
                             ];
                         
