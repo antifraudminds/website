@@ -189,7 +189,7 @@ var DecrimData = function () {
             
             if (connection) {
                 
-                var sqlUpdate = "select d.*,da.nombre,da.archivoUrl from DecrimValidacion as d, DecrimValidacionArchivos as da where d.idCaso = da.idCaso and d.idCaso = " + dataResult.idCaso + " order by da.nombre";
+                var sqlUpdate = "select d.*,da.nombre,da.archivoUrl,e.ciudad from DecrimValidacion as d, DecrimValidacionArchivos as da, Empresas as e where d.idCaso = da.idCaso and d.idCaso = " + dataResult.idCaso + " and e.id = d.idEmpresa order by da.nombre";
                 console.log(sqlUpdate);
                  connection.query(sqlUpdate, function(err, rows) {
                      
@@ -212,13 +212,14 @@ var DecrimData = function () {
                     var data = instance.fs.readFileSync(pathPdfTemplate, "utf8");
                     //instance.fs.readFile(pathPdfForUse, 'utf8', function read(err, data) {
                         
-                        
                         data = data.replace("%nombres%", rows[0].nombres);
                         data = data.replace("%apellidos%", rows[0].apellidos);
                         data = data.replace("%numDocumento%", rows[0].numDocumento);
                         data = data.replace("%sexo%", rows[0].sexo);
                         data = data.replace("%rh%", rows[0].rh);
                         data = data.replace("%fechaNacimiento%", rows[0].fechaNacimiento);
+                        data = data.replace("%fechaActual%", getFormattedDate());
+                        data = data.replace("%ciudadEmpresa%", rows[0].ciudad);
                         
                         //Agrega foto del usuario
                         var fotoBase64 = rows[0].foto;
@@ -271,7 +272,7 @@ var DecrimData = function () {
                         instance.fs.writeFile(pathPdfForUse, data, "utf8", function(errWrite) {
                             var options = {
                                 html : pathPdfForUse,
-                                paperSize : {format: 'LEGAL', orientation: 'portrait', border: '1cm'},
+                                paperSize : {format: 'LEGAL', orientation: 'portrait', border: '0.3cm'},
                                 deleteOnAction : false
                             }
                             
@@ -308,6 +309,22 @@ var DecrimData = function () {
         
         
         
+    }
+    
+    function getFormattedDate() {
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth()+1; //January is 0!
+        
+        var yyyy = today.getFullYear();
+        if(dd<10){
+            dd='0'+dd;
+        } 
+        if(mm<10){
+            mm='0'+mm;
+        } 
+        return dd+'-'+mm+'-'+yyyy;
+
     }
     
     function addArchivos(archivos, tags, data) {
