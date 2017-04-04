@@ -271,7 +271,7 @@ var DecrimData = function () {
                         instance.fs.writeFile(pathPdfForUse, data, "utf8", function(errWrite) {
                             var options = {
                                 html : pathPdfForUse,
-                                paperSize : {format: 'A4', orientation: 'landscape', border: '1cm'},
+                                paperSize : {format: 'LEGAL', orientation: 'landscape', border: '1cm'},
                                 deleteOnAction : false
                             }
                             
