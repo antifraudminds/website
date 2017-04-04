@@ -268,6 +268,7 @@ var DecrimData = function () {
                         data = data.replace("%resultadoIdentificacion%", dataResult.resultadoIdentificacion);
                         data = data.replace("%resultadoHuella%", dataResult.resultadoHuella);
                         data = data.replace("%listaNegra%", dataResult.listaNegra);
+                        data = data.replace("%porcentajeRiesgo%", dataResult.porcentajeRiesgo);
                         
                         instance.fs.writeFile(pathPdfForUse, data, "utf8", function(errWrite) {
                             var options = {
