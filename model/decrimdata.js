@@ -168,7 +168,7 @@ var DecrimData = function () {
             
             if (connection) {
                 
-                var sqlUpdate = "select * from ListaNegra where NumDoc = '" + dataListaNegra.NumDoc + "' or NombreCompleto='%" + dataListaNegra.NombreCompleto + "%'";
+                var sqlUpdate = "select * from ListaNegra where NumDoc = '" + dataListaNegra.NumDoc + "' or NombreCompleto like '%" + dataListaNegra.NombreCompleto + "%'";
                  connection.query(sqlUpdate, function(err, rows) {
                             var responseManager = new ResponseManager();
                             if (err) {
