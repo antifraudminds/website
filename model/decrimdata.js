@@ -222,6 +222,7 @@ var DecrimData = function () {
                         data = data.replace("%fechaNacimiento%", rows[0].fechaNacimiento);
                         data = data.replace("%fechaActual%", getFormattedDate());
                         data = data.replace("%ciudadEmpresa%", rows[0].ciudad);
+                        console.log("Query Data Added well");
                         
                         //Agrega foto del usuario
                         var fotoBase64 = rows[0].foto;
@@ -265,12 +266,16 @@ var DecrimData = function () {
                         //Agrega los archivos que tenga el usuario, Fotos cédula adelante-atrás, Huella. 
                         data = addArchivos(archivos, tags, data);
                         
+                        console.log("Photos added well");
+                        
                         
                         data = data.replace("%resultadoValidacion%", dataResult.resultadoValidacion);
                         data = data.replace("%resultadoIdentificacion%", dataResult.resultadoIdentificacion);
                         data = data.replace("%resultadoHuella%", dataResult.resultadoHuella);
                         data = data.replace("%listaNegra%", dataResult.listaNegra);
                         data = data.replace("%porcentajeRiesgo%", dataResult.porcentajeRiesgo);
+                        
+                        console.log("Data sent Added well");
                         
                         instance.fs.writeFile(pathPdfForUse, data, "utf8", function(errWrite) {
                             var options = {
