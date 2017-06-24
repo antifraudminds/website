@@ -192,6 +192,8 @@ var DecrimData = function () {
                 var sqlUpdate = "select d.*,da.nombre,da.archivoUrl,e.ciudad from DecrimValidacion as d, DecrimValidacionArchivos as da, Empresas as e where d.idCaso = da.idCaso and d.idCaso = " + dataResult.idCaso + " and e.id = d.idEmpresa order by da.nombre";
                 console.log(sqlUpdate);
                  connection.query(sqlUpdate, function(err, rows) {
+                     console.log("Resultado");
+                     console.log(rows);
                      
                      var archivos = getArchivosFromQuery(rows);
                      archivos = getArchivosBase64IfRequired(archivos);
