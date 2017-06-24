@@ -278,6 +278,14 @@ var DecrimData = function () {
                         console.log("Data sent Added well");
                         
                         instance.fs.writeFile(pathPdfForUse, data, "utf8", function(errWrite) {
+                            if (errWrite) {
+                                console.log("Error en el write");
+                                console.log(errWrite);
+                                var responseManager = new ResponseManager();
+                                        
+                                responseManager.error = errWrite;
+                                responseCallback(responseManager);
+                            } else {
                             var options = {
                                 html : pathPdfForUse,
                                 paperSize : {format: 'LEGAL', orientation: 'portrait', border: '0.3cm'},
@@ -291,7 +299,7 @@ var DecrimData = function () {
                                 if (error) {
                                     console.log("Error");
                                     console.log(error);
-                                    responseCallback.send({error:error});
+                                    responseCallback({error:error});
                                 } else {
                                     result.toFile(pathPdfResult, function() {
                                         var responseManager = new ResponseManager();
@@ -306,10 +314,13 @@ var DecrimData = function () {
                                     });
                                     
                                 }
+                                
                                 /* Using the file writer and callback */
                                 
                             });
+                            }
                         });
+                        
                     //});
                  });
             }
