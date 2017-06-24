@@ -286,6 +286,7 @@ var DecrimData = function () {
                                 responseManager.error = errWrite;
                                 responseCallback(responseManager);
                             } else {
+                                console.log("writeFile succeded");
                             var options = {
                                 html : pathPdfForUse,
                                 paperSize : {format: 'LEGAL', orientation: 'portrait', border: '0.3cm'},
@@ -295,18 +296,21 @@ var DecrimData = function () {
                             var pdf = require('phantom-html2pdf');
  
                             pdf.convert(options, function(error, result) {
-                             
+                                console.log("pdf convert ok");
                                 if (error) {
                                     console.log("Error");
                                     console.log(error);
                                     responseCallback({error:error});
                                 } else {
                                     result.toFile(pathPdfResult, function() {
+                                        
                                         var responseManager = new ResponseManager();
                                         if (err) {
+                                            console.log("to File error");
                                             responseManager.error = err;
                                             responseCallback(responseManager);   
                                         } else {
+                                            console.log("to File ok");
                                             responseManager.object = filename;
                                             responseManager.error = "NO_ERROR";            
                                             responseCallback(responseManager);
