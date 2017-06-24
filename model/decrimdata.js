@@ -268,6 +268,9 @@ var DecrimData = function () {
                         
                         console.log("Photos added well");
                         
+                        if (dataResult.porcentajeRiesgo == "0 %") {
+                            dataResult.porcentajeRiesgo = "No hay Riesgo";
+                        }
                         
                         data = data.replace("%resultadoValidacion%", dataResult.resultadoValidacion);
                         data = data.replace("%resultadoIdentificacion%", dataResult.resultadoIdentificacion);
@@ -286,7 +289,7 @@ var DecrimData = function () {
                                 responseManager.error = errWrite;
                                 responseCallback(responseManager);
                             } else {
-                                console.log("writeFile succeded");
+                                console.log("writeFile succeded" + pathPdfForUse);
                             var options = {
                                 html : pathPdfForUse,
                                 paperSize : {format: 'LEGAL', orientation: 'portrait', border: '0.3cm'},
