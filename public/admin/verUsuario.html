@@ -373,12 +373,14 @@
 <script type="text/javascript">
   var empresasMap = null;
   $(document).ready(function() {
-    loadSideBar();
     loadEmpresas();
     isLogued();
   });
   
   postLogin = function (cliente) {
+    if (cliente.tipo == 0) {
+      loadSideBar();
+    }
     renderData(cliente);
   }
   

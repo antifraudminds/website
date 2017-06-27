@@ -254,12 +254,14 @@
   data.servicios = [];
   
   $(document).ready(function() {
-    loadSideBar();
     loadServicios();
     isLogued();
   });
   
   postLogin = function (cliente) {
+    if (cliente.tipo == 0) {
+      loadSideBar();
+    }
     renderData(cliente);
   }
   

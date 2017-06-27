@@ -243,9 +243,27 @@
   data.servicios = [];
   
   $(document).ready(function() {
-    loadSideBar();
     loadServicios();
+    isLogued();
   });
+  
+  postLogin = function (cliente) {
+    if (cliente.tipo == 0) {
+      loadSideBar();
+    }
+    renderData(cliente);
+  }
+  
+  function renderData(cliente) {
+    $("#nombre").html(cliente.nombre);
+    $("#ciudad").html(cliente.ciudad);
+    $("#logo").attr("src", cliente.logo);
+    $(".user-image").attr("src", cliente.logo);
+    $("#nombreMini").html(cliente.nombre);
+    $("#nombrePopup").html(cliente.nombre);
+    $("#ciudadPopup").html(cliente.ciudad);
+    $("#logoPopup").attr("src", cliente.logo);
+  }
  
  function loadServicios() {
     var servicioManager = new ServiciosManager();
