@@ -49,7 +49,7 @@ var Servicio = function () {
         });
     }
     
-    this.udpate = function (data, responseCallback) {
+    this.update = function (data, responseCallback) {
         instance.crearConexion(function (connection) {
             //console.log(connection);
             if (connection) {

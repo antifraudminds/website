@@ -1,6 +1,6 @@
 var ResponseManager = require("../model/responsemanager.js")
 var Connection = require("../model/connection.js")
-//Clase Ingrediente
+//Clase Mensaje
 var Mensaje = function () {
     //Obteniendo recursos
     this.mysql = require("mysql");

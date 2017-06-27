@@ -33,3 +33,9 @@
          return this.object;
      }
  }
+ 
+ function loadSideBar() {
+   $.get( "sidebar.html", function( data ) {
+      $( ".main-sidebar" ).html( data );
+    });
+ }
