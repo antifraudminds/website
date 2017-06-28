@@ -376,7 +376,6 @@
 function createUser(form) {
   
   if (form.email.value.length > 0 && form.password.value.length > 0 && form.nombre.value.length > 0 && form.cedula.value.length > 0 && form.cargo.value.length > 0 && form.empresa.value != "-1" && data.servicios.length > 0) {
-    data = {};
     data.email = form.email.value;
     data.password = form.password.value;
     data.tipo = 1;
