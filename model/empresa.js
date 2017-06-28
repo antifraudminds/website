@@ -35,7 +35,7 @@ var Empresa = function () {
         instance.crearConexion(function (connection) {
             //console.log(connection);
             if (connection) {
-                var sqlInsert = "CALL InsertarEmpresa('"+data.nombre+"','"+data.nit+"','"+data.ciudad+"','"+data.logo+"', "+data.idUsuario+")";
+                var sqlInsert = "CALL InsertarEmpresa('"+data.nombre+"','"+data.nit+"','"+data.ciudad+"','"+data.logo+"')";
                 console.log(sqlInsert);
                 connection.query(sqlInsert, function(err, rows) {
                         var responseManager = new ResponseManager();
