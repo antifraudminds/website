@@ -418,7 +418,7 @@
    var contentStr = '';
    for (var i=0; i<usuarios.length;i++) {
      var usuario = usuarios[i];
-     contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name">'+usuario.nombre+'</td><td class="mailbox-name">'+usuario.cedula+'</td><td class="mailbox-name">' + usuario.cargo +  '</td><td class="mailbox-name">'+usuario.nombreEmpresa+'</td><td class="mailbox-name">'+usuario.email+'</td><td class="mailbox-name"><a href="editarUsuario.html?idUsuario='+usuario.id+'">'+Editar+'</a></td><td class="mailbox-name"><a href="javascript:borrar('+usuario.id+',\''+usuario.email+'\''+');">'+Eliminar+'</a></td></tr>';
+     contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name">'+usuario.nombre+'</td><td class="mailbox-name">'+usuario.cedula+'</td><td class="mailbox-name">' + usuario.cargo +  '</td><td class="mailbox-name">'+usuario.nombreEmpresa+'</td><td class="mailbox-name">'+usuario.email+'</td><td class="mailbox-name"><a href="editarUsuario.html?idUsuario='+usuario.id+'">Editar</a></td><td class="mailbox-name"><a href="javascript:borrar('+usuario.id+',\''+usuario.email+'\''+');">Eliminar</a></td></tr>';
    }
    document.getElementById("contentUsuarios").innerHTML = contentStr;
  }
