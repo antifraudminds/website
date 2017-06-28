@@ -93,61 +93,7 @@
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">MEN&Uacute; DE NAVEGAVCI&Oacute;N</li>
-        <li class=" treeview">
-          <a href="#" >
-            <i class="fa fa-laptop"></i> <span>Crear Usuario</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="crearUsuario.html"><i class="fa fa-circle-o"></i>Crear</a></li>
-          </ul>
-          <ul class="treeview-menu">
-            <li class=""><a href="verUsuario.html"><i class="fa fa-circle-o"></i>Ver</a></li>
-          </ul>
-        </li>
-        <li class=" treeview">
-          <a href="#" >
-            <i class="fa fa-folder"></i> <span>Ingresar aliados antifraude</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="agregarAliado.html"><i class="fa fa-circle-o"></i>Agregar</a></li>
-          </ul>
-        </li>
-        <li class=" treeview">
-          <a href="#">
-            <i class="fa fa-envelope"></i> <span>Envi&oacute; de Solicitudes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="saVerSolicitudesAll.html"><i class="fa fa-circle-o"></i>Solicitud</a></li>
-          </ul>
-        </li>
-        <li class=" treeview">
-          <a href="#">
-            <i class="fa fa-envelope"></i> <span>Mensajes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="verMensajes.html"><i class="fa fa-circle-o"></i>Ver Mensajes</a></li>
-          </ul>
-        </li>
-       
-      </ul>
-    </section>
+    
     <!-- /.sidebar -->
   </aside>
 
@@ -277,8 +223,13 @@ $(document).ready(function () {
 });
 
 postLogin = function (cliente) {
+  if (cliente.tipo == 0) {
+      loadSideBar();
+    }
   renderData(cliente);
 }
+
+
 
 function renderData(cliente) {
   $("#nombre").html(cliente.nombre);
