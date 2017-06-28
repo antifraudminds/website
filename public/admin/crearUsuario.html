@@ -310,7 +310,7 @@
   
   function loadEmpresas() {
    var empresaManager = new EmpresaManager();
-   empresaManager.getAll(function (rm) {
+   empresaManager.getAllEmpresas(function (rm) {
      console.log(rm);
      renderEmpresasCombo(rm.getObject());
    },

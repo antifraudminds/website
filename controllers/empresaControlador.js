@@ -52,6 +52,22 @@ var EmpresaControlador = function (routes) {
             var session = req.session;
             if (session.cliente) {
                 var empresa = new Empresa();
+                empresa.getAllDatos(function(responseManager) {
+                    res.send(responseManager); 
+                });
+            } else {
+                res.send({error:"No authUser"});
+            }
+        }
+    });
+    
+    routes.push({
+        path:"/empresa",
+        type:"GET",
+        func: function (req,res) {
+            var session = req.session;
+            if (session.cliente) {
+                var empresa = new Empresa();
                 empresa.getAll(function(responseManager) {
                     res.send(responseManager); 
                 });

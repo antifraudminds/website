@@ -81,7 +81,7 @@ var Usuario = function () {
                         
                     } else {
                         responseManager.error = "NO_ERROR";
-                        responseManager.object = rows;
+                        responseManager.object = rows[0];
                     }
                     responseCallback(responseManager);
                 });

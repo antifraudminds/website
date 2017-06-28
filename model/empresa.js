@@ -154,7 +154,7 @@ var Empresa = function () {
         });
     }
     
-    this.getAll = function(responseCallback) {
+    this.getAllDatos = function(responseCallback) {
         instance.crearConexion(function(connection) {
            var sql = "CALL getEmpresasDatos()";
            connection.query(sql, function (err, rows) {
@@ -166,6 +166,24 @@ var Empresa = function () {
                 } else {
                     responseManager.error = "NO_ERROR";
                     responseManager.object = groupDataByIdEmpresa(rows[0]);
+                    responseCallback(responseManager);
+                }
+           });
+        });
+    }
+    
+    this.getAll = function(responseCallback) {
+        instance.crearConexion(function(connection) {
+           var sql = "CALL getEmpresas()";
+           connection.query(sql, function (err, rows) {
+               var responseManager = new ResponseManager();
+                if (err) {
+                    responseManager.error = err;
+                   console.log(responseManager.error);
+                   responseCallback(responseManager);
+                } else {
+                    responseManager.error = "NO_ERROR";
+                    responseManager.object = rows[0];
                     responseCallback(responseManager);
                 }
            });
