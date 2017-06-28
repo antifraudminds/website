@@ -28,33 +28,53 @@ var Usuario = function () {
           
         });
     }
-    this.insertarUsuario = function (usuarioData, responseCallback) {
+    this.insertarUsuario = function (data, responseCallback) {
         instance.crearConexion(function (connection) {
             //console.log(connection);
             if (connection) {
                 //var sqlInsertUsuario = "insert into usuarios (nombre,email,password, tipo) values ('"+usuarioData.nombres+"','"+usuarioData.email+"','"+usuarioData.password+"', "+usuarioData.tipo+")";
-                var sqlInsertUsuario = "CALL InsertarUsuario('"+usuarioData.nombres+"','"+usuarioData.email+"','"+usuarioData.password+"', "+usuarioData.tipo+")";
+                var sqlInsertUsuario = "CALL InsertarUsuario('"+data.nombres+"','"+data.email+"','"+data.password+"', "+data.tipo+",'"+data.cargo+"','"+data.cedula+"',"+data.idEmpresa+")";
                 console.log("Insertando Usuario");
                 console.log(sqlInsertUsuario);//muestro la consulta para ver que esta saliendo mal.....
                 connection.query(sqlInsertUsuario, function(err, rows) {
                     var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
-                       console.log(responseManager.error);
+                        console.log(responseManager.error);
+                        responseCallback(responseManager);
                     } else {
-                        responseManager.error = "NO_ERROR";
-                        responseManager.object = rows[0][0].id;
+                        var idUsuario = rows[0][0].id;
+                        if (data.servicios.length > 0) {
+                         insertarServiciosAUsuario(idUsuario, data.servicios, function () {
+                                responseManager.error = "NO_ERROR";
+                                responseManager.object = data;
+                                responseCallback(responseManager);
+                            });
+                        } else {
+                            responseManager.error = "NO_ERROR";
+                            responseManager.object = data;
+                            responseCallback(responseManager);
+                        }
                     }
-                     responseCallback(responseManager);
+                     
                 });
             }
         });
     }
     
+    function insertarServiciosAUsuario(idUsuario, servicios, callback) {
+        instance.crearConexion(function (connServicios) {
+            var sqlInsertServicios = "CALL InsertarServiciosAUsuario ("+idUsuario+",'"+servicios.join(",")+"')";
+            connServicios.query(sqlInsertServicios, function (err, rows) {
+                callback();
+            });
+        });
+    }
+  
     this.obtenerUsuarios = function (responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
-                connection.query("select * from usuarios", function(err, rows) {
+                connection.query("CALL GetUsuarios()", function(err, rows) {
                     var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;

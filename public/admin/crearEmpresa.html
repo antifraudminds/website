@@ -113,11 +113,11 @@
     <section class="content-header">
       <h1>
         Crear
-        <small>Usuario</small>
+        <small>Empresa</small>
       </h1>
       <ol class="breadcrumb">
         <li><i class="fa fa-dashboard">: </i>Inicio</li>
-        <li class="active">Crear Usuario</li>
+        <li class="active">Crear Empresa</li>
       </ol>
     </section>
 
@@ -132,49 +132,32 @@
             <!-- /.box-header -->
             <!-- form start -->
             <form id="formu" onsubmit="createUser(this);return false;">
-              <div class="box-body">
-                <select class="form-control select2" style="width: 100%; border-radius:none;" name="empresa" id="empresa">
-                    <option selected="selected" value="-1">Seleccione una Empresa</option>
+              <div class="form-group">
+                    <label>Datos de la Empresa</label>
+                    <input class="form-control" type="text" name="nombre" placeholder="Nombre de la Empresa">
+                  </div>
+                   <div class="form-group">
+                    <input  name="nit" type='text' class="form-control" placeholder="NIT o Rason Social">
+                  </div>
+                  <div class="form-group">
+                  <select class="form-control select2" style="width: 100%; border-radius:none;" name="ciudad">
+                    <option selected="selected">Seleccione una ciudad</option>
+                    <option>Bogot&aacute;</option>
+                    <option>C&uacute;cuta</option>
+                    <option>Medell&iacute;n</option>
+                    <option>Cartagena</option>
                   </select>
                 </div>
+                
                 <div class="form-group">
-                  <div style="height: 100px;">
-                    <div style="margin-left:0px; font-weight: 700;">Selecionar servicios</div>
-                    <div id="serviciosContainer">
-                      <div class="checkbox" style="float:left;">
-                        <label>
-                          <input type="checkbox" onchange="servicioChanged(1, this);"> Validaci&oacute;n Informaci&oacute;n
-                        </label>
-                      </div>
-                      
-                    </div>
-                  </div>
+                  <label for="exampleInputFile">Ingresar logo de la Empresa</label>
+                  <input type="file" id="fileImgEmpresa" onchange="previewFile()">
+                  <img id="imgEmpresa"/>
+
+                  <p class="help-block">La imagen debe tener una resoluci&oacute;n de 128px X 128px</p>
                 </div>
-                <div class="form-group">
-                  <label for="nombre">Nombre</label>
-                  <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre">
-                </div>
-                <div class="form-group">
-                  <label for="cedula">C&eacute;dula</label>
-                  <input class="form-control" type="text" name="cedula" id="cedula" placeholder="C&eacute;dula">
-                </div>
-                <div class="form-group">
-                  <label for="cargo">Cargo</label>
-                  <input class="form-control" type="text" name="cargo" id="cargo" placeholder="Cargo">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Correo El&eacute;ctronico</label>
-                  <input class="form-control" type="text" name="email" id="exampleInputPassword1" placeholder="Correo El&eacute;ctronico">
-                </div>
-                <div class="form-group">
-                  <div style="margin-left:0px; font-weight: 700;">Contrase&ntilde;a</div>
-                  <input class="form-control" name="password" id="contrasena"  style="float:left;" placeholder="Contraseña" disabled>
-                  <a onclick="cadena();"  style="float:left;margin-top: 16px;" class="btn btn-primary" >Generar Contraseña</a>
-                 
-                </div>
-              </div>
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                <button type="submit" class="btn btn-primary">Crear Empresa</button>
               </div>
             </form>
           </div>
@@ -246,7 +229,6 @@
   
   $(document).ready(function() {
     loadServicios();
-    loadEmpresas();
     isLogued();
   });
   
@@ -271,65 +253,7 @@
   postLogout = function (data) {
     window.location.href = "/admin/index.html";
   }
-  
-  function loadServicios() {
-    var servicioManager = new ServiciosManager();
-    servicioManager.getAll(function (rm) {
-      renderServicios(rm.getObject());
-    }, function (rm) {
-      console.log(rm);
-    });
-  }
-  
-  function renderServicios(servicios) {
-    /*
-    <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged(2, this);"> Gesti&oacute;</label></div>    
-    */
-    var serviciosContainer = $("#serviciosContainer");
-    serviciosContainer.html("");
-    var serviciosHtmlString = "";
-    for (var index = 0; index < servicios.length; index++) {
-      var servicio = servicios[index];
-      if (serviciosHtmlString.length <= 0) {
-        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
-      } else {
-        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
-      }
-    }
-    serviciosContainer.html(serviciosHtmlString);
-  }
-  
-  function loadServicios() {
-    var servicioManager = new ServiciosManager();
-    servicioManager.getAll(function (rm) {
-      renderServicios(rm.getObject());
-    }, function (rm) {
-      console.log(rm);
-    });
-  }
-  
-  function loadEmpresas() {
-   var empresaManager = new EmpresaManager();
-   empresaManager.getAll(function (rm) {
-     console.log(rm);
-     renderEmpresasCombo(rm.getObject());
-   },
-   function (rm){
-     console.log(rm);
-   });
- }
  
- function renderEmpresasCombo(empresas) {
-   var comboEmpresas = document.getElementById("empresa");
-   for (var i = 0; i < empresas.length; i++) {
-     var empresa = empresas[i];
-     var option = document.createElement("option");
-     option.setAttribute("value", empresa.id);
-     option.innerHTML = empresa.nombre;
-     comboEmpresas.appendChild(option);
-     
-   }
- }
   
   function cadena() {
     
@@ -376,38 +300,28 @@
 
 function createUser(form) {
   
-  if (form.email.value.length > 0 && form.password.value.length > 0 && form.nombre.value.length > 0 && form.cedula.value.length > 0 && form.cargo.value.length > 0 && form.empresa.value != "-1" && data.servicios.length > 0) {
-    data = {};
-    data.email = form.email.value;
-    data.password = form.password.value;
-    data.tipo = 1;
+  if (form.nombre.value.length > 0 && form.nit.value.length > 0 && form.ciudad.value.length > 0 && document.getElementById("imgEmpresa").src.length > 0) {
     data.nombre = form.nombre.value;
-    data.idEmpresa = form.empresa.value;
-    data.cargo = form.cargo.value;
-    data.cedula = form.cedula.value;
+    data.nit = form.nit.value;
+    data.ciudad = form.ciudad.value;
+    data.logo = document.getElementById("imgEmpresa").src;
     
-    var usuarioManager = new UsuarioManagerHandler();
-    usuarioManager.insertarUsuario(data, function(rm) {
-      //console.log(rm);
+    var empresaManager = new EmpresaManager();
+    empresaManager.insertar(data, function(rm) {
+      console.log(rm);
       form.reset();
-      alert("Usuario Insertado");
+      document.getElementById("imgEmpresa").src = "";
+      document.getElementById("imgEmpresa").src = "";
+      alert("Empresa Insertada");
     }, function(rm) {
       console.log("Error");
       console.log(rm);
     });
     
   } else {
-    alert("Debe ingresar todos los campos y seleccionar por lo menos un servicio");
+    alert("Debe ingresar todos los campos.");
   }
   
-}
-
-function servicioChanged(id, control) {
-  if (control.checked) {
-    data.servicios.push(id);  
-  } else {
-    data.servicios = removeElementFromArray(data.servicios, id);
-  }
 }
 
 function removeElementFromArray(array, element) {

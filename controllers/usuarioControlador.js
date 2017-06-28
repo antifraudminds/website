@@ -5,10 +5,15 @@ var UsuarioControlador = function (routes) {
         path:"/usuario",
         type:"PUT",
         func: function (req,res) {
-            var usuario = new Usuario();
-            usuario.insertarUsuario(req.body, function(responseManager) {
-               res.send(responseManager); 
-            });
+            var session = req.session;
+            if (session.cliente) {
+                var usuario = new Usuario();
+                usuario.insertarUsuario(req.body, function(responseManager) {
+                    res.send(responseManager); 
+                });
+            } else {
+                res.send({error:"No authUser"});
+            }
         }
     });
     
@@ -16,10 +21,15 @@ var UsuarioControlador = function (routes) {
         path:"/usuario",
         type:"GET",
         func: function (req,res) {
-            var usuario = new Usuario();
-            usuario.obtenerUsuarios(function(responseManager) {
-               res.send(responseManager); 
-            });
+            var session = req.session;
+            if (session.cliente) {
+                    var usuario = new Usuario();
+                    usuario.obtenerUsuarios(function(responseManager) {
+                    res.send(responseManager); 
+                });
+            } else {
+                res.send({error:"No authUser"});
+            }
         }
     });
     

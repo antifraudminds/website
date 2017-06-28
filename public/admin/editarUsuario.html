@@ -77,11 +77,11 @@
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header" style="background-image: url(img/fondo.jpg);">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img id="logoPopup" src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  Seguros Bolivar
-                  <small>Bogot&aacute;</small>
+                  <label id="nombrePopup">Antifraud</label>
+                  <small id="ciudadPopup">Bogot&aacute;</small>
                 </p>
               </li>
               <!-- Menu Body -->
@@ -255,14 +255,14 @@
   }
   
   function renderData(cliente) {
+    $("#nombrePopup").html(cliente.nombre);
+    $("#ciudadPopup").html(cliente.ciudad);
+    $("#logoPopup").attr("src", cliente.logo);
     $("#nombre").html(cliente.nombre);
     $("#ciudad").html(cliente.ciudad);
     $("#logo").attr("src", cliente.logo);
     $(".user-image").attr("src", cliente.logo);
     $("#nombreMini").html(cliente.nombre);
-    $("#nombrePopup").html(cliente.nombre);
-    $("#ciudadPopup").html(cliente.ciudad);
-    $("#logoPopup").attr("src", cliente.logo);
   }
  
  function loadServicios() {

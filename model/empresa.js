@@ -31,15 +31,10 @@ var Empresa = function () {
     }
     
     this.insertar = function (data, prevIdEmpresa,responseCallback) {
-        //insertar Usuario
-        var usuario = new Usuario();
-        usuario.insertarUsuario(data.usuarioData, function (rm) {
-           var idUsuario = rm.object;
-           data.idUsuario = idUsuario;
-           instance.crearConexion(function (connection) {
+        
+        instance.crearConexion(function (connection) {
             //console.log(connection);
             if (connection) {
-                
                 var sqlInsert = "CALL InsertarEmpresa('"+data.nombre+"','"+data.nit+"','"+data.ciudad+"','"+data.logo+"', "+data.idUsuario+")";
                 console.log(sqlInsert);
                 connection.query(sqlInsert, function(err, rows) {
@@ -50,72 +45,16 @@ var Empresa = function () {
                            responseCallback(responseManager);
                         } else {
                             console.log("Empresa Insertada");
-                            var shouldInsertDenuncia = false;
-                            if (data.servicios.length > 0) {
-                                var indexServicioDenuncia = data.servicios.indexOf(7);
-                                if (indexServicioDenuncia != -1) {
-                                    data.servicios = removeFromArray(indexServicioDenuncia, data.servicios);
-                                    shouldInsertDenuncia = true;
-                                }
-                                if (data.servicios.length > 0) {
-                                    insertarServiciosAEmpresas(rows[0][0].id, data.servicios, function () {
-                                        if (shouldInsertDenuncia) {
-                                            
-                                                data.usuarioData.password = Math.random().toString(36).slice(-22);
-                                                data.servicios = [7];
-                                                instance.insertar(data, rows[0][0].id,responseCallback);    
-                                        } else {
-                                            responseManager.error = "NO_ERROR";
-                                            responseManager.object = data;
-                                            responseCallback(responseManager);
-                                        }
-                                    });
-                                } else {
-                                    insertarServiciosAEmpresas(rows[0][0].id, [7], function () {
-                                        setEmpresaDenuncia(prevIdEmpresa, rows[0][0].id, function () {
-                                            responseManager.error = "NO_ERROR";
-                                            responseManager.object = data;
-                                            responseCallback(responseManager);    
-                                        });
-                                    });
-                                }
-                            }
+                            responseManager.error = "NO_ERROR";
+                            responseManager.object = data;
+                            responseCallback(responseManager);
                         }
-                     
                     });
                 }
             });
-        });
-        
     }
     
-    function setEmpresaDenuncia(idEmpresa, valor, callback) {
-        instance.crearConexion(function (connServicios) {
-            connServicios.query("CALL SetEmpresaDenuncia(" + idEmpresa + ", " + valor + ");", function(err, rows) {
-                callback();
-            });
-        });
-    }
     
-    function insertarServiciosAEmpresas(idEmpresa, servicios, callback) {
-        instance.crearConexion(function (connServicios) {
-            var sqlInsertEmpresas = "CALL InsertarServiciosAEmpresas ("+idEmpresa+",'"+servicios.join(",")+"')";
-            connServicios.query(sqlInsertEmpresas, function (err, rows) {
-                callback();
-            });
-        });
-    }
-    
-    function removeFromArray(indexToDelete, array) {
-        var newArray = new Array();
-        array[indexToDelete] = null;
-        for (var index = 0;index < array.length; index++) {
-            if (array[index] != null) {
-                newArray.push(array[index]);
-            }
-        }
-        return newArray;
-    }
     
     this.update = function (data, responseCallback) {
         
