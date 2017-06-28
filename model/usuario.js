@@ -92,7 +92,7 @@ var Usuario = function () {
     this.authUser = function (userAuthData, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
-                var sql = "select e.*,u.email,u.tipo from usuarios as u, Empresas as e where u.email = '" + userAuthData.email + "' and u.password = '"+userAuthData.password+"' and u.id = e.idUsuario";
+                var sql = "CALL AuthUser('" + userAuthData.email + "', '"+userAuthData.password+"');";
                 console.log(sql);
                 connection.query(sql, function(err, rows) {
                     var responseManager = new ResponseManager();
@@ -103,7 +103,7 @@ var Usuario = function () {
                             responseManager.error = "Usuario o password incorrecto";
                         } else {
                            responseManager.error = "NO_ERROR";
-                           responseManager.object = rows[0]; 
+                           responseManager.object = rows[0][0]; 
                         }
                     }
                     responseCallback(responseManager);
