@@ -136,9 +136,12 @@
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <div class="mailbox-read-info">
+                <h3 id="numSolicitud">No. Solicitud</h3></br>
                 <h3 id="servicio">Servicio 1</h3>
+                <h3 id="estadoDenuncia"></h3>
                 <h5><label id="nombre"></label>
                   <span class="mailbox-read-time pull-right" id="fecha">15 Feb. 2016 11:03 PM</span></h5>
+                  <span class="mailbox-read-time pull-right" id="fechaRespuesta">15 Feb. 2016 11:03 PM</span></h5>
               </div>
               <!-- /.mailbox-read-info -->
               <div class="mailbox-controls with-border text-center">
@@ -431,15 +434,25 @@ function loadSolicitud(idSolicitud) {
 function renderSolicitudes(solicitud) {
   console.log(solicitud);
   currentSolicitud = solicitud;
-   
+  
+  $("#numSolicitud").html("No. Solicitud: " + solicitud.numeroSolicitud);
   $("#servicio").html("Servicio: " + solicitud.nombreServicio);
   $("#nombre").html(solicitud.nombre);
   $("#fecha").html(formatFecha(solicitud.fecha));
+  $("#fechaRespuesta").html(solicitud.fechaRespuesta.length > 6 ? formatFecha(solicitud.fechaRespuesta) : "No hay Respuesta");
   $("#textRequerimiento").html(solicitud.textRequerimiento);
-  
-  var extArchivo = solicitud.urlArchivo.split(".")[1];
-  var archivoHTMLStr = '<li><span class="mailbox-attachment-icon"><i class="fa fa-file-'+extArchivo+'-o"></i></span><div class="mailbox-attachment-info"><a class="mailbox-attachment-name" href="#"><i class="fa fa-paperclip"></i> '+solicitud.urlArchivo+'</a><span class="mailbox-attachment-size"><a href="'+solicitud.urlArchivo+'" target="_blank" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a></span></div></li>';
-  $("#archivos").html(archivoHTMLStr);
+  if (solicitud.idServicio == 7) {
+    $("#estadoDenuncia").html("Estado Denuncia:" + solicitud.estadoDenuncia);
+  } else {
+    $("#estadoDenuncia").hide();
+  }
+  if (solicitud.urlArchivo.length > 0) {
+    var extArchivo = solicitud.urlArchivo.split(".")[1];
+    var archivoHTMLStr = '<li><span class="mailbox-attachment-icon"><i class="fa fa-file-'+extArchivo+'-o"></i></span><div class="mailbox-attachment-info"><a class="mailbox-attachment-name" href="#"><i class="fa fa-paperclip"></i> '+solicitud.urlArchivo+'</a><span class="mailbox-attachment-size"><a href="'+solicitud.urlArchivo+'" target="_blank" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a></span></div></li>';
+    $("#archivos").html(archivoHTMLStr);
+  } else {
+    $("#archivos").hide();
+  }
   loadRespuestas(solicitud);
 }
 
@@ -512,9 +525,9 @@ function getParameterByName(name, url) {
         
         function formatFecha(fecha) {
             console.log(fecha.split("T")[0]);
-            var date = new Date(fecha.split("T")[0]+"Z");
-            date = new Date(date.getTime() + 86400000);
-            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear();
+            var date = new Date(fecha);
+            //date = new Date(date.getTime() + 86400000);
+            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " | " + fixZero(date.getHours()) + ":" + fixZero(date.getMinutes()) + ":" + fixZero(date.getSeconds());
         }
         
         function meses(mes) {

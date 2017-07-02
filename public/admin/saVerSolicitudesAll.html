@@ -421,12 +421,12 @@ function loadSolicitudes() {
 
 function renderSolicitudes(solicitudes) {
   var tableContentSolicitudes = document.getElementById("contentSolicitudes");
-  var contentStr = '<tr><th></th><th class="mailbox-star">Item</th><th class="mailbox-name">Nombre</th><th class="mailbox-subject">No. Solicitud</th><th class="mailbox-subject">Titulo</th><th class="mailbox-attachment">Archivos Adjuntos</th><th class="mailbox-date">Fecha</th></tr>';
+  var contentStr = '<tr><th></th><th class="mailbox-star">Item</th><th class="mailbox-name">Nombre</th><th class="mailbox-subject">No. Solicitud</th><th class="mailbox-subject">Titulo</th><th class="mailbox-attachment">Archivos Adjuntos</th><th class="mailbox-date">Fecha Creaci&oacute;n</th><th class="mailbox-date">Fecha &Uacute;ltima respuesta</th></tr>';
   tableContentSolicitudes.innerHTML = contentStr;
   for (var i = 0; i < solicitudes.length; i++) {
     var solicitud = solicitudes[i];
     var fileAttachment = solicitud.urlArchivo.length > 0 ? '<a href="'+solicitud.urlArchivo+'" target="_blank"><i class="fa fa-paperclip"></i></a>' : '';
-    contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name"><a href="saVerSolicitud.html?idSolicitud='+solicitud.id+'">'+solicitud.nombre+'</a></td><td class="mailbox-subject">'+solicitud.numeroSolicitud+'</td><td class="mailbox-subject">'+solicitud.tituloSolicitud+'</td><td class="mailbox-attachment">' + fileAttachment +  '</td><td class="mailbox-date">'+formatFecha(solicitud.fecha)+'</td></tr>';
+    contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name"><a href="saVerSolicitud.html?idSolicitud='+solicitud.id+'">'+solicitud.nombre+'</a></td><td class="mailbox-subject">'+solicitud.numeroSolicitud+'</td><td class="mailbox-subject">'+solicitud.tituloSolicitud+'</td><td class="mailbox-attachment">' + fileAttachment +  '</td><td class="mailbox-date">'+formatFecha(solicitud.fecha)+'</td><td class="mailbox-date">'+formatFecha(solicitud.fechaRespuesta)+'</td></tr>';
   }
   tableContentSolicitudes.innerHTML = contentStr;
   /**
