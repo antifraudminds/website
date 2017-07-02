@@ -87,7 +87,7 @@ var Solicitud = function () {
     
     function insertarRespuestaSolicitud(respuestaData, responseCallback) {
         instance.crearConexion(function (connection) {
-           var sql = "CALL InsertarRespuestaPeticionServicio(" + respuestaData.idSolicitud + ", " + respuestaData.idEmpresa + "," + respuestaData.idServicio + ",'" + respuestaData.textRequerimiento + "','" + respuestaData.urlArchivo + "','" + respuestaData.tituloSolicitud + "')"; 
+           var sql = "CALL InsertarRespuestaPeticionServicio(" + respuestaData.idSolicitud + ", " + respuestaData.idEmpresa + "," + respuestaData.idServicio + ",'" + respuestaData.textRequerimiento + "','" + respuestaData.urlArchivo + "','" + respuestaData.tituloSolicitud + "'," + respuestaData.estadoDenuncia + ")"; 
            console.log(sql);
            connection.query(sql, function (err, rows) {
                var responseManager = new ResponseManager();
