@@ -132,7 +132,7 @@ var Usuario = function () {
                         
                     } else {
                         responseManager.error = "NO_ERROR";
-                        responseManager.object = rows[0];
+                        responseManager.object = rows[0][0];
                     }
                     responseCallback(responseManager);
                 });
@@ -166,7 +166,7 @@ var Usuario = function () {
     this.borrarUsuario = function (idUsuario, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
-                connection.query("delete from usuarios where id = " + idUsuario, function(err, rows) {
+                connection.query("CALL EliminarUsuario(" + idUsuario + ")", function(err, rows) {
                     var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
