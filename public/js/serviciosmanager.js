@@ -97,6 +97,31 @@
         });
      }
      
+     this.getServiciosByUsuario = function (id, callBackUpdated, callBackError) {
+     
+         $.ajax({
+            url: '/servicio/get/usuario/' + id,
+            type: 'GET', //Hace un update - Por definición insert ó update.
+            beforeSend: function (request) {
+                request.setRequestHeader( "manager-method","ClienteManager");
+            },
+            dataType   : 'json',
+            contentType: 'application/json',
+            success: function(responseManagerJson) {
+                var responseManager = new ResponseManager(responseManagerJson);
+                if (responseManager.getError() == "NO_ERROR") {
+                    if (callBackUpdated) {
+                        callBackUpdated(responseManager);
+                    }
+                } else {
+                    if (callBackError) {
+                        callBackError(responseManager);
+                    }
+                }
+            }
+        });
+     }
+     
      this.getAll = function (callBackUpdated, callBackError) {
      
          $.ajax({

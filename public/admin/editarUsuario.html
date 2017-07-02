@@ -134,29 +134,11 @@
             <!-- form start -->
             <form id="formu" onsubmit="updateUser(this);return false;">
               <div class="box-body">
-                  <div class="form-group">
-                    <label>Datos de la Empresa</label>
-                    <input class="form-control" type="text" name="nombre" placeholder="Nombre de la Empresa">
-                  </div>
-                   <div class="form-group">
-                    <input  name="nit" type='text' class="form-control" placeholder="NIT o Rason Social">
-                  </div>
-                  <div class="form-group">
-                  <select class="form-control select2" style="width: 100%; border-radius:none;" name="ciudad">
-                    <option selected="selected">Seleccione una ciudad</option>
-                    <option>Bogot&aacute;</option>
-                    <option>C&uacute;cuta</option>
-                    <option>Medell&iacute;n</option>
-                    <option>Cartagena</option>
-                  </select>
-                </div>
                 
-                <div class="form-group">
-                  <label for="exampleInputFile">Ingresar logo de la Empresa</label>
-                  <input type="file" id="fileImgEmpresa" onchange="previewFile()">
-                  <img id="imgEmpresa"/>
-
-                  <p class="help-block">La imagen debe tener una resoluci&oacute;n de 128px X 128px</p>
+                <div class="box-body">
+                <select class="form-control select2" style="width: 100%; border-radius:none;" name="empresa" id="empresa">
+                    <option selected="selected" value="-1">Seleccione una Empresa</option>
+                  </select>
                 </div>
                 <div class="form-group">
                   <div style="height: 100px;">
@@ -170,6 +152,23 @@
                       
                     </div>
                   </div>
+                </div>
+                
+                <div class="form-group">
+                  <label for="nombre">Nombre</label>
+                  <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre">
+                </div>
+                <div class="form-group">
+                  <label for="cedula">C&eacute;dula</label>
+                  <input class="form-control" type="text" name="cedula" id="cedula" placeholder="C&eacute;dula">
+                </div>
+                <div class="form-group">
+                  <label for="cargo">Cargo</label>
+                  <input class="form-control" type="text" name="cargo" id="cargo" placeholder="Cargo">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Correo El&eacute;ctronico</label>
+                  <input class="form-control" type="text" name="email" id="exampleInputPassword1" placeholder="Correo El&eacute;ctronico">
                 </div>
               
               <div class="box-footer">
@@ -291,77 +290,63 @@
     }
     serviciosContainer.html(serviciosHtmlString);
     setTimeout(function () {
-      loadEmpresa(getParameterByName("idEmpresa"));  
+      loadUsuario(getParameterByName("idUsuario"));
     }, 500);
     
   }
  
- function loadEmpresa(idEmpresa) {
-   var empresaManager = new EmpresaManager();
-   empresaManager.get(idEmpresa, function (rm) {
+ function loadUsuario(id) {
+   empresasMap = [];
+   var usuarioManager = new UsuarioManagerHandler();
+   usuarioManager.getUsuario(id, function (rm) {
      console.log(rm);
-     fillForm(rm.getObject());
+     renderUsuario(rm.getObject());
    },
    function (rm){
      console.log(rm);
    });
  }
  
-  function cadena() {
-    
-    dataPass();
-    
-  }  
-  
-  function dataPass (){
-    
-      var caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";    //caracteres válidos
-      var palabra = "";
-      var n = 8;
-      for (var i = 0; i < n; i++) {
-          palabra += caracteres[ Math.floor(Math.random() * caracteres.length) ];
-      }
-       
-      
-      $('#contrasena').val(palabra);
-  }
-  
-  function previewFile() {
-  var preview = document.getElementById("imgEmpresa");
-  var file    = document.getElementById("fileImgEmpresa").files[0];
-  var reader  = new FileReader();
-
-  reader.onloadend = function () {
-    preview.onload = function() {
-      if (preview.clientWidth != 128 || preview.clientHeight != 128) {
-        alert("La imagen no cumple con las caracteristicas");
-        preview.onload = null;
-        preview.src = "";
-      }
-    }
-    preview.src = reader.result;
-    
-  }
-
-  if (file) {
-    reader.readAsDataURL(file);
-  } else {
-    preview.src = "";
-  }
-}
-
-function fillForm(empresa) {
-  data.idEmpresa = empresa.id;
-  data.idUsuarioDenuncia = empresa.idUsuarioDenuncia;
-  data.email = empresa.email;
-  data.tipo = empresa.tipo;
-  var form = document.getElementById("formu");
-  form.nombre.value = empresa.nombre;
-  form.nit.value = empresa.nit;
-  document.getElementById("imgEmpresa").src = empresa.logo;
-  seleccionarCiudad(form, empresa.ciudad);
-  var servicioManager = new ServiciosManager();
-    servicioManager.getServiciosByEmpresa(empresa.id, function (rm) {
+ function renderUsuario(usuario) {
+   var form = document.getElementById("formu");
+   data.id = usuario.id;
+   form.nombre.value =  data.nombre = usuario.nombre;
+   form.email.value =  data.email = usuario.email;
+   form.cedula.value =  data.cedula = usuario.cedula;
+   form.cargo.value =  data.cargo = usuario.cargo;
+   data.idEmpresa = usuario.idEmpresa;
+   loadEmpresas(usuario.idEmpresa);
+ }
+ 
+ function loadEmpresas(idEmpresa) {
+   var empresaManager = new EmpresaManager();
+   empresaManager.getAllEmpresas(function (rm) {
+     console.log(rm);
+     renderEmpresasCombo(rm.getObject(), idEmpresa);
+   },
+   function (rm){
+     console.log(rm);
+   });
+ }
+ 
+ function renderEmpresasCombo(empresas, idEmpresa) {
+   var comboEmpresas = document.getElementById("empresa");
+   for (var i = 0; i < empresas.length; i++) {
+     var empresa = empresas[i];
+     var option = document.createElement("option");
+     option.setAttribute("value", empresa.id);
+     option.innerHTML = empresa.nombre;
+     if (empresa.id == idEmpresa) {
+       option.setAttribute("selected", "selected");
+     }
+     comboEmpresas.appendChild(option);
+   }
+   fillServicios(getParameterByName("idUsuario"));
+ }
+ 
+function fillServicios(idUsuario) {
+ var servicioManager = new ServiciosManager();
+    servicioManager.getServiciosByUsuario(idUsuario, function (rm) {
       //renderServicios(rm.getObject());
       checkServicios(rm.getObject());
     }, function (rm) {
@@ -378,28 +363,19 @@ function checkServicios(servicios) {
   }
 }
 
-function seleccionarCiudad(form, ciudad) {
-  var combo = form.ciudad;
-  for (var i = 0; i < combo.options.length; i++) {
-    var option = combo.options[i];
-    if (option.innerHTML == ciudad) {
-      option.setAttribute("selected","selected");
-      break;
-    }
-  }
-}
 
 function updateUser(form) {
-  if (form.nombre.value.length > 0 && form.nit.value.length > 0 && form.ciudad.value.length > 0 && document.getElementById("imgEmpresa").src.length > 0 && data.servicios.length > 0) {
+  if (form.nombre.value.length > 0 && form.email.value.length > 0 && form.cedula.value.length > 0 && form.cargo.value.length > 0 && form.empresa.value != "-1" && data.servicios.length > 0) {
     data.nombre = form.nombre.value;
-    data.nit = form.nit.value;
-    data.ciudad = form.ciudad.value;
-    data.logo = document.getElementById("imgEmpresa").src;
+    data.email = form.email.value;
+    data.idEmpresa = form.empresa.value;
+    data.cargo = form.cargo.value;
+    data.cedula = form.cedula.value;
     
-    var empresaManager = new EmpresaManager();
-    empresaManager.update(data, function(rm) {
+    var usuarioManager = new UsuarioManagerHandler();
+    usuarioManager.update(data, function(rm) {
       console.log(rm);
-      alert("Empresa Actualizada");
+      alert("Usuario Actualizado");
       window.location.href = "verUsuario.html";
     }, function(rm) {
       console.log("Error");

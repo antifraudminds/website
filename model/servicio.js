@@ -124,6 +124,22 @@ var Servicio = function () {
         });
     }
     
+    this.getServiciosByUsuario = function (idUsuario, responseCallback) {
+        instance.crearConexion(function (connection) {
+            connection.query("CALL GetServiciosByUsuario(" + idUsuario + ")", function (err, rows) {
+                var responseManager = new ResponseManager();
+                    if (err) {
+                        responseManager.error = err;
+                        
+                    } else {
+                        responseManager.error = "NO_ERROR";
+                        responseManager.object = rows[0];
+                    }
+                    responseCallback(responseManager);
+            });
+        });
+    }
+    
     this.delete = function (id, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {

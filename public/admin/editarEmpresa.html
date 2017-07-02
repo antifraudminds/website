@@ -39,6 +39,7 @@
   
   <script  type="text/javascript" src="js/jquery.min.js"></script>
   <script  type="text/javascript" src="js/bootstrap.min.js"></script>
+  <script  type="text/javascript" src="js/login.js"></script>
   <script  type="text/javascript" src="js/users.js"></script>
   <script  type="text/javascript" src="../js/responsemanager.js"></script>
   <script  type="text/javascript" src="../js/usuariomanager.js"></script>
@@ -52,7 +53,7 @@
 
   <header class="main-header">
     <!-- Logo -->
-    <a href="indexAdmin.html" class="logo" style="background-color: #656463;">
+   <a href="indexAdmin.html" class="logo" style="background-color: #656463;">
       <!-- mini logo for sidebar mini 50x50 pixels -->
       <span class="logo-mini"><b>A</b>M</span>
       <!-- logo for regular state and mobile devices -->
@@ -70,8 +71,8 @@
           
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user1-128x128.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs">Antifraud Minds</span>
+              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs">Seguros Bolivar</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -91,7 +92,7 @@
                   
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-primary btn-flat" onclick="logout();">Cerrar Sesi&oacute;n</a>
+                  <a href="#" class="btn btn-primary btn-flat">Cerrar Sesi&oacute;n</a>
                 </div>
               </li>
             </ul>
@@ -112,12 +113,12 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Crear
+        Editar
         <small>Usuario</small>
       </h1>
       <ol class="breadcrumb">
         <li><i class="fa fa-dashboard">: </i>Inicio</li>
-        <li class="active">Crear Usuario</li>
+        <li class="active">Editar Usuario</li>
       </ol>
     </section>
 
@@ -127,19 +128,39 @@
           <!-- Widget: user widget style 1 -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Nuevo Usuario</h3>
+              <h3 class="box-title">Editar Usuario</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
-            <form id="formu" onsubmit="createUser(this);return false;">
+            <form id="formu" onsubmit="updateUser(this);return false;">
               <div class="box-body">
-                <select class="form-control select2" style="width: 100%; border-radius:none;" name="empresa" id="empresa">
-                    <option selected="selected" value="-1">Seleccione una Empresa</option>
+                  <div class="form-group">
+                    <label>Datos de la Empresa</label>
+                    <input class="form-control" type="text" name="nombre" placeholder="Nombre de la Empresa">
+                  </div>
+                   <div class="form-group">
+                    <input  name="nit" type='text' class="form-control" placeholder="NIT o Rason Social">
+                  </div>
+                  <div class="form-group">
+                  <select class="form-control select2" style="width: 100%; border-radius:none;" name="ciudad">
+                    <option selected="selected">Seleccione una ciudad</option>
+                    <option>Bogot&aacute;</option>
+                    <option>C&uacute;cuta</option>
+                    <option>Medell&iacute;n</option>
+                    <option>Cartagena</option>
                   </select>
+                </div>
+                
+                <div class="form-group">
+                  <label for="exampleInputFile">Ingresar logo de la Empresa</label>
+                  <input type="file" id="fileImgEmpresa" onchange="previewFile()">
+                  <img id="imgEmpresa"/>
+
+                  <p class="help-block">La imagen debe tener una resoluci&oacute;n de 128px X 128px</p>
                 </div>
                 <div class="form-group">
                   <div style="height: 100px;">
-                    <div style="margin-left:0px; font-weight: 700;">Seleccionar servicios</div>
+                    <div style="margin-left:0px; font-weight: 700;">Selecionar servicios</div>
                     <div id="serviciosContainer">
                       <div class="checkbox" style="float:left;">
                         <label>
@@ -150,30 +171,9 @@
                     </div>
                   </div>
                 </div>
-                <div class="form-group">
-                  <label for="nombre">Nombre</label>
-                  <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre">
-                </div>
-                <div class="form-group">
-                  <label for="cedula">C&eacute;dula</label>
-                  <input class="form-control" type="text" name="cedula" id="cedula" placeholder="C&eacute;dula">
-                </div>
-                <div class="form-group">
-                  <label for="cargo">Cargo</label>
-                  <input class="form-control" type="text" name="cargo" id="cargo" placeholder="Cargo">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputPassword1">Correo El&eacute;ctronico</label>
-                  <input class="form-control" type="text" name="email" id="exampleInputPassword1" placeholder="Correo El&eacute;ctronico">
-                </div>
-                <div class="form-group">
-                  <div style="margin-left:0px; font-weight: 700;">Contrase&ntilde;a</div>
-                  <input class="form-control" name="password" id="contrasena"  style="float:left;" placeholder="Contraseña" disabled>
-                  <a onclick="cadena();"  style="float:left;margin-top: 16px;" class="btn btn-primary" >Generar Contraseña</a>
-                 
-                </div>
+              
               <div class="box-footer">
-                <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                <button type="submit" class="btn btn-primary">Editar Usuario</button>
               </div>
             </form>
           </div>
@@ -237,7 +237,6 @@
 <script src="dist/js/pages/dashboard.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="dist/js/demo.js"></script>
-<script  type="text/javascript" src="js/login.js"></script>
 
 <script type="text/javascript">
   var data = {};
@@ -245,7 +244,6 @@
   
   $(document).ready(function() {
     loadServicios();
-    loadEmpresas();
     isLogued();
   });
   
@@ -266,12 +264,8 @@
     $(".user-image").attr("src", cliente.logo);
     $("#nombreMini").html(cliente.nombre);
   }
-  
-  postLogout = function (data) {
-    window.location.href = "/admin/index.html";
-  }
-  
-  function loadServicios() {
+ 
+ function loadServicios() {
     var servicioManager = new ServiciosManager();
     servicioManager.getAll(function (rm) {
       renderServicios(rm.getObject());
@@ -290,46 +284,29 @@
     for (var index = 0; index < servicios.length; index++) {
       var servicio = servicios[index];
       if (serviciosHtmlString.length <= 0) {
-        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
       } else {
-        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
       }
     }
     serviciosContainer.html(serviciosHtmlString);
+    setTimeout(function () {
+      loadEmpresa(getParameterByName("idEmpresa"));  
+    }, 500);
+    
   }
-  
-  function loadServicios() {
-    var servicioManager = new ServiciosManager();
-    servicioManager.getAll(function (rm) {
-      renderServicios(rm.getObject());
-    }, function (rm) {
-      console.log(rm);
-    });
-  }
-  
-  function loadEmpresas() {
+ 
+ function loadEmpresa(idEmpresa) {
    var empresaManager = new EmpresaManager();
-   empresaManager.getAllEmpresas(function (rm) {
+   empresaManager.get(idEmpresa, function (rm) {
      console.log(rm);
-     renderEmpresasCombo(rm.getObject());
+     fillForm(rm.getObject());
    },
    function (rm){
      console.log(rm);
    });
  }
  
- function renderEmpresasCombo(empresas) {
-   var comboEmpresas = document.getElementById("empresa");
-   for (var i = 0; i < empresas.length; i++) {
-     var empresa = empresas[i];
-     var option = document.createElement("option");
-     option.setAttribute("value", empresa.id);
-     option.innerHTML = empresa.nombre;
-     comboEmpresas.appendChild(option);
-     
-   }
- }
-  
   function cadena() {
     
     dataPass();
@@ -373,22 +350,57 @@
   }
 }
 
-function createUser(form) {
+function fillForm(empresa) {
+  data.idEmpresa = empresa.id;
+  data.idUsuarioDenuncia = empresa.idUsuarioDenuncia;
+  data.email = empresa.email;
+  data.tipo = empresa.tipo;
+  var form = document.getElementById("formu");
+  form.nombre.value = empresa.nombre;
+  form.nit.value = empresa.nit;
+  document.getElementById("imgEmpresa").src = empresa.logo;
+  seleccionarCiudad(form, empresa.ciudad);
+  var servicioManager = new ServiciosManager();
+    servicioManager.getServiciosByEmpresa(empresa.id, function (rm) {
+      //renderServicios(rm.getObject());
+      checkServicios(rm.getObject());
+    }, function (rm) {
+      console.log(rm);
+    });
   
-  if (form.email.value.length > 0 && form.password.value.length > 0 && form.nombre.value.length > 0 && form.cedula.value.length > 0 && form.cargo.value.length > 0 && form.empresa.value != "-1" && data.servicios.length > 0) {
-    data.email = form.email.value;
-    data.password = form.password.value;
-    data.tipo = 1;
+}
+
+function checkServicios(servicios) {
+  for (var i = 0; i < servicios.length; i++) {
+    var servicio = servicios[i];
+    data.servicios.push(servicio.id);
+    document.getElementById("servicio"+servicio.id).checked = true;
+  }
+}
+
+function seleccionarCiudad(form, ciudad) {
+  var combo = form.ciudad;
+  for (var i = 0; i < combo.options.length; i++) {
+    var option = combo.options[i];
+    if (option.innerHTML == ciudad) {
+      option.setAttribute("selected","selected");
+      break;
+    }
+  }
+}
+
+function updateUser(form) {
+  if (form.nombre.value.length > 0 && form.nit.value.length > 0 && form.ciudad.value.length > 0 && document.getElementById("imgEmpresa").src.length > 0 && data.servicios.length > 0) {
     data.nombre = form.nombre.value;
-    data.idEmpresa = form.empresa.value;
-    data.cargo = form.cargo.value;
-    data.cedula = form.cedula.value;
+    data.nit = form.nit.value;
+    data.ciudad = form.ciudad.value;
+    data.logo = document.getElementById("imgEmpresa").src;
     
-    var usuarioManager = new UsuarioManagerHandler();
-    usuarioManager.insertarUsuario(data, function(rm) {
-      //console.log(rm);
-      form.reset();
-      alert("Usuario Insertado");
+    var empresaManager = new EmpresaManager();
+    empresaManager.update(data, function(rm) {
+      console.log(rm);
+      alert("Empresa Actualizada");
+      window.location.href = "verUsuario.html";
     }, function(rm) {
       console.log("Error");
       console.log(rm);
@@ -417,13 +429,17 @@ function removeElementFromArray(array, element) {
   }  
   return newarray;
 }
-function toogleMenu() {
-  if ($(".dropdown-menu").is(":hidden")) {
-    $(".dropdown-menu").show();  
-  } else {
-    $(".dropdown-menu").hide();
-  }
-}
+
+function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
 
 </script>
 </body>

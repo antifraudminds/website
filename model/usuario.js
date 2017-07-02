@@ -62,6 +62,39 @@ var Usuario = function () {
         });
     }
     
+    this.modificarUsuario = function (data, responseCallback) {
+        instance.crearConexion(function (connection) {
+            //console.log(connection);
+            if (connection) {
+                //var sqlInsertUsuario = "insert into usuarios (nombre,email,password, tipo) values ('"+usuarioData.nombres+"','"+usuarioData.email+"','"+usuarioData.password+"', "+usuarioData.tipo+")";
+                var sqlUpdateUsuario = "CALL ModificarUsuario("+data.id+",'"+data.nombre+"','"+data.email+"','"+data.password+"', "+data.tipo+",'"+data.cargo+"','"+data.cedula+"',"+data.idEmpresa+")";
+                console.log("Modificando Usuario");
+                console.log(sqlUpdateUsuario);//muestro la consulta para ver que esta saliendo mal.....
+                connection.query(sqlUpdateUsuario, function(err, rows) {
+                    var responseManager = new ResponseManager();
+                    if (err) {
+                        responseManager.error = err;
+                        console.log(responseManager.error);
+                        responseCallback(responseManager);
+                    } else {
+                        var idUsuario = data.id;
+                        if (data.servicios.length > 0) {
+                         insertarServiciosAUsuario(idUsuario, data.servicios, function () {
+                                responseManager.error = "NO_ERROR";
+                                responseManager.object = data;
+                                responseCallback(responseManager);
+                            });
+                        } else {
+                            responseManager.error = "NO_ERROR";
+                            responseManager.object = data;
+                            responseCallback(responseManager);
+                        }
+                    }
+                });
+            }
+        });
+    }
+    
     function insertarServiciosAUsuario(idUsuario, servicios, callback) {
         instance.crearConexion(function (connServicios) {
             var sqlInsertServicios = "CALL InsertarServiciosAUsuario ("+idUsuario+",'"+servicios.join(",")+"')";
@@ -75,6 +108,24 @@ var Usuario = function () {
         instance.crearConexion(function (connection) {
             if (connection) {
                 connection.query("CALL GetUsuarios()", function(err, rows) {
+                    var responseManager = new ResponseManager();
+                    if (err) {
+                        responseManager.error = err;
+                        
+                    } else {
+                        responseManager.error = "NO_ERROR";
+                        responseManager.object = rows[0];
+                    }
+                    responseCallback(responseManager);
+                });
+            }
+        });
+    }
+    
+    this.obtenerUsuario = function (id, responseCallback) {
+        instance.crearConexion(function (connection) {
+            if (connection) {
+                connection.query("CALL GetUsuario("+id+")", function(err, rows) {
                     var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;

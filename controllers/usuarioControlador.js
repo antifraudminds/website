@@ -19,12 +19,44 @@ var UsuarioControlador = function (routes) {
     
     routes.push({
         path:"/usuario",
+        type:"POST",
+        func: function (req,res) {
+            var session = req.session;
+            if (session.cliente) {
+                var usuario = new Usuario();
+                usuario.modificarUsuario(req.body, function(responseManager) {
+                    res.send(responseManager); 
+                });
+            } else {
+                res.send({error:"No authUser"});
+            }
+        }
+    });
+    
+    routes.push({
+        path:"/usuario",
         type:"GET",
         func: function (req,res) {
             var session = req.session;
             if (session.cliente) {
                     var usuario = new Usuario();
                     usuario.obtenerUsuarios(function(responseManager) {
+                    res.send(responseManager); 
+                });
+            } else {
+                res.send({error:"No authUser"});
+            }
+        }
+    });
+    
+    routes.push({
+        path:"/usuario/get/:id",
+        type:"GET",
+        func: function (req,res) {
+            var session = req.session;
+            if (session.cliente) {
+                    var usuario = new Usuario();
+                    usuario.obtenerUsuario(req.params.id, function(responseManager) {
                     res.send(responseManager); 
                 });
             } else {
