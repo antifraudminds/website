@@ -243,7 +243,7 @@
   data.servicios = [];
   
   $(document).ready(function() {
-    loadServicios();
+    loadEmpresa(getParameterByName("idEmpresa"));
     isLogued();
   });
   
@@ -265,37 +265,6 @@
     $("#nombreMini").html(cliente.nombre);
   }
  
- function loadServicios() {
-    var servicioManager = new ServiciosManager();
-    servicioManager.getAll(function (rm) {
-      renderServicios(rm.getObject());
-    }, function (rm) {
-      console.log(rm);
-    });
-  }
-  
-  function renderServicios(servicios) {
-    /*
-    <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged(2, this);"> Gesti&oacute;</label></div>    
-    */
-    var serviciosContainer = $("#serviciosContainer");
-    serviciosContainer.html("");
-    var serviciosHtmlString = "";
-    for (var index = 0; index < servicios.length; index++) {
-      var servicio = servicios[index];
-      if (serviciosHtmlString.length <= 0) {
-        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
-      } else {
-        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
-      }
-    }
-    serviciosContainer.html(serviciosHtmlString);
-    setTimeout(function () {
-      loadEmpresa(getParameterByName("idEmpresa"));  
-    }, 500);
-    
-  }
- 
  function loadEmpresa(idEmpresa) {
    var empresaManager = new EmpresaManager();
    empresaManager.get(idEmpresa, function (rm) {
@@ -306,25 +275,6 @@
      console.log(rm);
    });
  }
- 
-  function cadena() {
-    
-    dataPass();
-    
-  }  
-  
-  function dataPass (){
-    
-      var caracteres = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";    //caracteres válidos
-      var palabra = "";
-      var n = 8;
-      for (var i = 0; i < n; i++) {
-          palabra += caracteres[ Math.floor(Math.random() * caracteres.length) ];
-      }
-       
-      
-      $('#contrasena').val(palabra);
-  }
   
   function previewFile() {
   var preview = document.getElementById("imgEmpresa");
@@ -360,22 +310,6 @@ function fillForm(empresa) {
   form.nit.value = empresa.nit;
   document.getElementById("imgEmpresa").src = empresa.logo;
   seleccionarCiudad(form, empresa.ciudad);
-  var servicioManager = new ServiciosManager();
-    servicioManager.getServiciosByEmpresa(empresa.id, function (rm) {
-      //renderServicios(rm.getObject());
-      checkServicios(rm.getObject());
-    }, function (rm) {
-      console.log(rm);
-    });
-  
-}
-
-function checkServicios(servicios) {
-  for (var i = 0; i < servicios.length; i++) {
-    var servicio = servicios[i];
-    data.servicios.push(servicio.id);
-    document.getElementById("servicio"+servicio.id).checked = true;
-  }
 }
 
 function seleccionarCiudad(form, ciudad) {
@@ -400,7 +334,7 @@ function updateUser(form) {
     empresaManager.update(data, function(rm) {
       console.log(rm);
       alert("Empresa Actualizada");
-      window.location.href = "verUsuario.html";
+      window.location.href = "verEmpresas.html";
     }, function(rm) {
       console.log("Error");
       console.log(rm);

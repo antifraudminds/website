@@ -71,44 +71,9 @@ var Empresa = function () {
                            console.log(responseManager.error);
                            responseCallback(responseManager);
                         } else {
-                            console.log("Empresa Modificada");
-                            if (data.servicios.length > 0) {
-                                var hasDenunciaServicio = false;
-                                if (data.idUsuarioDenuncia >= 0) {
-                                    hasDenunciaServicio = true;
-                                }
-                                var shouldInsertDenuncia = false;
-                                var indexServicioDenuncia = data.servicios.indexOf(7);
-                                if (indexServicioDenuncia != -1) {
-                                    //agregando
-                                    data.servicios = removeFromArray(indexServicioDenuncia, data.servicios);
-                                    shouldInsertDenuncia = true;
-                                }
-                                
-                                if (data.servicios.length > 0) {
-                                    insertarServiciosAEmpresas(data.idEmpresa, data.servicios, function () {
-                                        if (shouldInsertDenuncia && !hasDenunciaServicio) {
-                                                data.usuarioData = {};
-                                                data.usuarioData.email = data.email;
-                                                data.usuarioData.tipo = data.tipo;
-                                                data.usuarioData.nombres = data.nombre;
-                                                data.usuarioData.password = Math.random().toString(36).slice(-22);
-                                                data.servicios = [7];
-                                                instance.insertar(data, data.idEmpresa, responseCallback);    
-                                        } else {
-                                            if (!shouldInsertDenuncia && hasDenunciaServicio) {
-                                                setEmpresaDenuncia(data.idEmpresa, -1, function() {
-                                                   instance.delete(data.idUsuarioDenuncia, responseCallback); 
-                                                });
-                                            } else {
-                                                responseManager.error = "NO_ERROR";
-                                                responseManager.object = data;
-                                                responseCallback(responseManager);
-                                            }
-                                        }
-                                    });
-                                }
-                            }
+                            responseManager.error = "NO_ERROR";
+                            responseManager.object = data;
+                            responseCallback(responseManager);
                         }
                      
                     });
