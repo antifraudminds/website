@@ -494,7 +494,7 @@
  }
  
  function borrar(id) {
-   if (confirm("Desea borrar la empresa '" + empresasMap[id].nombre + "' ?")) {
+   if (confirm("Desea borrar la empresa '" + empresasMap[id].nombre + "', al borrar la empresa borrará tambien los usuarios y los servicios de estos usuarios, está seguro?")) {
      var empresaManager = new EmpresaManager();
      empresaManager.delete(id, function (rm) {
        console.log(rm);
