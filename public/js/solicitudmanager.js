@@ -18,8 +18,10 @@
             data.append(key, jsonData[key]);
         }
         
-        for (var i = 0; i < files.length ; i++) {
-            data.append('file'+i, files[i]);
+        if (files != null) {
+            for (var i = 0; i < files.length ; i++) {
+                data.append('file'+i, files[i]);
+            }
         }
      
          $.ajax({
