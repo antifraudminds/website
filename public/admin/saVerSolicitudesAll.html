@@ -459,7 +459,7 @@ function toogleMenu() {
 function formatFecha(fecha) {
             console.log(fecha.split("T")[0]);
             var date = new Date(fecha);
-            date = new Date(date.getTime() + 86400000);
+            //date = new Date(date.getTime() + 86400000);
             return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " | " + fixZero(date.getHours()) + ":" + fixZero(date.getMinutes()) + ":" + fixZero(date.getSeconds());
         }
         
