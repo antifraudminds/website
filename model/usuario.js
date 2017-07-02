@@ -33,7 +33,7 @@ var Usuario = function () {
             //console.log(connection);
             if (connection) {
                 //var sqlInsertUsuario = "insert into usuarios (nombre,email,password, tipo) values ('"+usuarioData.nombres+"','"+usuarioData.email+"','"+usuarioData.password+"', "+usuarioData.tipo+")";
-                var sqlInsertUsuario = "CALL InsertarUsuario('"+data.nombres+"','"+data.email+"','"+data.password+"', "+data.tipo+",'"+data.cargo+"','"+data.cedula+"',"+data.idEmpresa+")";
+                var sqlInsertUsuario = "CALL InsertarUsuario('"+data.nombre+"','"+data.email+"','"+data.password+"', "+data.tipo+",'"+data.cargo+"','"+data.cedula+"',"+data.idEmpresa+")";
                 console.log("Insertando Usuario");
                 console.log(sqlInsertUsuario);//muestro la consulta para ver que esta saliendo mal.....
                 connection.query(sqlInsertUsuario, function(err, rows) {

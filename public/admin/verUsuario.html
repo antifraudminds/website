@@ -427,7 +427,7 @@
  function borrar(id, email) {
    if (confirm("Desea borrar el usuario '" + email + "' ?")) {
      var usuarioManager = new UsuarioManagerHandler();
-     usuarioManager.delete(id, function (rm) {
+     usuarioManager.eliminarUsuario(id, function (rm) {
        console.log(rm);
        loadUsuarios();
      },
