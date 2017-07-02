@@ -460,7 +460,7 @@ function formatFecha(fecha) {
             console.log(fecha.split("T")[0]);
             var date = new Date(fecha.split("T")[0]+"Z");
             date = new Date(date.getTime() + 86400000);
-            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " | " + date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " | " + fixZero(date.getHours()) + ":" + fixZero(date.getMinutes()) + ":" + fixZero(date.getSeconds());
         }
         
         function meses(mes) {
