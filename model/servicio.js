@@ -108,6 +108,22 @@ var Servicio = function () {
         });
     }
     
+    this.getEstadosDenuncias = function (responseCallback) {
+        instance.crearConexion(function (connection) {
+            connection.query("CALL GetEstadosDenuncias()", function (err, rows) {
+                var responseManager = new ResponseManager();
+                    if (err) {
+                        responseManager.error = err;
+                        
+                    } else {
+                        responseManager.error = "NO_ERROR";
+                        responseManager.object = rows[0];
+                    }
+                    responseCallback(responseManager);
+            });
+        });
+    }
+    
     this.getServiciosByEmpresa = function (idEmpresa, responseCallback) {
         instance.crearConexion(function (connection) {
             connection.query("CALL GetServiciosEmpresa(" + idEmpresa + ")", function (err, rows) {

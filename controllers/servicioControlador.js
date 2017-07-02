@@ -57,6 +57,17 @@ var ServicioControlador = function (routes) {
     });
     
     routes.push({
+        path:"/servicio/get/denuncia/estados",
+        type:"GET",
+        func: function (req,res) {
+            var servicio = new Servicio();
+            servicio.getEstadosDenuncias(function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
         path:"/servicio/get/usuario/:idUsuario",
         type:"GET",
         func: function (req,res) {

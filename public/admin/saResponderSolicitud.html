@@ -147,16 +147,26 @@
                   <option selected="selected" value="0">Seleccione el tipo de solicitud</option>
                 </select>
               </div>
-              <div class="form-group">
-                    <textarea id="compose-textarea" class="form-control" style="height: 300px">
-                    </textarea>
-              </div>
-              <div class="form-group">
-                <div class="btn btn-default btn-file">
-                  <i class="fa fa-paperclip"></i> Attachment
-                  <input type="file" name="attachment">
+              <div id="respuestaCommon">
+                <div class="form-group">
+                      <textarea id="compose-textarea" class="form-control" style="height: 300px">
+                      </textarea>
                 </div>
-                <p class="help-block">Max. 32MB</p>
+                <div class="form-group">
+                  <div class="btn btn-default btn-file">
+                    <i class="fa fa-paperclip"></i> Attachment
+                    <input type="file" name="attachment">
+                  </div>
+                  <p class="help-block">Max. 32MB</p>
+                </div>
+              </div>
+              <div id="respuestaDenuncia">
+                <div class="form-group">
+                <label>Solicitud</label>
+                <select class="form-control select2" style="width: 100%;" name="estado" id="estado">
+                  <option selected="selected" value="0">Seleccione el estado de la denuncia</option>
+                </select>
+              </div>
               </div>
             </div>
             <!-- /.box-body -->
@@ -390,7 +400,36 @@ function loadServicio(idServicio) {
       cmbServicio.appendChild(option);
     }
     cmbServicio.selectedIndex = 1;
+    
+    if (servicios[0].id == 7) {
+      $("#respuestaCommon").hide();
+      $("#respuestaDenuncia").show();
+      loadEstadosDenuncia();
+    } else {
+      $("#respuestaCommon").show();
+      $("#respuestaDenuncia").hide();
+    }
   }
+  
+function loadEstadosDenuncia() {
+  var servicioManager = new ServiciosManager();
+    servicioManager.getEstadosDenuncia(function (rm) {
+      renderEstadosDenuncia(rm.getObject());
+    }, function (rm) {
+      console.log(rm);
+    });
+}
+
+function renderEstadosDenuncia(estadosDenuncia) {
+  var comboDenunciaEstado = document.getElementById("estado");
+  for (var i = 0; i < estadosDenuncia.length; i++) {
+    var estadoDenuncia = estadosDenuncia[i];
+    var option = document.createElement("option");
+    option.setAttribute("value", estadoDenuncia.id);
+    option.innerHTML = estadoDenuncia.nombre;
+    comboDenunciaEstado.appendChild(option);
+  }
+}
 
 function renderData(cliente) {
   
