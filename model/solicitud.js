@@ -50,7 +50,7 @@ var Solicitud = function () {
     function insertarSolicitud(dataSolicitud, responseCallback) {
         
         instance.crearConexion(function (connection) {
-           var sql = "CALL InsertarPeticionServicio (" + dataSolicitud.idEmpresa + "," + dataSolicitud.idServicio + ",'" + dataSolicitud.txtRequerimiento + "','" + dataSolicitud.urlArchivo + "','" + dataSolicitud.tituloSolicitud + "')"; 
+           var sql = "CALL InsertarPeticionServicio (" + dataSolicitud.idEmpresa + "," + dataSolicitud.idUsuario + "," + dataSolicitud.idServicio + ",'" + dataSolicitud.txtRequerimiento + "','" + dataSolicitud.urlArchivo + "','" + dataSolicitud.tituloSolicitud + "')"; 
            connection.query(sql, function(err, rows) {
                var responseManager = new ResponseManager();
                if (err) {
@@ -59,6 +59,7 @@ var Solicitud = function () {
                    responseCallback(responseManager);
                 } else {
                     responseManager.error = "NO_ERROR";
+                    dataSolicitud.consecutivo = rows[0][0].consecutivo;
                     responseManager.object = dataSolicitud;
                     responseCallback(responseManager);
                 }
