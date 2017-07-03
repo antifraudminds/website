@@ -162,6 +162,30 @@ var Solicitud = function () {
         });
     }
     
+    this.getReporte = function(data, responseCallback) {
+        instance.crearConexion(function (connection) {
+            var fechaInicial = data.fechaInicial != null && data.fechaInicial.length > 0 ? "'" + data.fechaInicial + "'" : "null";
+            var fechaFinal = data.fechaFinal != null && data.fechaFinal.length > 0 ? "'" + data.fechaFinal + "'": "null";
+            var IdEmpresa = data.IdEmpresa != null && data.IdEmpresa > 0 ? data.IdEmpresa : "null";
+            var IdServicio = data.IdServicio != null && data.IdServicio > 0 ? data.IdServicio : "null";
+            var IdUsuario = data.IdUsuario != null && data.IdUsuario > 0 ? data.IdUsuario : "null";
+            
+            var sql = "CALL getReporte("+fechaInicial+","+fechaFinal+","+IdEmpresa+","+IdServicio+","+IdUsuario+");";
+            connection.query(sql, function (err, rows) {
+                var responseManager = new ResponseManager();
+                       if (err) {
+                            responseManager.error = err;
+                           console.log(responseManager.error);
+                           responseCallback(responseManager);
+                        } else {
+                            responseManager.error = "NO_ERROR";
+                            responseManager.object = rows[0];
+                            responseCallback(responseManager);
+                        }
+            });
+        });
+    }
+    
     this.getSolicitud = function(idSolicitud, responseCallback) {
         instance.crearConexion(function (connection) {
             var sql = "CALL getPeticionServiciosPorSolicitud(" + idSolicitud + ");";

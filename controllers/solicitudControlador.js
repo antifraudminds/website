@@ -50,6 +50,17 @@ var SolicitudControlador = function (routes) {
     });
     
     routes.push({
+        path:"/solicitud/reporte",
+        type:"POST",
+        func: function (req,res) {
+            var solicitud = new Solicitud();
+            solicitud.getReporte(req.body, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
         path:"/solicitud/get/:idEmpresa",
         type:"GET",
         func: function (req,res) {
