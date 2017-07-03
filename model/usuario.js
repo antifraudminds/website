@@ -243,7 +243,7 @@ var Usuario = function () {
             }
             var mailManager = new GMailManager();
             var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.textRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
-            var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails,dataMsg);
+            var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails, "Solicitud de servicio creada",dataMsg);
             mailManager.sendEmail(mensajeData, responseCallback);
         });
     }
