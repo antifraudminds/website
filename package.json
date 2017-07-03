@@ -42,7 +42,7 @@
     "html5-to-pdf" : "~2.1.1",
     "phantom-html2pdf" : "4.0.0",
     "mailgun-js": "~0.7.12",
-    "gmail-send": "1.2.10"
+    "mailsender": "1.1.2"
   },
   "devDependencies": {},
   "bundleDependencies": [],
