@@ -1,35 +1,37 @@
 var ResponseManager = require("../model/responsemanager.js")
 var Connection = require("../model/connection.js")
-var request = require('request');
+var Mailjet = require('node-mailjet').connect('01c42d863084eebd93ebecd5491759f9', 'ef6d6e9e7c0414b236910b08d753ba83');
 //Clase GMailManager
 var GMailManager = function () {
     var user = "developer.aminds@gmail.com";
     var pass = "Joaquin3007";
     
     this.buildEmailMessage = function (from, to, subject, text) {
-        var message = {};
-        message.email = to;
-        message.message = text;
-        message["_subject"] = subject;
-        message["_replyto"] = user;
-        return message;
+        var emailData = {
+            'FromEmail': from,
+            'FromName': 'Antifraudminds',
+            'Subject': subject,
+            'Text-part': text,
+            'Recipients': [{'Email': to}]
+        };
+        
+        return emailData;
     }
     
     this.sendEmail = function(data, responseCallback) {
         console.log(data);
-        request.post({url:'https://formspree.io/'+user, form: data}, function(err,httpResponse,body) { 
-          var responseManager = new ResponseManager();
-            if (err) {
-                responseManager.object = "Hay un error con el servidor de correos, intente más tarde";
-                responseManager.error = err;
-                responseCallback(responseManager);   
-            } else {
-                console.log(httpResponse);
-                console.log(body);
-                responseManager.object = "Un correo con la información requerida ha sido enviada.";
-                responseManager.error = "NO_ERROR";            
-                responseCallback(responseManager);
-            }
+        
+        var sendEmail = Mailjet.post('send');
+        sendEmail.request(data).then(function () {
+            var responseManager = new ResponseManager();
+            responseManager.object = "Un correo con la información requerida ha sido enviada.";
+            responseManager.error = "NO_ERROR";            
+            responseCallback(responseManager);
+        }).catch(function (err) {
+           var responseManager = new ResponseManager();
+           responseManager.object = "Hay un error con el servidor de correos, intente más tarde";
+            responseManager.error = err;
+            responseCallback(responseManager);
         });
     }
 }
