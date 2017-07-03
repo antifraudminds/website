@@ -180,6 +180,60 @@ var Usuario = function () {
         });
     }
     
+    this.insertarNotificaciones = function (data, responseCallback) {
+        instance.crearConexion(function (connection) {
+           if (connection) {
+               connection.query("CALL InsertarNotificacion('"+data.email+"')", function (err, rows) {
+                   var responseManager = new ResponseManager();
+                    if (err) {
+                        responseManager.error = err;
+                        
+                    } else {
+                        responseManager.error = "NO_ERROR";
+                       responseManager.object = rows; 
+                    }
+                    responseCallback(responseManager);
+                });
+                }
+            });
+    }
+    
+    
+    this.getNotificaciones = function (responseCallback) {
+        instance.crearConexion(function (connection) {
+           if (connection) {
+               connection.query("CALL getNotificaciones()", function (err, rows) {
+                   var responseManager = new ResponseManager();
+                    if (err) {
+                        responseManager.error = err;
+                        
+                    } else {
+                        responseManager.error = "NO_ERROR";
+                       responseManager.object = rows[0]; 
+                    }
+                    responseCallback(responseManager);
+                });
+                }
+            });
+    }
+    
+    this.eliminarNotificacion = function (id, responseCallback) {
+        instance.crearConexion(function (connection) {
+            if (connection) {
+                connection.query("CALL EliminarNotificacion(" + id + ")", function(err, rows) {
+                    var responseManager = new ResponseManager();
+                    if (err) {
+                        responseManager.error = err;
+                    } else {
+                       responseManager.error = "NO_ERROR";
+                       responseManager.object = rows; 
+                    }
+                    responseCallback(responseManager);
+                });
+            }
+        });
+    }
+    
     this.recoverPass = function (email, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {

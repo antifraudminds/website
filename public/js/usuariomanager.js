@@ -132,7 +132,80 @@
                 }
             }
         });    
-  }    
+  }
+  
+  this.insertarNotificaciones = function (clienteJsonData, callBackUpdated, callBackError) {
+     
+         $.ajax({
+            url: '/usuario/notificaciones',
+            type: 'PUT', //Hace un update - Por definición insert ó update.
+            beforeSend: function (request) {
+                request.setRequestHeader( "manager-method","ClienteManager");
+            },
+            dataType   : 'json',
+            contentType: 'application/json',
+            data:JSON.stringify(clienteJsonData),
+            success: function(responseManagerJson) {
+                var responseManager = new ResponseManager(responseManagerJson);
+                if (responseManager.getError() == "NO_ERROR") {
+                    if (callBackUpdated) {
+                        callBackUpdated(responseManager);
+                    }
+                } else {
+                    if (callBackError) {
+                        callBackError(responseManager);
+                    }
+                }
+            }
+        });
+     }
+  
+  this.getNotificaciones = function (callBackUpdated, callBackError) {
+     
+         $.ajax({
+            url: '/usuario/notificaciones',
+            type: 'GET', //Obtiene los datos del cliente.
+            contentType: 'application/json',
+            beforeSend: function (request) {
+                request.setRequestHeader( "manager-method","ClienteManager");
+            },
+            success: function(responseManagerJson) {
+                var responseManager = new ResponseManager(responseManagerJson);
+                if (responseManager.getError() == "NO_ERROR") {
+                    if (callBackUpdated) {
+                        callBackUpdated(responseManager);
+                    }
+                } else {
+                    if (callBackError) {
+                        callBackError(responseManager);
+                    }
+                }
+            }
+        });
+     }
+     
+     this.eliminarNotificacion = function(id, callBackUpdated, callBackError) {
+    $.ajax({
+            url: '/usuario/notificaciones/'+id,
+            type: 'DELETE', //Obtiene los datos del cliente.
+            contentType: 'application/json',
+            beforeSend: function (request) {
+                request.setRequestHeader( "manager-method","ClienteManager");
+            },
+            success: function(responseManagerJson) {
+                var responseManager = new ResponseManager(responseManagerJson);
+                if (responseManager.getError() == "NO_ERROR") {
+                    if (callBackUpdated) {
+                        callBackUpdated(responseManager);
+                    }
+                } else {
+                    if (callBackError) {
+                        callBackError(responseManager);
+                    }
+                }
+            }
+        });    
+  }
      
   this.isLogued = function (callBackUpdated, callBackError) {
      

@@ -114,6 +114,39 @@ var UsuarioControlador = function (routes) {
     });
     
     routes.push({
+        path:"/usuario/notificaciones",
+        type:"GET",
+        func: function (req,res) {
+            var usuario = new Usuario();
+            usuario.getNotificaciones(function (responseManager) {
+                res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
+        path:"/usuario/notificaciones",
+        type:"PUT",
+        func: function (req,res) {
+            var usuario = new Usuario();
+            usuario.insertarNotificaciones(req.body, function (responseManager) {
+                res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
+        path:"/usuario/notificaciones/:id",
+        type:"DELETE",
+        func: function (req,res) {
+            var usuario = new Usuario();
+            usuario.eliminarNotificacion(req.params.id, function (responseManager) {
+                res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
         path:"/usuario/recoverpass/:email",
         type:"GET",
         func: function (req,res) {
