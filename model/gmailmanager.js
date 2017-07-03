@@ -20,7 +20,7 @@ var GMailManager = function () {
         console.log(data);
         var error = null;
         try {
-        GmailSendModule.from(data.from).to(data.to).body(data.subject, data.text, true).send();
+        GmailSendModule.from(user, pass).to(data.to).body(data.subject, data.text, true).send();
         } catch(err) {
             error = err;
         }
