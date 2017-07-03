@@ -1,5 +1,6 @@
 var ResponseManager = require("../model/responsemanager.js")
 var Connection = require("../model/connection.js")
+var GMailManager = require("../model/gmailmanager.js")
 //Clase Mensaje
 var Mensaje = function () {
     //Obteniendo recursos
@@ -39,13 +40,33 @@ var Mensaje = function () {
                                 responseCallback(responseManager);   
                             } else {
                                 responseManager.object = mensajeData;
-                                responseManager.error = "NO_ERROR";            
-                                responseCallback(responseManager);
+                                responseManager.error = "NO_ERROR";
+                                sendEmail(mensajeData, function() {
+                                    responseCallback(responseManager);    
+                                });
                             }
                  });
             }
         });
         
+    }
+    
+    function sendEmail(data, responseCallback) {
+        instance.crearConexion(function (connection) {
+           if (connection) {
+               connection.query("CALL getNotificaciones()", function (err, rows) {
+                        var emails = rows[0]; 
+                        var emailsTosend = [];
+                        for (var index = 0; index < emails.length; index++) {
+                            emailsTosend.push(emails[index]);
+                        }
+                        var mailManager = new GMailManager();
+                        var mensaje = "Enviado por <b>" + data.nombre + "</b><br><br>" + data.mensaje + "<br><b>Fecha: </b>" + new Date();
+                        var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emailsTosend, "Enviado por cliente desde AntifraudMinds.com " + data.asunto, mensaje);
+                        mailManager.sendEmail(mensajeData, responseCallback);
+                });
+                }
+            });
     }
     
     this.updateMensaje = function (mensajeData, responseCallback) {
