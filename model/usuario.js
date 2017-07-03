@@ -256,7 +256,7 @@ var Usuario = function () {
         console.log(email);
         console.log(password);
         var mailManager = new GMailManager();
-        var mensajeData = mailManager.buildEmailMessage("Antifraudminds <info@antifraudminds.com>",email,"Recuperación de Contraseña - www.antifraudminds.com","Los datos de inicio de sesión son: usuario:" + email + " password:" + password);
+        var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com",email,"Recuperación de Contraseña - www.antifraudminds.com","Los datos de inicio de sesión son: usuario:" + email + " password:" + password);
         mailManager.sendEmail(mensajeData, responseCallback);
     }
     
