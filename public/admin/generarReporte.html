@@ -1,0 +1,145 @@
+<html>
+    <!-- jQuery 2.2.3 -->
+    <script src="plugins/jQuery/jquery-2.2.3.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <script  type="text/javascript" src="../js/solicitudmanager.js"></script>
+    
+    <link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript">
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+        
+        function generarReporte() {
+           var data = {};
+           data.fechaInicial = getParameterByName("fechaInicial");
+           data.fechaFinal = getParameterByName("fechaFinal");
+           data.IdEmpresa = getParameterByName("empresa");
+           data.IdServicio = getParameterByName("servicio");
+           data.IdUsuario = getParameterByName("usuario");
+           var solicitudManager = new SolicitudManager();
+           solicitudManager.getReporte(data, function (rm) {
+             console.log(rm);
+             renderReporte(rm.getObject());
+           }, function (rm) {
+             console.log(rm);
+           });
+         }
+         
+         function renderReporte(datos) {
+             var table = document.getElementById("reporteTable");
+             var contentHtml = "<tr><th>No. de Solicitud</th><th>Empresa</th><th>Tipo de Servicio</th><th>Estado de Denuncia</th><th>Fecha de Solicitud</th><th>Fecha de Respuesta</th></tr>";
+             for (var index = 0; index < datos.length; index++) {
+                 var data = datos[index];
+                 contentHtml += "<tr><td>"+ data.numeroSolicitud +"</td><td>" + data.nombreEmpresa + "</td><td>" + data.tipoServicio + "</td><td>" + data.estadoDenuncia + "</td><td>" + formatFecha(data.fechaSolicitud) + "</td><td>" + formatFecha(data.fechaRespuesta) + "</td></tr>";
+             }
+             table.innerHTML = contentHtml;
+         }
+         
+         function formatFecha(fecha) {
+            var date = new Date(fecha);
+            //date = new Date(date.getTime() + 86400000);
+            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " " + fixZero(date.getHours()) + ":" + fixZero(date.getMinutes()) + ":" + fixZero(date.getSeconds());
+        }
+
+        
+        function meses(mes) {
+            switch (mes) {
+                case 0:
+                    return "Enero";
+                    break;
+                case 1:
+                    return "Febrero";
+                    break;
+                case 2:
+                    return "Marzo";
+                    break;
+                case 3:
+                    return "Abril";
+                    break;
+                case 4:
+                    return "Mayo";
+                    break;
+                case 5:
+                    return "Junio";
+                    break;
+                case 6:
+                    return "Julio";
+                    break;
+                case 7:
+                    return "Agosto";
+                    break;
+                case 8:
+                    return "Septiembre";
+                    break;
+                case 9:
+                    return "Octubre";
+                    break;
+                case 10:
+                    return "Noviembre";
+                    break;
+                case 11:
+                    return "Diciembre";
+                    break;
+                
+                default:
+                    return "Enero";
+            }
+        }
+        
+        function fixZero(num) {
+            return num < 10 ? "0" + num : num;
+        }
+        
+        function downloadPdf(control) {
+			var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
+			if (isChrome) {
+				$(control).hide();
+				this.print();
+				$(control).show();
+			} else {
+				alert("Por favor usar el navegador Google Chrome para imprimir este documento como un pdf");
+			}
+		}
+        
+        $(document).ready(function() {
+           generarReporte(); 
+        });
+        
+    </script>
+    <body>
+        <div style="background-color: #000000;text-align: center;">
+            <img src="https://website-antifraudminds.rhcloud.com/img/logo.svg" width="200" height="200">
+        </div>
+		<div style="text-align: center; font-family: Roboto, Arial, sans-serif;color: #ffffff; text-shadow: 1px 1px black;margin-bottom: 0px; font-size: 59px; line-height: 1; font-weight: 300;">
+			Reporte AntiFraudMinds
+		</div>
+		<div style="text-align: center;" width="100%">
+			<table class="table table-hover table-striped" align="center" id="reporteTable">
+				<tr><th>No. de Solicitud</th><th>Empresa</th><th>Tipo de Servicio</th><th>Estado de Denuncia</th><th>Fecha de Solicitud</th><th>Fecha de Respuesta</th></tr>
+				<tr>
+					<td>No. de Solicitud</td>
+					<td>Empresa</td>
+					<td>Tipo de Servicio</td>
+					<td>Estado de Denuncia</td>
+					<td>Fecha de Solicitud</td>
+					<td>Fecha de Respuesta</td>
+				</tr>
+				<tr><td>No. de Solicitud</td><td>Empresa</td><td>Tipo de Servicio</td><td>Estado de Denuncia</td><td>Fecha de Solicitud</td><td>Fecha de Respuesta</td></tr>
+				
+			</table>
+		</div>
+		
+		<div>
+			<button onclick="downloadPdf(this);">Descargar</button>
+		</div>
+    </body>
+</html>

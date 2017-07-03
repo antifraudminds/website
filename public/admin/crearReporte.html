@@ -127,7 +127,7 @@
             <!-- form start -->
             <ul style="list-style:none;">
               <li style="padding-bottom:30px;">
-                <form onsubmit="return false;">
+                <form action="generarReporte.html" target="_blank">
                   <div class="box-body">
                     <h3 class="box-title">Generar Reporte a partir de Busqueda</h3>
                     
@@ -166,7 +166,7 @@
                   <!-- /.box-body -->
     
                   <div class="box-footer">
-                    <button class="btn btn-primary" onclick="generarReporte();">Generar Reporte</button>
+                    <button class="btn btn-primary" type="submit">Generar Reporte</button>
                   </div>
                 </form>
               </li>
@@ -428,7 +428,7 @@
 <script  type="text/javascript" src="js/login.js"></script>
 <script  type="text/javascript" src="../js/serviciosmanager.js"></script>
 <script  type="text/javascript" src="../js/empresamanager.js"></script>
-<script  type="text/javascript" src="../js/solicitudmanager.js"></script>
+
 
 
 <script type="text/javascript">
@@ -534,21 +534,7 @@ function loadEmpresas() {
    }
  }
  
- function generarReporte() {
-   var form = document.forms[0];
-   var data = {};
-   data.fechaInicial = form.fechaInicial.value;
-   data.fechaFinal = form.fechaFinal.value;
-   data.IdEmpresa = form.empresa.value;
-   data.IdServicio = form.servicio.value;
-   data.IdUsuario = form.usuario.value;
-   var solicitudManager = new SolicitudManager();
-   solicitudManager.getReporte(data, function (rm) {
-     console.log(rm);
-   }, function (rm) {
-     console.log(rm);
-   });
- }
+ 
   
  
 </script>
