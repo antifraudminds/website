@@ -142,6 +142,20 @@
                       <label for="email">Email Para Notificaciones</label>
                       <input type="text" class="form-control" id="email" placeholder="Email para enviar Notificaciones">
                     </div>
+                    
+                    <div class="form-group">
+                  <div style="height: 100px;">
+                    <div style="margin-left:0px; font-weight: 700;">Seleccionar servicios</div>
+                    <div id="serviciosContainer">
+                      <div class="checkbox" style="float:left;">
+                        <label>
+                          <input type="checkbox" onchange="servicioChanged(1, this);"> Validaci&oacute;n Informaci&oacute;n
+                        </label>
+                      </div>
+                      
+                    </div>
+                  </div>
+                </div>
                   </div>
                   <!-- /.box-body -->
     
@@ -406,16 +420,20 @@
 <script src="../js/responsemanager.js"></script>
 <script  type="text/javascript" src="../js/usuariomanager.js"></script>
 <script  type="text/javascript" src="js/login.js"></script>
+<script  type="text/javascript" src="../js/serviciosmanager.js"></script>
 
 
 <script type="text/javascript">
   
-  
+  var data = {};
+  data.servicios = [];
+  var serviciosAvailable = [];
   
   
   
   $(document).ready(function () {
     loadNotificaciones();
+    loadServicios();
     isLogued();
   });
   
@@ -451,13 +469,15 @@
   }
   
   function renderNotificaciones(notificaciones) {
-    var contentString = "<tr><th>Email</th><th>Acciones</th></tr>";
+    var contentString = "<tr><th>Email</th><th>Servicios</th><th>Acciones</th></tr>";
     var tableNotificaciones = document.getElementById("contentNotificaciones");
     if (notificaciones.length > 0) {
       tableNotificaciones.innerHTML = contentString;
       for (var index = 0; index < notificaciones.length; index++) {
         var notificacion = notificaciones[index];
-        contentString += "<tr><td>"+notificacion.email+"</td><td><a href='javascript:eliminarNotificacion("+notificacion.id+")'>Eliminar</td></tr>";
+        var serviciosAsignados = notificacion.tipoServicio.split(",");
+        var serviciosPorEmail = getServiciosAsignados(serviciosAsignados);
+        contentString += "<tr><td>"+notificacion.email+"</td><td>"+serviciosPorEmail+"</td><td><a href='javascript:eliminarNotificacion("+notificacion.id+")'>Eliminar</td></tr>";
       }
       tableNotificaciones.innerHTML = contentString;
     } else {
@@ -465,11 +485,24 @@
     }
   }
   
+  function getServiciosAsignados(serviciosAsignados) {
+    var serviciosPorEmail = "";
+        for (var indexAsignado = 0; indexAsignado < serviciosAsignados.length; indexAsignado++) {
+          for (var indexServicios = 0; indexServicios < serviciosAvailable.length; indexServicios++) {
+            if (serviciosAsignados[indexAsignado] == serviciosAvailable[indexServicios].id) {
+                serviciosPorEmail += serviciosAvailable[indexServicios].nombre + ",";    
+            }
+          }
+          
+        }
+        return serviciosPorEmail;
+  }
+  
   function agregarEmail() {
     var email = document.getElementById("email").value;
     if (email.length > 0) {
       var usuarioManager = new UsuarioManagerHandler();
-      usuarioManager.insertarNotificaciones({email:email}, function (rm) {
+      usuarioManager.insertarNotificaciones({email:email, servicios: data.servicios.join(",")}, function (rm) {
         loadNotificaciones();
       }, function(rm) {
         console.log(rm);
@@ -489,6 +522,53 @@
       });
     }
   }
+  
+  
+  function loadServicios() {
+    var servicioManager = new ServiciosManager();
+    servicioManager.getAll(function (rm) {
+      renderServicios(rm.getObject());
+    }, function (rm) {
+      console.log(rm);
+    });
+  }
+  
+  function renderServicios(servicios) {
+    /*
+    <div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged(2, this);"> Gesti&oacute;</label></div>    
+    */
+    serviciosAvailable = servicios;
+    var serviciosContainer = $("#serviciosContainer");
+    serviciosContainer.html("");
+    var serviciosHtmlString = "";
+    for (var index = 0; index < servicios.length; index++) {
+      var servicio = servicios[index];
+      if (serviciosHtmlString.length <= 0) {
+        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+      } else {
+        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+      }
+    }
+    serviciosContainer.html(serviciosHtmlString);
+  }
+  
+  function servicioChanged(id, control) {
+  if (control.checked) {
+    data.servicios.push(id);  
+  } else {
+    data.servicios = removeElementFromArray(data.servicios, id);
+  }
+}
+
+function removeElementFromArray(array, element) {
+  var newarray = [];
+  for (var i =0; i < array.length ; i++) {
+    if (array[i] != element) {
+      newarray.push(array[i]);  
+    }
+  }  
+  return newarray;
+}
   
  
 </script>

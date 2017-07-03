@@ -183,7 +183,7 @@ var Usuario = function () {
     this.insertarNotificaciones = function (data, responseCallback) {
         instance.crearConexion(function (connection) {
            if (connection) {
-               connection.query("CALL InsertarNotificacion('"+data.email+"')", function (err, rows) {
+               connection.query("CALL InsertarNotificacion('"+data.email+"','"+data.servicios+"')", function (err, rows) {
                    var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
@@ -239,10 +239,14 @@ var Usuario = function () {
             var notificaciones = rm.object;
             var emails = [];
             for (var index = 0; index < notificaciones.length; index++) {
-                emails.push(notificaciones[index].email);
+                var notificacion = notificaciones[index];
+                var serviciosAsignados = notificacion.tipoServicio.split(",");
+                if (serviciosAsignados.indexOf(solicitudData.idServicio) != -1) {
+                    emails.push(notificacion.email);    
+                }
             }
             var mailManager = new GMailManager();
-            var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.textRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
+            var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.txtRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
             var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails, "Solicitud de servicio creada",dataMsg);
             mailManager.sendEmail(mensajeData, responseCallback);
         });
