@@ -247,7 +247,7 @@ function toogleMenu() {
 function sendContacto(form) {
     if (form.asunto.value.length > 0 && form.mensaje.value.length > 0) {
         var mensajeManager = new MensajeManager();
-        mensajeManager.insertar({nombre:dataCliente.nombreUsuario, email:dataCliente.email, asunto:form.asunto.value, mensaje:form.mensaje.value}, function (rm) {
+        mensajeManager.insertar({nombre:dataCliente.nombreUsuario,nombreEmpresa: dataCliente.nombre, email:dataCliente.email, asunto:form.asunto.value, mensaje:form.mensaje.value}, function (rm) {
             console.log(rm);
             form.reset();
             alert("Tu mensaje de contacto ha sido enviado");

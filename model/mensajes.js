@@ -61,7 +61,8 @@ var Mensaje = function () {
                             emailsTosend.push(emails[index].email);
                         }
                         var mailManager = new GMailManager();
-                        var mensaje = "Enviado por <b>" + data.nombre + "</b><br><br>" + data.mensaje + "<br><b>Fecha: </b>" + new Date();
+                        var empresa = data.nombreEmpresa != null ? "<b>Empresa: </b>" + data.nombreEmpresa + "<br>" : "";
+                        var mensaje = "Enviado por <b>" + data.nombre + "</b><br>"+empresa+"<b>Email: </b>"+data.email + "<br><b>Fecha: </b>" + new     Date()+"<br><br>" + data.mensaje;
                         var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emailsTosend, "Enviado por cliente desde AntifraudMinds.com " + data.asunto, mensaje);
                         mailManager.sendEmail(mensajeData, responseCallback);
                 });
