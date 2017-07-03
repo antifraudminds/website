@@ -17,12 +17,11 @@ var GMailManager = function () {
     
     this.sendEmail = function(data, responseCallback) {
         console.log(data);
-        var error = null;
         request.post({url:'https://formspree.io/'+user, form: data}, function(err,httpResponse,body) { 
           var responseManager = new ResponseManager();
-            if (error) {
+            if (err) {
                 responseManager.object = "Hay un error con el servidor de correos, intente más tarde";
-                responseManager.error = error;
+                responseManager.error = err;
                 responseCallback(responseManager);   
             } else {
                 responseManager.object = "Un correo con la información requerida ha sido enviada.";
