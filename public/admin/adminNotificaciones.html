@@ -503,6 +503,7 @@
       var usuarioManager = new UsuarioManagerHandler();
       usuarioManager.insertarNotificaciones({email:email, servicios: data.servicios.join(",")}, function (rm) {
         loadNotificaciones();
+        document.forms[0].reset();
       }, function(rm) {
         console.log(rm);
       });
