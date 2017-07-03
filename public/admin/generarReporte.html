@@ -40,7 +40,8 @@
              var contentHtml = "<tr><th>No. de Solicitud</th><th>Empresa</th><th>Tipo de Servicio</th><th>Estado de Denuncia</th><th>Fecha de Solicitud</th><th>Fecha de Respuesta</th></tr>";
              for (var index = 0; index < datos.length; index++) {
                  var data = datos[index];
-                 contentHtml += "<tr><td>"+ data.numeroSolicitud +"</td><td>" + data.nombreEmpresa + "</td><td>" + data.tipoServicio + "</td><td>" + data.estadoDenuncia + "</td><td>" + formatFecha(data.fechaSolicitud) + "</td><td>" + formatFecha(data.fechaRespuesta) + "</td></tr>";
+                 var fecheRespuesta = data.fechaRespuesta != null ? formatFecha(data.fechaRespuesta) : "-";
+                 contentHtml += "<tr><td>"+ data.numeroSolicitud +"</td><td>" + data.nombreEmpresa + "</td><td>" + data.tipoServicio + "</td><td>" + data.estadoDenuncia + "</td><td>" + formatFecha(data.fechaSolicitud) + "</td><td>" + fecheRespuesta + "</td></tr>";
              }
              table.innerHTML = contentHtml;
          }

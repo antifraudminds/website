@@ -53,10 +53,15 @@ var SolicitudControlador = function (routes) {
         path:"/solicitud/reporte",
         type:"POST",
         func: function (req,res) {
-            var solicitud = new Solicitud();
-            solicitud.getReporte(req.body, function(responseManager) {
-               res.send(responseManager); 
-            });
+            var session = req.session;
+            if (session.cliente) {
+                var solicitud = new Solicitud();
+                solicitud.getReporte(req.body, function(responseManager) {
+                   res.send(responseManager); 
+                });
+            } else {
+                res.send({error:"No Auth"});
+            }
         }
     });
     
