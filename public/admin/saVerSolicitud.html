@@ -470,7 +470,7 @@ var hasRespuesta = false;
 
 function manageRespuesta() {
   if (!hasRespuesta) {
-    if (currentSolicitud.tipo == 1) {
+    if (currentSolicitud.tipo == 1 || currentSolicitud.idServicio == 7) {
       window.location.href = "saResponderSolicitud.html?idSolicitud=" + currentSolicitud.id;
     }
   } else {
