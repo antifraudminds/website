@@ -1,6 +1,5 @@
 var ResponseManager = require("../model/responsemanager.js")
 var Connection = require("../model/connection.js")
-var GmailSendModule = require('mailsender')
 
 //Clase GMailManager
 var GMailManager = function () {
@@ -19,8 +18,13 @@ var GMailManager = function () {
     this.sendEmail = function(data, responseCallback) {
         console.log(data);
         var error = null;
+        var mailsender = require('mailsender');
         try {
-        GmailSendModule.from(user, pass).to(data.to).body(data.subject, data.text, true).send();
+            mailsender
+                .from(user, pass)
+                .to(data.to)
+                .body(data.subject, data.text)
+                .send();
         } catch(err) {
             error = err;
         }
