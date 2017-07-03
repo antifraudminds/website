@@ -58,7 +58,7 @@ var Mensaje = function () {
                         var emails = rows[0]; 
                         var emailsTosend = [];
                         for (var index = 0; index < emails.length; index++) {
-                            emailsTosend.push(emails[index]);
+                            emailsTosend.push(emails[index].email);
                         }
                         var mailManager = new GMailManager();
                         var mensaje = "Enviado por <b>" + data.nombre + "</b><br><br>" + data.mensaje + "<br><b>Fecha: </b>" + new Date();
