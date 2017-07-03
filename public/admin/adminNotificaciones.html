@@ -415,7 +415,7 @@
   
   
   $(document).ready(function () {
-  
+    loadNotificaciones();
     isLogued();
   });
   
@@ -453,12 +453,16 @@
   function renderNotificaciones(notificaciones) {
     var contentString = "<tr><th>Email</th><th>Acciones</th></tr>";
     var tableNotificaciones = document.getElementById("contentNotificaciones");
-    tableNotificaciones.innerHTML = contentString;
-    for (var index = 0; index < notificaciones.length; index++) {
-      var notificacion = notificaciones[index];
-      contentString += "<tr><td>"+notificacion.email+"</td><td><a href='javascript:eliminarNotificacion("+notificacion.id+")'>Eliminar</td></tr>";
+    if (notificaciones.length > 0) {
+      tableNotificaciones.innerHTML = contentString;
+      for (var index = 0; index < notificaciones.length; index++) {
+        var notificacion = notificaciones[index];
+        contentString += "<tr><td>"+notificacion.email+"</td><td><a href='javascript:eliminarNotificacion("+notificacion.id+")'>Eliminar</td></tr>";
+      }
+      tableNotificaciones.innerHTML = contentString;
+    } else {
+      tableNotificaciones.innerHTML = "";
     }
-    tableNotificaciones.innerHTML = contentString;
   }
   
   function agregarEmail() {
