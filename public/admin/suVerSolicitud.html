@@ -84,27 +84,7 @@
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">MEN&Uacute; DE NAVEGAVCI&Oacute;N</li>
-        <li class="active treeview">
-          <a href="#" style="border-left-color: #c5a628;">
-            <i class="fa fa-envelope"></i> <span>Envi&oacute; de Solicitudes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="suVerSolicitudesAll.html"><i class="fa fa-circle-o"></i>Solicitud</a></li>
-          </ul>
-        </li>
-        <li><a href="suEnviarMensaje.html"><i class="fa fa-circle-o text-aqua" style="color: white !important;"></i> <span>Contactenos</span></a></li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
+    
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
@@ -156,9 +136,12 @@
             <!-- /.box-header -->
             <div class="box-body no-padding">
               <div class="mailbox-read-info">
-                <h3 id="servicio"></h3>
+                <h3 id="numSolicitud">No. Solicitud</h3></br>
+                <h3 id="servicio">Servicio 1</h3>
+                <h3 id="estadoDenuncia"></h3>
                 <h5>Por: <label id="nombre"></label>
                   <span class="mailbox-read-time pull-right" id="fecha"></span></h5>
+                  <span class="mailbox-read-time pull-right" id="fechaRespuesta">15 Feb. 2016 11:03 PM</span></h5>
               </div>
               <!-- /.mailbox-read-info -->
               <div class="mailbox-controls with-border text-center">
@@ -429,6 +412,9 @@ var currentRespuestas = null;
 });
 
 postLogin = function (cliente) {
+  if (cliente.tipo == 1) {
+      loadSideBarUser();
+    }
   currentCliente = cliente;
   renderData(cliente);
   loadSolicitud(getParameterByName("idSolicitud"));
@@ -448,14 +434,24 @@ function renderSolicitudes(solicitud) {
   console.log(solicitud);
   currentSolicitud = solicitud;
    
+ $("#numSolicitud").html("No. Solicitud: " + solicitud.numeroSolicitud);
   $("#servicio").html("Servicio: " + solicitud.nombreServicio);
   $("#nombre").html(solicitud.nombre);
   $("#fecha").html(formatFecha(solicitud.fecha));
+  $("#fechaRespuesta").html(solicitud.fechaRespuesta != null ? formatFecha(solicitud.fechaRespuesta) : "No hay Respuesta");
   $("#textRequerimiento").html(solicitud.textRequerimiento);
-  
-  var extArchivo = solicitud.urlArchivo.split(".")[1];
-  var archivoHTMLStr = '<li><span class="mailbox-attachment-icon"><i class="fa fa-file-'+extArchivo+'-o"></i></span><div class="mailbox-attachment-info"><a class="mailbox-attachment-name" href="#"><i class="fa fa-paperclip"></i> '+solicitud.urlArchivo+'</a><span class="mailbox-attachment-size"><a href="'+solicitud.urlArchivo+'" target="_blank" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a></span></div></li>';
-  $("#archivos").html(archivoHTMLStr);
+  if (solicitud.idServicio == 7) {
+    $("#estadoDenuncia").html("Estado Denuncia:" + solicitud.estadoDenuncia);
+  } else {
+    $("#estadoDenuncia").hide();
+  }
+  if (solicitud.urlArchivo.length > 0) {
+    var extArchivo = solicitud.urlArchivo.split(".")[1];
+    var archivoHTMLStr = '<li><span class="mailbox-attachment-icon"><i class="fa fa-file-'+extArchivo+'-o"></i></span><div class="mailbox-attachment-info"><a class="mailbox-attachment-name" href="#"><i class="fa fa-paperclip"></i> '+solicitud.urlArchivo+'</a><span class="mailbox-attachment-size"><a href="'+solicitud.urlArchivo+'" target="_blank" class="btn btn-default btn-xs pull-right"><i class="fa fa-cloud-download"></i></a></span></div></li>';
+    $("#archivos").html(archivoHTMLStr);
+  } else {
+    $("#archivos").hide();
+  }    
   loadRespuestas(solicitud);
 }
 
@@ -475,7 +471,11 @@ function manageRespuesta() {
   if (!hasRespuesta) {
     alert("No hay respuesta aun, pronto una respuesta estará disponible");
   } else {
-    window.location.href = "suVerSolicitud.html?idSolicitud=" + currentRespuestas[currentRespuestas.length-1].idRespuesta;
+    if (currentSolicitud.idServicio != 7) {
+      window.location.href = "suVerSolicitud.html?idSolicitud=" + currentRespuestas[currentRespuestas.length-1].idRespuesta;
+    } else {
+      alert("Las denuncias solo cambian de estado. No tienen respuestas puntuales.");
+    }
   }
 }
 

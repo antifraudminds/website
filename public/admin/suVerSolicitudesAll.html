@@ -84,27 +84,7 @@
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar" style="background-color:#000000;">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">MEN&Uacute; DE NAVEGAVCI&Oacute;N</li>
-        <li class="active treeview">
-          <a href="#" style="border-left-color: #c5a628;">
-            <i class="fa fa-envelope"></i> <span>Envi&oacute; de Solicitudes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="suVerSolicitudesAll.html"><i class="fa fa-circle-o"></i>Solicitud</a></li>
-          </ul>
-        </li>
-        <li><a href="suEnviarMensaje.html"><i class="fa fa-circle-o text-aqua" style="color: white !important;"></i> <span>Contactenos</span></a></li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
+    
   </aside>
 
 
@@ -425,6 +405,9 @@ var currentCliente = null;
 });
 
 postLogin = function (cliente) {
+  if (cliente.tipo == 1) {
+      loadSideBarUser();
+    }
   currentCliente = cliente;
   renderData(cliente);
   loadSolicitudes(cliente);
@@ -432,22 +415,32 @@ postLogin = function (cliente) {
 
 function loadSolicitudes(cliente) {
   var solicitudesManager = new SolicitudManager();
-  solicitudesManager.get(cliente.id, function (rm) {
-    console.log(rm);
-    renderSolicitudes(rm.getObject());  
-  }, function (rm) {
-    console.log(rm);
-  });
+  if (currentCliente.id == 1) {
+    solicitudesManager.getAll(function (rm) {
+      console.log(rm);
+      renderSolicitudes(rm.getObject());  
+    }, function (rm) {
+      console.log(rm);
+    });
+  } else {
+    solicitudesManager.get(cliente.id, function (rm) {
+      console.log(rm);
+      renderSolicitudes(rm.getObject());  
+    }, function (rm) {
+      console.log(rm);
+    });
+  }
 }
 
 function renderSolicitudes(solicitudes) {
   var tableContentSolicitudes = document.getElementById("contentSolicitudes");
-  var contentStr = "";
+  var contentStr = '<tr><th></th><th class="mailbox-star">Item</th><th class="mailbox-name">Nombre</th><th class="mailbox-subject">No. Solicitud</th><th class="mailbox-subject">Titulo</th><th class="mailbox-attachment">Archivos Adjuntos</th><th class="mailbox-date">Fecha Creaci&oacute;n</th><th class="mailbox-date">Fecha &Uacute;ltima respuesta</th></tr>';
   tableContentSolicitudes.innerHTML = contentStr;
   for (var i = 0; i < solicitudes.length; i++) {
     var solicitud = solicitudes[i];
     var fileAttachment = solicitud.urlArchivo.length > 0 ? '<a href="'+solicitud.urlArchivo+'" target="_blank"><i class="fa fa-paperclip"></i></a>' : '';
-    contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name"><a href="suVerSolicitud.html?idSolicitud='+solicitud.id+'">'+solicitud.nombre+'</a></td><td class="mailbox-subject">'+solicitud.tituloSolicitud+'</td><td class="mailbox-attachment">' + fileAttachment +  '</td><td class="mailbox-date">'+formatFecha(solicitud.fecha)+'</td></tr>';
+    var fechaRespuesta = solicitud.fechaRespuesta != null ? formatFecha(solicitud.fechaRespuesta) : "Sin Respuesta";
+    contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name"><a href="saVerSolicitud.html?idSolicitud='+solicitud.id+'">'+solicitud.nombre+'</a></td><td class="mailbox-subject">'+solicitud.numeroSolicitud+'</td><td class="mailbox-subject">'+solicitud.tituloSolicitud+'</td><td class="mailbox-attachment">' + fileAttachment +  '</td><td class="mailbox-date">'+formatFecha(solicitud.fecha)+'</td><td class="mailbox-date">'+ fechaRespuesta +'</td></tr>';
   }
   tableContentSolicitudes.innerHTML = contentStr;
   /**
@@ -478,11 +471,11 @@ function toogleMenu() {
 }
 
 function formatFecha(fecha) {
-            console.log(fecha.split("T")[0]);
-            var date = new Date(fecha.split("T")[0]+"Z");
-            date = new Date(date.getTime() + 86400000);
-            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear();
+            var date = new Date(fecha);
+            //date = new Date(date.getTime() + 86400000);
+            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " " + fixZero(date.getHours()) + ":" + fixZero(date.getMinutes()) + ":" + fixZero(date.getSeconds());
         }
+
         
         function meses(mes) {
             switch (mes) {

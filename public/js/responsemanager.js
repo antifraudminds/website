@@ -39,3 +39,9 @@
       $( ".main-sidebar" ).html( data );
     });
  }
+ 
+ function loadSideBarUser() {
+   $.get( "sidebarUser.html", function( data ) {
+      $( ".main-sidebar" ).html( data );
+    });
+ }

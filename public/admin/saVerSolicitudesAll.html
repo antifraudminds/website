@@ -460,7 +460,7 @@ function toogleMenu() {
 function formatFecha(fecha) {
             var date = new Date(fecha);
             //date = new Date(date.getTime() + 86400000);
-            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " | " + fixZero(date.getHours()) + ":" + fixZero(date.getMinutes()) + ":" + fixZero(date.getSeconds());
+            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " " + fixZero(date.getHours()) + ":" + fixZero(date.getMinutes()) + ":" + fixZero(date.getSeconds());
         }
         
         function meses(mes) {

@@ -87,27 +87,7 @@
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar" style="background-color:#000000;">
-    <!-- sidebar: style can be found in sidebar.less -->
-    <section class="sidebar">
-      
-      <!-- sidebar menu: : style can be found in sidebar.less -->
-      <ul class="sidebar-menu">
-        <li class="header">MEN&Uacute; DE NAVEGAVCI&Oacute;N</li>
-        <li class="active treeview">
-          <a href="#" style="border-left-color: #c5a628;">
-            <i class="fa fa-envelope"></i> <span>Envi&oacute; de Solicitudes</span>
-            <span class="pull-right-container">
-              <i class="fa fa-angle-left pull-right"></i>
-            </span>
-          </a>
-          <ul class="treeview-menu">
-            <li class="active"><a href="suVerSolicitudesAll.html"><i class="fa fa-circle-o"></i>Solicitud</a></li>
-          </ul>
-        </li>
-        <li><a href="suEnviarMensaje.html"><i class="fa fa-circle-o text-aqua" style="color: white !important;"></i> <span>Contactenos</span></a></li>
-      </ul>
-    </section>
-    <!-- /.sidebar -->
+   
   </aside>
 
 
@@ -371,6 +351,9 @@ var currentCliente = null;
 });
 
 postLogin = function (cliente) {
+  if (cliente.tipo == 1) {
+      loadSideBarUser();
+    }
   currentCliente = cliente;
   renderData(cliente);
   loadServicios();
@@ -378,7 +361,7 @@ postLogin = function (cliente) {
 
 function loadServicios() {
     var servicioManager = new ServiciosManager();
-    servicioManager.getServiciosByEmpresa(currentCliente.id, function (rm) {
+    servicioManager.getServiciosByUsuario(currentCliente.idUsuario, function (rm) {
       renderServicios(rm.getObject());
     }, function (rm) {
       console.log(rm);
@@ -431,7 +414,7 @@ function toogleMenu() {
     if (form.servicio.value > 0 && textRequerimiento != null && textRequerimiento.length > 0) {
       var newsolicitud = new SolicitudManager();
       tituloSolicitud = tituloSolicitud.length > 15 ? tituloSolicitud.substr(0,15) : tituloSolicitud;
-      var data = {idEmpresa:currentCliente.id, idServicio:form.servicio.value, txtRequerimiento: textRequerimiento, tituloSolicitud: tituloSolicitud}; 
+      var data = {idEmpresa:currentCliente.id,idUsuario:currentCliente.idUsuario, idServicio:form.servicio.value, txtRequerimiento: textRequerimiento, tituloSolicitud: tituloSolicitud}; 
       newsolicitud.insertar(data, form.attachment.files, function (rm) {
         console.log(rm);
         form.reset();
