@@ -24,6 +24,8 @@ var GMailManager = function () {
                 responseManager.error = err;
                 responseCallback(responseManager);   
             } else {
+                console.log(httpResponse);
+                console.log(body);
                 responseManager.object = "Un correo con la información requerida ha sido enviada.";
                 responseManager.error = "NO_ERROR";            
                 responseCallback(responseManager);
