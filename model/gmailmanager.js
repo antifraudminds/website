@@ -12,7 +12,7 @@ var GMailManager = function () {
             'FromName': 'Antifraudminds',
             'Subject': subject,
             'Text-part': text,
-            'Recipients': [{'Email': to}]
+            'Recipients': getRecipients(to)
         };
         
         return emailData;
@@ -38,6 +38,19 @@ var GMailManager = function () {
             responseCallback(responseManager);
         });
         
+        
+    }
+    
+    function getRecipients(to) {
+        if (Array.isArray(to)) {
+            var result = [];
+            for (var index = 0; index < to.length; index++) {
+                result.push({'Email': to[index]});
+            }
+            return result;
+        } else {
+            return [{'Email': to}];
+        }
         
     }
 }
