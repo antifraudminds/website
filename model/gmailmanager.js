@@ -1,13 +1,11 @@
 var ResponseManager = require("../model/responsemanager.js")
 var Connection = require("../model/connection.js")
+var GmailSendModule = require('gmail-send')
 
 //Clase GMailManager
 var GMailManager = function () {
     var user = "developer.aminds@gmail.com";
     var pass = "Joaquin3007";
-    var gmailSend = require('gmail-send');
-    
-    
     
     this.buildEmailMessage = function (from, to, subject, text) {
         return {
@@ -20,7 +18,7 @@ var GMailManager = function () {
     
     this.sendEmail = function(data, responseCallback) {
         console.log(data);
-        var sendEmail = gmailSend({
+        var sendEmail = GmailSendModule({
             user: user,
             pass: pass,
             to: data.to,
