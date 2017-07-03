@@ -432,7 +432,6 @@
   
   
   $(document).ready(function () {
-    loadNotificaciones();
     loadServicios();
     isLogued();
   });
@@ -550,6 +549,7 @@
       }
     }
     serviciosContainer.html(serviciosHtmlString);
+    loadNotificaciones();
   }
   
   function servicioChanged(id, control) {
