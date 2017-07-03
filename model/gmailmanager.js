@@ -20,7 +20,7 @@ var GMailManager = function () {
     
     this.sendEmail = function(data, responseCallback) {
         console.log(data);
-        var Mailjet = require('apiv3').connect('01c42d863084eebd93ebecd5491759f9', 'ef6d6e9e7c0414b236910b08d753ba83');
+        var Mailjet = require('node-mailjet').connect('01c42d863084eebd93ebecd5491759f9', 'ef6d6e9e7c0414b236910b08d753ba83');
         var sendEmail = Mailjet.post('send');
         sendEmail.request(data).then(function (body) {
             console.log("Body:");
