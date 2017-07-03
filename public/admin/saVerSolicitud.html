@@ -415,6 +415,10 @@ var currentRespuesta = null;
 postLogin = function (cliente) {
   if (cliente.tipo == 0) {
       loadSideBar();
+    } else {
+      if (cliente.tipo == 1 && cliente.id == 1) {
+        loadSideBarUser();
+      }
     }
   currentCliente = cliente;
   renderData(cliente);
