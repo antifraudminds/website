@@ -42,7 +42,7 @@
     "html5-to-pdf" : "~2.1.1",
     "phantom-html2pdf" : "4.0.0",
     "mailgun-js": "~0.7.12",
-    "mailsender": "1.1.2"
+    "request": "2.81.0"
   },
   "devDependencies": {},
   "bundleDependencies": [],
