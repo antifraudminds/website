@@ -439,7 +439,7 @@ function renderSolicitudes(solicitud) {
   $("#servicio").html("Servicio: " + solicitud.nombreServicio);
   $("#nombre").html(solicitud.nombre);
   $("#fecha").html(formatFecha(solicitud.fecha));
-  $("#fechaRespuesta").html(solicitud.fechaRespuesta.length > 6 ? formatFecha(solicitud.fechaRespuesta) : "No hay Respuesta");
+  $("#fechaRespuesta").html(solicitud.fechaRespuesta != null ? formatFecha(solicitud.fechaRespuesta) : "No hay Respuesta");
   $("#textRequerimiento").html(solicitud.textRequerimiento);
   if (solicitud.idServicio == 7) {
     $("#estadoDenuncia").html("Estado Denuncia:" + solicitud.estadoDenuncia);
