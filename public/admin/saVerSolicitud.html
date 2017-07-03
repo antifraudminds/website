@@ -479,7 +479,7 @@ function manageRespuesta() {
 }
 
 function renderRespuesta(respuestas) {
-  if (respuestas.length > 0) {
+  if (respuestas.length > 0 && currentSolicitud.idServicio != 7) {
     hasRespuesta = true;
     currentRespuesta = respuestas;
     $("#btnRespuesta").html("Ver Respuesta");
