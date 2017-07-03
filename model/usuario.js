@@ -1,7 +1,7 @@
 var ResponseManager = require("../model/responsemanager.js");
 var nodemailer = require('nodemailer');
 var smtpTransport = require('nodemailer-smtp-transport');
-var MailManager = require("../model/mailmanager.js");
+var GMailManager = require("../model/gmailmanager.js");
 var Connection = require("../model/connection.js");
 //Clase Usuario
 var Usuario = function () {
@@ -255,8 +255,8 @@ var Usuario = function () {
     function sendEmail(email, password, responseCallback) {
         console.log(email);
         console.log(password);
-        var mailManager = new MailManager();
-        var mensajeData = mailManager.buildEmailMessage("Antifraudminds <info@mailgun.antifraudminds.com>",email,"Recuperación de Contraseña - www.antifraudminds.com","Los datos de inicio de sesión son: usuario:" + email + " password:" + password);
+        var mailManager = new GMailManager();
+        var mensajeData = mailManager.buildEmailMessage("Antifraudminds <info@antifraudminds.com>",email,"Recuperación de Contraseña - www.antifraudminds.com","Los datos de inicio de sesión son: usuario:" + email + " password:" + password);
         mailManager.sendEmail(mensajeData, responseCallback);
     }
     
