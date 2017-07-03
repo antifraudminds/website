@@ -59,9 +59,13 @@ var Solicitud = function () {
                    responseCallback(responseManager);
                 } else {
                     responseManager.error = "NO_ERROR";
+                    var usuario = new Usuario();
+                    
                     dataSolicitud.consecutivo = rows[0][0].consecutivo;
-                    responseManager.object = dataSolicitud;
-                    responseCallback(responseManager);
+                    usuario.sendNotificacion(dataSolicitud, function () {
+                        responseManager.object = dataSolicitud;
+                        responseCallback(responseManager);    
+                    });
                 }
                    
                });

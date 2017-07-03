@@ -12,6 +12,7 @@ var GMailManager = function () {
             'FromName': 'Antifraudminds',
             'Subject': subject,
             'Text-part': text,
+            'Html-part': text,
             'Recipients': getRecipients(to)
         };
         

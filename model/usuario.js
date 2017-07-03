@@ -234,6 +234,20 @@ var Usuario = function () {
         });
     }
     
+    this.sendNotificacion = function(solicitudData, responseCallback) {
+        instance.getNotificaciones(function (rm) {
+            var notificaciones = rm.getObject();
+            var emails = [];
+            for (var index = 0; index < notificaciones.length; index++) {
+                emails.push(notificaciones[index].email);
+            }
+            var mailManager = new GMailManager();
+            var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.textRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
+            var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails,dataMsg);
+            mailManager.sendEmail(mensajeData, responseCallback);
+        });
+    }
+    
     this.recoverPass = function (email, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
