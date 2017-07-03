@@ -189,7 +189,7 @@
          $.ajax({
             url: '/solicitud/reporte',
             type: 'POST', //Obtiene los datos del cliente.
-            data: data,
+            data: JSON.stringify(data),
             dataType   : 'json',
             contentType: 'application/json',
             beforeSend: function (request) {
