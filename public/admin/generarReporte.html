@@ -5,6 +5,8 @@
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <script  type="text/javascript" src="../js/solicitudmanager.js"></script>
     <script src="../js/responsemanager.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.4/jspdf.debug.js"></script>
+	<script src="https://github.com/niklasvh/html2canvas/releases/download/0.5.0-alpha1/html2canvas.js"></script>
     
     <link rel="stylesheet" href="../css/style.css">
 	<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -101,15 +103,56 @@
             return num < 10 ? "0" + num : num;
         }
         
-        function downloadPdf(control) {
-			var isChrome = /Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor);
-			if (isChrome) {
-				$(control).hide();
-				this.print();
-				$(control).show();
-			} else {
-				alert("Por favor usar el navegador Google Chrome para imprimir este documento como un pdf");
+        function makePDF() {
+			var quotes = document.getElementById("content");
+
+			html2canvas(quotes, {
+				onrendered: function(canvas) {
+
+				//! MAKE YOUR PDF
+				var pdf = new jsPDF('p', 'pt', 'legal');
+
+				for (var i = 0; i <= quotes.clientHeight/980; i++) {
+					//! This is all just html2canvas stuff
+					var srcImg  = canvas;
+					var sX      = 0;
+					var sY      = 980*i; // start 980 pixels down for every new page
+					var sWidth  = 980;
+					var sHeight = 980;
+					var dX      = 0;
+					var dY      = 0;
+					var dWidth  = 980;
+					var dHeight = 980;
+
+					window.onePageCanvas = document.createElement("canvas");
+					onePageCanvas.setAttribute('width', 900);
+					onePageCanvas.setAttribute('height', 980);
+					var ctx = onePageCanvas.getContext('2d');
+					// details on this usage of this function: 
+					// https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial/Using_images#Slicing
+					ctx.drawImage(srcImg,sX,sY,sWidth,sHeight,dX,dY,dWidth,dHeight);
+
+					// document.body.appendChild(canvas);
+					var canvasDataURL = onePageCanvas.toDataURL("image/png", 1.0);
+
+					var width         = onePageCanvas.width;
+					var height        = onePageCanvas.clientHeight;
+
+					//! If we're on anything other than the first page,
+					// add another page
+					if (i > 0) {
+						pdf.addPage(612, 791); //8.5" x 11" in pts (in*72)
+					}
+					//! now we declare that we're working on that page
+					pdf.setPage(i+1);
+					//! now we add content to that page!
+					pdf.addImage(canvasDataURL, 'PNG', 20, 40, (width*.62), (height*.62));
+
+				}
+				//! after the for loop is finished running, we save the pdf.
+				pdf.save('test.pdf');
 			}
+		  });
 		}
         
         $(document).ready(function() {
@@ -118,30 +161,33 @@
         
     </script>
     <body>
-        <div style="background-color: #000000;text-align: center;">
-            <img src="https://website-antifraudminds.rhcloud.com/img/logo.svg" width="200" height="200">
-        </div>
-		<div style="text-align: center; font-family: Roboto, Arial, sans-serif;color: #ffffff; text-shadow: 1px 1px black;margin-bottom: 0px; font-size: 59px; line-height: 1; font-weight: 300;">
-			Reporte AntiFraudMinds
-		</div>
-		<div style="text-align: center;" width="100%">
-			<table class="table table-hover table-striped" align="center" id="reporteTable">
-				<tr><th>No. de Solicitud</th><th>Empresa</th><th>Tipo de Servicio</th><th>Estado de Denuncia</th><th>Fecha de Solicitud</th><th>Fecha de Respuesta</th></tr>
-				<tr>
-					<td>No. de Solicitud</td>
-					<td>Empresa</td>
-					<td>Tipo de Servicio</td>
-					<td>Estado de Denuncia</td>
-					<td>Fecha de Solicitud</td>
-					<td>Fecha de Respuesta</td>
-				</tr>
-				<tr><td>No. de Solicitud</td><td>Empresa</td><td>Tipo de Servicio</td><td>Estado de Denuncia</td><td>Fecha de Solicitud</td><td>Fecha de Respuesta</td></tr>
-				
-			</table>
-		</div>
-		
+        <div id="content" style="width: 70%; text-align: center">
+			<center>
+            <div style="background-color: #000000;text-align: center;">
+                <img src="https://website-antifraudminds.rhcloud.com/img/logo.svg" width="200" height="200">
+            </div>
+    		<div style="text-align: center; font-family: Roboto, Arial, sans-serif;color: #ffffff; text-shadow: 1px 1px black;margin-bottom: 0px; font-size: 59px; line-height: 1; font-weight: 300;">
+    			Reporte AntiFraudMinds
+    		</div>
+    		<div style="text-align: center;" width="100%">
+    			<table class="table table-hover table-striped" align="center" id="reporteTable">
+    				<tr><th>No. de Solicitud</th><th>Empresa</th><th>Tipo de Servicio</th><th>Estado de Denuncia</th><th>Fecha de Solicitud</th><th>Fecha de Respuesta</th></tr>
+    				<tr>
+    					<td>No. de Solicitud</td>
+    					<td>Empresa</td>
+    					<td>Tipo de Servicio</td>
+    					<td>Estado de Denuncia</td>
+    					<td>Fecha de Solicitud</td>
+    					<td>Fecha de Respuesta</td>
+    				</tr>
+    				<tr><td>No. de Solicitud</td><td>Empresa</td><td>Tipo de Servicio</td><td>Estado de Denuncia</td><td>Fecha de Solicitud</td><td>Fecha de Respuesta</td></tr>
+    				
+    			</table>
+    		</div>
+    	</center>
+    	</div>
 		<div>
-			<button onclick="downloadPdf(this);">Descargar</button>
+			<button onclick="makePDF();">Descargar</button>
 		</div>
     </body>
 </html>
