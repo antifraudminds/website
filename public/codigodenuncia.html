@@ -127,7 +127,7 @@
 					<div class="gtco-contact-info" id="resultado">
 						<h3>Resultado</h3>
 						<ul>
-							<li>C&oacute;digo &Uacute;nico de Denuncia: <label id="codigo"></label></li>
+							<li>C&oacute;digo &Uacute;nico de Denuncia: <label id="codigoUnicolabel"></label></li>
 							<li>Fecha de Creaci&oacute;n: <label id="fechaCreacion"></label></li>
 							<li>Fecha de Cambio de Estado: <label id="fechaCambioEstado"></label></li>
 							<li>Estado de denuncia: <label id="estado"></label></li>
@@ -289,10 +289,11 @@
             	solicitudManager.getConsultaCodigoUnico(form.codigo.value, function (rm) {
             		console.log(rm);	
             		var obj = rm.getObject();
-            		$("#codigo").html(obj.codigoUnico);
+            		$("#codigoUnicolabel").html(obj.codigoUnico);
             		$("#fechaCreacion").html(obj.fechaCreacion);
             		$("#fechaCambioEstado").html(obj.fechaCambioEstado);
             		$("#estado").html(obj.estadoDenuncia);
+            		$("#resultado").show();
             	}, function (rm) {
             		console.log(rm);
             	});
