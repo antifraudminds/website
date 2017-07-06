@@ -50,6 +50,17 @@ var SolicitudControlador = function (routes) {
     });
     
     routes.push({
+        path:"/solicitud/consulta/codigounico/:codigounico",
+        type:"GET",
+        func: function (req,res) {
+            var solicitud = new Solicitud();
+            solicitud.getConsultaCodigoUnico(req.params.codigounico, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
         path:"/solicitud/reporte",
         type:"POST",
         func: function (req,res) {

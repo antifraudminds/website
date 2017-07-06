@@ -204,6 +204,24 @@ var Solicitud = function () {
         });
     }
     
+    this.getConsultaCodigoUnico = function (codigoUnico, responseCallback) {
+        instance.crearConexion(function (connection) {
+            var sql = "CALL GetConsultaCodigoUnico('" + codigoUnico + "');";
+            connection.query(sql, function (err, rows) {
+                var responseManager = new ResponseManager();
+                       if (err) {
+                            responseManager.error = err;
+                           console.log(responseManager.error);
+                           responseCallback(responseManager);
+                        } else {
+                            responseManager.error = "NO_ERROR";
+                            responseManager.object = rows[0][0];
+                            responseCallback(responseManager);
+                        }
+            });
+        });
+    }
+    
     this.delete = function(idSolicitud, responseCallback) {
         instance.crearConexion(function (connection) {
             var sql = "CALL EliminarSolicitud(" + idSolicitud + ");";

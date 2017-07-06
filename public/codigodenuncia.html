@@ -106,38 +106,18 @@
 			<div class="row">
 				<div class="col-md-12">
 					<div class="col-md-6 animate-box">
-					<h3>Contactenos</h3>
-					<form onsubmit="sendContacto(this); return false;">
+					<h3>Consultar estado de C&oacute;digo &Uacute;nico de denuncia</h3>
+					<form onsubmit="consultaCodigo(this); return false;">
 						<div class="row form-group">
 							<div class="col-md-12">
-								<label class="sr-only" for="name">Nombre</label>
-								<input type="text" name="nombre" id="name" class="form-control" placeholder="Nombre y apellido">
+								<label class="sr-only" for="name">Ingrese aqui el código</label>
+								<input type="text" name="codigo" id="codigo" class="form-control" placeholder="Nombre y apellido">
 							</div>
 							
 						</div>
-
-						<div class="row form-group">
-							<div class="col-md-12">
-								<label class="sr-only" for="email">Email</label>
-								<input type="text" name="email" id="email" class="form-control" placeholder="Correo eléctronico">
-							</div>
-						</div>
-
-						<div class="row form-group">
-							<div class="col-md-12">
-								<label class="sr-only" for="subject">Asunto</label>
-								<input type="text" name="asunto" id="subject" class="form-control" placeholder="Asunto">
-							</div>
-						</div>
-
-						<div class="row form-group">
-							<div class="col-md-12">
-								<label class="sr-only" for="message">Mensaje</label>
-								<textarea name="mensaje" id="message" cols="30" rows="10" class="form-control" placeholder="Mensaje"></textarea>
-							</div>
-						</div>
+						
 						<div class="form-group">
-							<input type="submit" value="Enviar" class="btn btn-primary" style="background-color:black;">
+							<input type="submit" value="Consultar" class="btn btn-primary" style="background-color:black;">
 						</div>
 
 					</form>		
@@ -293,24 +273,23 @@
 	<!-- Magnific Popup -->
 	<script src="js/web/jquery.magnific-popup.min.js"></script>
 	<script src="js/web/magnific-popup-options.js"></script>
+	<script  type="text/javascript" src="js/solicitudmanager.js"></script>
 	<!-- Main -->
 	<script src="js/web/main.js"></script>
 	<script>
 		 /* contacto data form */
         
-        function sendContacto(form) {
-            if (form.nombre.value.length > 0 && form.email.value.length > 0 && form.asunto.value.length > 0 && form.mensaje.value.length > 0) {
-                var mensajeManager = new MensajeManager();
-                mensajeManager.insertar({nombre:form.nombre.value, email:form.email.value, asunto:form.asunto.value, mensaje:form.mensaje.value}, function (rm) {
-                    console.log(rm);
-                    form.reset();
-                    alert("Tu mensaje de contacto ha sido enviado");
-                }, function (rm) {
-                    console.log("error");
-                    console.log(rm);
-                });
+        function consultaCodigo(form) {
+            if (form.codigo.value.length > 0) {
+            	var solicitudManager = new SolicitudManager();
+            	solicitudManager.getConsultaCodigoUnico(form.codigo.value, function (rm) {
+            		console.log(rm);	
+            	}, function (rm) {
+            		console.log(rm);
+            	});
+                
             } else {
-                alert("Debes llenar todos los cuadros de texto");
+                alert("Debes ingresar el código único de denuncia");
             }
         }
         function tabBtnQuienes(){
