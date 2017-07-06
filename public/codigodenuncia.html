@@ -291,7 +291,9 @@
             		var obj = rm.getObject();
             		$("#codigoUnicolabel").html(obj.codigoUnico);
             		$("#fechaCreacion").html(formatFecha(obj.fechaCreacion));
-            		$("#fechaCambioEstado").html(formatFecha(obj.fechaCambioEstado));
+            		if (obj.fechaCambioEstado != null && obj.fechaCambioEstado.length > 6) {
+            			$("#fechaCambioEstado").html(formatFecha(obj.fechaCambioEstado));
+            		}
             		$("#estado").html(obj.estadoDenuncia);
             		$("#resultado").show();
             	}, function (rm) {
