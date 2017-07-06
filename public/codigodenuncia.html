@@ -293,6 +293,8 @@
             		$("#fechaCreacion").html(formatFecha(obj.fechaCreacion));
             		if (obj.fechaCambioEstado != null && obj.fechaCambioEstado.length > 6) {
             			$("#fechaCambioEstado").html(formatFecha(obj.fechaCambioEstado));
+            		} else {
+            			$("#fechaCambioEstado").html("-");
             		}
             		$("#estado").html(obj.estadoDenuncia);
             		$("#resultado").show();
