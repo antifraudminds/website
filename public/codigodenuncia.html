@@ -290,8 +290,8 @@
             		console.log(rm);	
             		var obj = rm.getObject();
             		$("#codigoUnicolabel").html(obj.codigoUnico);
-            		$("#fechaCreacion").html(obj.fechaCreacion);
-            		$("#fechaCambioEstado").html(obj.fechaCambioEstado);
+            		$("#fechaCreacion").html(formatFecha(obj.fechaCreacion));
+            		$("#fechaCambioEstado").html(formatFecha(obj.fechaCambioEstado));
             		$("#estado").html(obj.estadoDenuncia);
             		$("#resultado").show();
             	}, function (rm) {
@@ -315,6 +315,61 @@
 			document.getElementById("idIntUnoA").className = "animated zoomIn";
 			document.getElementById('idIntUnoA').style.display = "none";
 		}
+		
+		function formatFecha(fecha) {
+            var date = new Date(fecha);
+            //date = new Date(date.getTime() + 86400000);
+            return fixZero(date.getDate()) + " de " + meses(date.getMonth()) + " de " + date.getFullYear() + " " + fixZero(date.getHours()) + ":" + fixZero(date.getMinutes()) + ":" + fixZero(date.getSeconds());
+        }
+
+        
+        function meses(mes) {
+            switch (mes) {
+                case 0:
+                    return "Enero";
+                    break;
+                case 1:
+                    return "Febrero";
+                    break;
+                case 2:
+                    return "Marzo";
+                    break;
+                case 3:
+                    return "Abril";
+                    break;
+                case 4:
+                    return "Mayo";
+                    break;
+                case 5:
+                    return "Junio";
+                    break;
+                case 6:
+                    return "Julio";
+                    break;
+                case 7:
+                    return "Agosto";
+                    break;
+                case 8:
+                    return "Septiembre";
+                    break;
+                case 9:
+                    return "Octubre";
+                    break;
+                case 10:
+                    return "Noviembre";
+                    break;
+                case 11:
+                    return "Diciembre";
+                    break;
+                
+                default:
+                    return "Enero";
+            }
+        }
+        
+        function fixZero(num) {
+            return num < 10 ? "0" + num : num;
+        }
 	</script>
 	</body>
 </html>
