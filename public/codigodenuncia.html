@@ -111,7 +111,7 @@
 						<div class="row form-group">
 							<div class="col-md-12">
 								<label class="sr-only" for="name">Ingrese aqui el código</label>
-								<input type="text" name="codigo" id="codigo" class="form-control" placeholder="Nombre y apellido">
+								<input type="text" name="codigo" id="codigo" class="form-control" placeholder="Ejm: X-X-XXX">
 							</div>
 							
 						</div>
@@ -124,13 +124,13 @@
 				</div>
 				<div class="col-md-5 col-md-push-1 animate-box">
 					
-					<div class="gtco-contact-info">
-						<h3>Información de contacto</h3>
+					<div class="gtco-contact-info" id="resultado">
+						<h3>Resultado</h3>
 						<ul>
-							<li class="address">Calle 68 # 9 - 27 , <br> Bogotá - Colombia </li>
-							<li class="phone" ><a style="color:gray;" href="tel://1234567920"> +57 350 452 26 80</a></li>
-							<li class="phone" ><a style="color:gray;" href="tel://1234567920"> Radio: 2204*4</a></li>
-							<li class="email" ><a style="color:gray;" href="mailto:info@yoursite.com">info@antifraudminds.com</a></li>
+							<li>C&oacute;digo &Uacute;nico de Denuncia: <label id="codigo"></label></li>
+							<li>Fecha de Creaci&oacute;n: <label id="fechaCreacion"></label></li>
+							<li>Fecha de Cambio de Estado: <label id="fechaCambioEstado"></label></li>
+							<li>Estado de denuncia: <label id="estado"></label></li>
 						</ul>
 					</div>
 
@@ -279,11 +279,20 @@
 	<script>
 		 /* contacto data form */
         
+        $(document).ready(function () {
+        	$("#resultado").hide();	
+        });
+        
         function consultaCodigo(form) {
             if (form.codigo.value.length > 0) {
             	var solicitudManager = new SolicitudManager();
             	solicitudManager.getConsultaCodigoUnico(form.codigo.value, function (rm) {
             		console.log(rm);	
+            		var obj = rm.getObject();
+            		$("#codigo").html(obj.codigoUnico);
+            		$("#fechaCreacion").html(obj.fechaCreacion);
+            		$("#fechaCambioEstado").html(obj.fechaCambioEstado);
+            		$("#estado").html(obj.estadoDenuncia);
             	}, function (rm) {
             		console.log(rm);
             	});
