@@ -42,7 +42,9 @@
     "html5-to-pdf" : "~2.1.1",
     "phantom-html2pdf" : "4.0.0",
     "mailgun-js": "~0.7.12",
-    "node-mailjet": "3.1.0"
+    "node-mailjet": "3.1.0",
+    "image-size": "0.6.0",
+    "jimp": "0.2.28"
   },
   "devDependencies": {},
   "bundleDependencies": [],

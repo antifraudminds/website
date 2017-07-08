@@ -1,6 +1,8 @@
 var ResponseManager = require("../model/responsemanager.js");
 var Connection = require("../model/connection.js");
 var FileManager = require("../model/filemanager.js");
+var sizeOf = require('image-size'); 
+var Jimp = require("jimp");
 
 //Clase DecrimData
 var DecrimData = function () {
@@ -196,10 +198,9 @@ var DecrimData = function () {
                      console.log(rows);
                      
                      var archivos = getArchivosFromQuery(rows);
-                     archivos = getArchivosBase64IfRequired(archivos);
-                     
-                     
-                    var pathPdfTemplate = instance.path.join(__dirname, "../public/admin/pdf.html");
+                     archivos.push(rows[0].foto);
+                     archivos = getArchivosBase64IfRequired(archivos, function (archivosBase64) {
+                         var pathPdfTemplate = instance.path.join(__dirname, "../public/admin/pdf.html");
                     var identifier = (new Date()).getTime();
                     var dirName = __dirname;
                     var filenamePath = "../pdfgenerated/pdf_nuevo_" + identifier;
@@ -225,10 +226,7 @@ var DecrimData = function () {
                         console.log("Query Data Added well");
                         
                         //Agrega foto del usuario
-                        var fotoBase64 = rows[0].foto;
-                        if (fotoBase64.indexOf("/uploads") != -1) {
-                            fotoBase64 = getArchivosBase64IfRequired([{nombre:"foto",archivo:fotoBase64}])[0].archivo;
-                        }
+                        var fotoBase64 = archivosBase64[archivosBase64.length - 1].archivo;
                         data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" width="200" height="266"/>');
                         
                         //Tags para los archivos, y posición en el pdf de reporte.
@@ -264,7 +262,7 @@ var DecrimData = function () {
                             ];
                         
                         //Agrega los archivos que tenga el usuario, Fotos cédula adelante-atrás, Huella. 
-                        data = addArchivos(archivos, tags, data);
+                        data = addArchivos(archivosBase64, tags, data);
                         
                         console.log("Photos added well");
                         
@@ -290,43 +288,51 @@ var DecrimData = function () {
                                 responseCallback(responseManager);
                             } else {
                                 console.log("writeFile succeded" + pathPdfForUse);
-                            var options = {
-                                html : pathPdfForUse,
-                                paperSize : {format: 'LEGAL', orientation: 'portrait', border: '0.3cm'},
-                                deleteOnAction : false
-                            }
-                            
-                            var pdf = require('phantom-html2pdf');
- 
-                            pdf.convert(options, function(error, result) {
-                                console.log("pdf convert ok");
-                                if (error) {
-                                    console.log("Error");
-                                    console.log(error);
-                                    responseCallback({error:error});
-                                } else {
-                                    result.toFile(pathPdfResult, function() {
-                                        
-                                        var responseManager = new ResponseManager();
-                                        if (err) {
-                                            console.log("to File error");
-                                            responseManager.error = err;
-                                            responseCallback(responseManager);   
-                                        } else {
-                                            console.log("to File ok");
-                                            responseManager.object = filename;
-                                            responseManager.error = "NO_ERROR";            
-                                            responseCallback(responseManager);
-                                        }
-                                    });
-                                    
+                                var options = {
+                                    html : pathPdfForUse,
+                                    paperSize : {format: 'LEGAL', orientation: 'portrait', border: '0.3cm'},
+                                    deleteOnAction : false
                                 }
                                 
-                                /* Using the file writer and callback */
-                                
-                            });
+                                var pdf = require('phantom-html2pdf');
+     
+                                pdf.convert(options, function(error, result) {
+                                    console.log("execute call func");
+                                    if (error) {
+                                        console.log("Error");
+                                        console.log(error);
+                                        responseCallback({error:error});
+                                    } else {
+                                        console.log("pdf convert ok");
+                                        result.toFile(pathPdfResult, function() {
+                                            
+                                            var responseManager = new ResponseManager();
+                                            if (err) {
+                                                console.log("to File error");
+                                                responseManager.error = err;
+                                                responseCallback(responseManager);   
+                                            } else {
+                                                console.log("to File ok");
+                                                responseManager.object = filename;
+                                                responseManager.error = "NO_ERROR";            
+                                                responseCallback(responseManager);
+                                            }
+                                        });
+                                        
+                                    }
+                                    
+                                    /* Using the file writer and callback */
+                                    
+                                });
                             }
                         });
+                         
+                     });
+                     
+                     
+                    
+                        
+                        
                         
                     //});
                  });
@@ -356,7 +362,7 @@ var DecrimData = function () {
     function addArchivos(archivos, tags, data) {
         for (var indexTags = 0; indexTags < tags.length; indexTags++) {
             var found = false;
-            for (var indexArchivos = 0; indexArchivos < archivos.length; indexArchivos++) {
+            for (var indexArchivos = 0; indexArchivos < (archivos.length - 1); indexArchivos++) {
                 var tag = tags[indexTags];
                 var archivo = archivos[indexArchivos];
                 if (tag.nombre == archivo.nombre) {
@@ -388,7 +394,8 @@ var DecrimData = function () {
         return archivos;
     }
     
-    function getArchivosBase64IfRequired(archivos) {
+    function getArchivosBase64IfRequired(archivos, indexArchivos, callback) {
+        
         var dirPath = __dirname;
         var pathForFiles = "../public";
         if (process.env.OPENSHIFT_DATA_DIR != null) {
@@ -396,13 +403,31 @@ var DecrimData = function () {
             pathForFiles = pathForFiles.replace("../", "");
             console.log(process.env.OPENSHIFT_DATA_DIR);
         }
-        for (var index = 0; index < archivos.length; index++) {
-            var archivo = archivos[index];
+        //for (var index = 0; index < archivos.length; index++) {
+        if (indexArchivos < archivos.length) {
+            var archivo = archivos[indexArchivos];
             if (archivo.archivo.indexOf("/uploads") != -1) {
-                archivos[index].archivo = base64_encode(instance.path.join(dirPath, pathForFiles + archivo.archivo)); 
+                var imagePathFile = instance.path.join(dirPath, pathForFiles + archivo.archivo);
+                var dimensions = sizeOf(imagePathFile);
+                var isPortrait = dimensions.width < dimensions.height;
+                var scale = 1;
+                var desiredValue = 400;
+                
+                Jimp.read(imagePathFile, function (err, image) {
+                    if (!err) {
+                        image.resize(Jimp.AUTO, desiredValue);
+                        image.getBuffer(Jimp.MIME_PNG, function (result) {
+                            archivos[indexArchivos].archivo = result.toString("base64");
+                            getArchivosBase64IfRequired(archivos, indexArchivos + 1, callback);
+                        });
+                    } else {
+                        getArchivosBase64IfRequired(archivos, indexArchivos + 1, callback);
+                    }
+                });
             }
+        } else {
+            callback(archivos);
         }
-        return archivos;
     }
     
     function base64_encode(file) {
