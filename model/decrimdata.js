@@ -198,7 +198,7 @@ var DecrimData = function () {
                      console.log(rows);
                      
                      var archivos = getArchivosFromQuery(rows);
-                     archivos.push(rows[0].foto);
+                     archivos.push({nombre:"fotousuario",archivo:rows[0].foto});
                      archivos = getArchivosBase64IfRequired(archivos, 0, function (archivosBase64) {
                          var pathPdfTemplate = instance.path.join(__dirname, "../public/admin/pdf.html");
                     var identifier = (new Date()).getTime();
