@@ -411,7 +411,7 @@ var DecrimData = function () {
                 Jimp.read(imagePathFile, function (err, image) {
                     if (!err) {
                         image.resize(Jimp.AUTO, desiredValue);
-                        image.getBuffer(Jimp.MIME_PNG, function (result) {
+                        image.getBuffer(Jimp.MIME_PNG, function (err, result) {
                             archivos[indexArchivos].archivo = result.toString("base64");
                             getArchivosBase64IfRequired(archivos, indexArchivos + 1, callback);
                         });
