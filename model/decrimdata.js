@@ -199,7 +199,7 @@ var DecrimData = function () {
                      
                      var archivos = getArchivosFromQuery(rows);
                      archivos.push(rows[0].foto);
-                     archivos = getArchivosBase64IfRequired(archivos, function (archivosBase64) {
+                     archivos = getArchivosBase64IfRequired(archivos, 0, function (archivosBase64) {
                          var pathPdfTemplate = instance.path.join(__dirname, "../public/admin/pdf.html");
                     var identifier = (new Date()).getTime();
                     var dirName = __dirname;
@@ -328,11 +328,6 @@ var DecrimData = function () {
                         });
                          
                      });
-                     
-                     
-                    
-                        
-                        
                         
                     //});
                  });
