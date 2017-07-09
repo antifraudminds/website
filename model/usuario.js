@@ -239,11 +239,13 @@ var Usuario = function () {
             console.log("solicitud data:");
             console.log(solicitudData);
             var notificaciones = rm.object;
+            console.log("notificaciones:");
+            console.log(notificaciones);
             var emails = [];
             for (var index = 0; index < notificaciones.length; index++) {
                 var notificacion = notificaciones[index];
                 var serviciosAsignados = notificacion.tipoServicio.split(",");
-                if (serviciosAsignados.indexOf(solicitudData.idServicio) != -1) {
+                if (serviciosAsignados.indexOf("" + solicitudData.idServicio) != -1) {
                     emails.push(notificacion.email);    
                 }
             }
