@@ -260,6 +260,8 @@ var DecrimData = function () {
                                 height:171
                             } 
                             ];
+                            console.log("Archivos convertidos a base 64");
+                            console.log(archivosBase64);
                         
                         //Agrega los archivos que tenga el usuario, Fotos cédula adelante-atrás, Huella. 
                         data = addArchivos(archivosBase64, tags, data);
@@ -403,10 +405,7 @@ var DecrimData = function () {
             var archivo = archivos[indexArchivos];
             if (archivo.archivo.indexOf("/uploads") != -1) {
                 var imagePathFile = instance.path.join(dirPath, pathForFiles + archivo.archivo);
-                var dimensions = sizeOf(imagePathFile);
-                var isPortrait = dimensions.width < dimensions.height;
-                var scale = 1;
-                var desiredValue = 400;
+                var desiredValue = 200;
                 
                 Jimp.read(imagePathFile, function (err, image) {
                     if (!err) {
