@@ -236,6 +236,8 @@ var Usuario = function () {
     
     this.sendNotificacion = function(solicitudData, responseCallback) {
         instance.getNotificaciones(function (rm) {
+            console.log("solicitud data:");
+            console.log(solicitudData);
             var notificaciones = rm.object;
             var emails = [];
             for (var index = 0; index < notificaciones.length; index++) {
