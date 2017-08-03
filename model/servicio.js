@@ -93,7 +93,7 @@ var Servicio = function () {
     this.getAll = function (responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
-                connection.query("select * from Servicios", function(err, rows) {
+                connection.query("select id, nombre, numeracion from Servicios order by CAST(numeracion AS DECIMAL(10,1))", function(err, rows) {
                     var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;

@@ -283,9 +283,9 @@
     for (var index = 0; index < servicios.length; index++) {
       var servicio = servicios[index];
       if (serviciosHtmlString.length <= 0) {
-        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+ servicio.numeracion + '&nbsp;'+servicio.nombre+'</label></div>';
       } else {
-        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input id="servicio' + servicio.id + '" type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+ servicio.numeracion + '&nbsp;'+servicio.nombre+'</label></div>';
       }
     }
     serviciosContainer.html(serviciosHtmlString);
