@@ -1,4 +1,5 @@
 var DecrimData = require("../model/decrimdata.js");
+var Licencia = require("../model/licencia.js");
 var multipart = require('connect-multiparty');
 
 var DecrimDataController = function (routes) {
@@ -42,6 +43,17 @@ var DecrimDataController = function (routes) {
         func: function (req,res) {
             var decrimData = new DecrimData();
             decrimData.getDecrimData(req.params.idCaso, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
+        path:"/licencia",
+        type:"GET",
+        func: function (req,res) {
+            var licencia = new Licencia();
+            licencia.getLicencia(function(responseManager) {
                res.send(responseManager); 
             });
         }
