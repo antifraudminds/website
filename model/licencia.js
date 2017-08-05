@@ -2,8 +2,8 @@ var ResponseManager = require("../model/responsemanager.js");
 var Connection = require("../model/connection.js");
 var FileManager = require("../model/filemanager.js");
 
-//Clase Banners
-var Banners = function () {
+//Clase Licencia
+var Licencia = function () {
     //Obteniendo recursos
     this.mysql = require("mysql");
     this.fs = require("fs");
@@ -52,3 +52,4 @@ var Banners = function () {
     
     var instance = this;
 }
+module.exports = Licencia;
