@@ -94,7 +94,7 @@
 	</header>
 	
 	<div class="gtco-section border-bottom">
-		<div id="banners" class="animated fadeInLeft" style="width: 220px;text-align: center;margin: 30px auto 50px;">
+		<div id="banners" class="animated fadeInLeft gtco-container" style="width: 220px;text-align: center;margin: 10px auto 10px;">
 			
 		</div>
 		<div class="gtco-container">
@@ -376,11 +376,11 @@
 		      console.log(rm);
 		      var banners  = rm.getObject();
 		      currentBanners = banners;
-		      var htmlBanners = "";
+		      var htmlBanners = "<div>Nuestros Clientes</div><br><br>";
 		      
 		      for (var i = 0; i < banners.length ; i++) {
 		        var banner = banners[i];
-		        var htmlContent = '<div><img src="'+banner.urlImage+'" width="100" height="100"></img></div>';
+		        var htmlContent = '<img src="'+banner.urlImage+'" width="100" height="100"></img>';
 		        htmlBanners += htmlContent;
 		      }
 		      $("#banners").html(htmlBanners);
