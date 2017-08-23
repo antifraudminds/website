@@ -48,7 +48,7 @@ var Clientes = function () {
             
                 if (connection) {
                     var urlImage = path.length > 0 ? "urlImage = '" + path + "'," : "";
-                    var sqlUpdate = "update ClientesBanners set " + urlImage + "url = '" + bannersData.url + "' where id = " + bannersData.id + ";";
+                    //var sqlUpdate = "update ClientesBanners set " + urlImage + "url = '" + bannersData.url + "' where id = " + bannersData.id + ";";
                     var sqlUpdate = "insert into ClientesBanners (urlImage, url) values ('"+urlImage+"','"+bannersData.url+"');";
                     console.log(sqlUpdate);
                      connection.query(sqlUpdate, function(err, rows) {
