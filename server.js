@@ -10,6 +10,7 @@ var connect = require('connect');
 var UsuarioControlador = require(__dirname + "/controllers/usuarioControlador.js");
 var EmpresaControlador = require(__dirname + "/controllers/empresaControlador.js");
 var BannersControlador = require(__dirname + "/controllers/bannersController.js");
+var ClientesControlador = require(__dirname + "/controllers/clientesController.js");
 var SolicitudControlador = require(__dirname + "/controllers/solicitudControlador.js");
 var ServicioControlador = require(__dirname + "/controllers/servicioControlador.js");
 var DecrimDataController = require(__dirname + "/controllers/decrimDataController.js");

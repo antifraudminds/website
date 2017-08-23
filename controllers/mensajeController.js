@@ -14,6 +14,17 @@ var MensajesControlador = function (routes) {
     });
     
     routes.push({
+        path:"/mensajes/cliente",
+        type:"PUT",
+        func: function (req,res) {
+            var mensajes = new Mensajes();
+            mensajes.insertComentarioCliente(req.body, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
         path:"/mensajes/update",
         type:"PUT",
         func: function (req,res) {

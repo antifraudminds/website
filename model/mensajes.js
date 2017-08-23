@@ -51,6 +51,30 @@ var Mensaje = function () {
         
     }
     
+    this.insertComentarioCliente = function (mensajeData, responseCallback) {
+        instance.crearConexion(function (connection) {
+            
+            if (connection) {
+                
+                var sqlInsert = "insert into ComentariosCliente (cliente, comentario) values ('"+mensajeData.cliente+"','"+mensajeData.comentario+"');";
+                 connection.query(sqlInsert, function(err, rows) {
+                            var responseManager = new ResponseManager();
+                            if (err) {
+                                responseManager.error = err;
+                                responseCallback(responseManager);   
+                            } else {
+                                responseManager.object = mensajeData;
+                                responseManager.error = "NO_ERROR";
+                                sendEmailClienteComentario(mensajeData, function() {
+                                    responseCallback(responseManager);    
+                                });
+                            }
+                 });
+            }
+        });
+        
+    }
+    
     function sendEmail(data, responseCallback) {
         instance.crearConexion(function (connection) {
            if (connection) {
@@ -64,6 +88,24 @@ var Mensaje = function () {
                         var empresa = data.nombreEmpresa != null ? "<b>Empresa: </b>" + data.nombreEmpresa + "<br>" : "";
                         var mensaje = "Enviado por <b>" + data.nombre + "</b><br>"+empresa+"<b>Email: </b>"+data.email + "<br><b>Fecha: </b>" + new     Date()+"<br><br>" + data.mensaje;
                         var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emailsTosend, "Enviado por cliente desde AntifraudMinds.com " + data.asunto, mensaje);
+                        mailManager.sendEmail(mensajeData, responseCallback);
+                });
+                }
+            });
+    }
+    
+    function sendEmailClienteComentario(data, responseCallback) {
+        instance.crearConexion(function (connection) {
+           if (connection) {
+               connection.query("CALL getNotificaciones()", function (err, rows) {
+                        var emails = rows[0]; 
+                        var emailsTosend = [];
+                        for (var index = 0; index < emails.length; index++) {
+                            emailsTosend.push(emails[index].email);
+                        }
+                        var mailManager = new GMailManager();
+                        var mensaje = "Enviado por <b>" + data.cliente + "</b><br>" + data.comentario;
+                        var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emailsTosend, "Enviado por cliente desde AntifraudMinds.com " + "Comentario de un cliente", mensaje);
                         mailManager.sendEmail(mensajeData, responseCallback);
                 });
                 }

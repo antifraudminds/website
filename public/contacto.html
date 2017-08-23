@@ -67,7 +67,7 @@
 				<div class="col-xs-12 text-right menu-1">
 					<ul style="text-align: center;">
 						<li><a href="psicologia.html">PSICOLOGÍA DEL FRAUDE</a></li>
-						<li><a href="consultorias.html">CONSULTORIAS Y ASESORIAS</a></li>
+						<li><a href="tecnologia_antifraude.html">TECNOLOG&Iacute;A ANTIFRAUDE</a></li>
 						<li><a href="investigacion.html">INVESTIGACIÓN</a></li>
 						<li><a href="servicios.html">SERVICIOS</a></li>
 						<li><a style="border-bottom: 2px solid white;" href="contacto.html">CONTACTENOS</a></li>
@@ -147,11 +147,34 @@
 					<div class="gtco-contact-info">
 						<h3>Información de contacto</h3>
 						<ul>
-							<li class="address">Calle 68 # 9 - 27 , <br> Bogotá - Colombia </li>
+							<li class="address">Bogotá - Colombia</li>
 							<li class="phone" ><a style="color:gray;" href="tel://1234567920"> +57 350 452 26 80</a></li>
 							<li class="phone" ><a style="color:gray;" href="tel://1234567920"> Radio: 2204*4</a></li>
 							<li class="email" ><a style="color:gray;" href="mailto:info@yoursite.com">info@antifraudminds.com</a></li>
 						</ul>
+					</div>
+					<div class="gtco-contact-info">
+						<h3>Comentarios de nuestros clientes</h3>
+						<div ="col-md-6 animate-box">
+							<form onsubmit="sendComentarioCliente(this); return false;">
+								<div class="row form-group">
+									<div class="col-md-12">
+										<label class="sr-only" for="cliente">Cliente</label>
+										<input type="text" name="cliente" id="cliente" class="form-control" placeholder="Cliente">
+									</div>
+								</div>
+								
+								<div class="row form-group">
+									<div class="col-md-12">
+										<label class="sr-only" for="comentariocliente">Comentario Cliente</label>
+										<textarea name="comentariocliente" id="comentariocliente" cols="30" rows="10" class="form-control" placeholder="Escriba su comentario"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<input type="submit" value="Enviar" class="btn btn-primary" style="background-color:black;">
+								</div>
+							</form>
+						</div>
 					</div>
 
 
@@ -321,6 +344,23 @@
                 alert("Debes llenar todos los cuadros de texto");
             }
         }
+        
+        function sendComentarioCliente(form) {
+            if (form.comentariocliente.value.length > 0 && form.cliente.value.length > 0) {
+                var mensajeManager = new MensajeManager();
+                mensajeManager.insertarCliente({comentario:form.comentariocliente.value, cliente:form.cliente.value}, function (rm) {
+                    console.log(rm);
+                    form.reset();
+                    alert("Tu mensaje de contacto ha sido enviado");
+                }, function (rm) {
+                    console.log("error");
+                    console.log(rm);
+                });
+            } else {
+                alert("Debes llenar todos los cuadros de texto");
+            }
+        }
+        
         function tabBtnQuienes(){
 			document.getElementById('idIntUnoA').style.display = "block";
 			
