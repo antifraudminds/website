@@ -105,6 +105,7 @@ var SampleApp = function() {
         self.routes = UsuarioControlador(self.routes);
         self.routes = EmpresaControlador(self.routes);
         self.routes = BannersControlador(self.routes);
+        self.routes = ClientesControlador(self.routes);
         self.routes = SolicitudControlador(self.routes);
         self.routes = ServicioControlador(self.routes);
         self.routes = DecrimDataController(self.routes);
