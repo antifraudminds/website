@@ -149,7 +149,7 @@
                     <div id="serviciosContainer">
                       <div class="checkbox" style="float:left;">
                         <label>
-                          <input type="checkbox" onchange="servicioChanged(1, 'Validaci', this);"> Validaci&oacute;n Informaci&oacute;n
+                          <input type="checkbox" onchange="servicioChanged(1, 0, this);"> Validaci&oacute;n Informaci&oacute;n
                         </label>
                       </div>
                       
@@ -545,16 +545,17 @@
     for (var index = 0; index < servicios.length; index++) {
       var servicio = servicios[index];
       if (serviciosHtmlString.length <= 0) {
-        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+','+servicio.nombre+', this);">'+servicio.nombre+'</label></div>';
+        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+','+index+', this);">'+servicio.nombre+'</label></div>';
       } else {
-        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+','+servicio.nombre+', this);">'+servicio.nombre+'</label></div>';
+        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+','+index+', this);">'+servicio.nombre+'</label></div>';
       }
     }
     serviciosContainer.html(serviciosHtmlString);
     loadNotificaciones();
   }
   
-  function servicioChanged(id, nombre, control) {
+  function servicioChanged(id, index, control) {
+    var nombre = serviciosAvailable[index].nombre;
   if (control.checked) {
     data.servicios.push(id);
     data.nombreServicios.push(nombre);
