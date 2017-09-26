@@ -149,7 +149,7 @@
                     <div id="serviciosContainer">
                       <div class="checkbox" style="float:left;">
                         <label>
-                          <input type="checkbox" onchange="servicioChanged(1, this);"> Validaci&oacute;n Informaci&oacute;n
+                          <input type="checkbox" onchange="servicioChanged(1, 'Validaci', this);"> Validaci&oacute;n Informaci&oacute;n
                         </label>
                       </div>
                       
@@ -545,7 +545,7 @@
     for (var index = 0; index < servicios.length; index++) {
       var servicio = servicios[index];
       if (serviciosHtmlString.length <= 0) {
-        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+        serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+','+servicio.nombre+', this);">'+servicio.nombre+'</label></div>';
       } else {
         serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+','+servicio.nombre+', this);">'+servicio.nombre+'</label></div>';
       }
@@ -560,7 +560,7 @@
     data.nombreServicios.push(nombre);
   } else {
     data.servicios = removeElementFromArray(data.servicios, id);
-    data.servicios = removeElementFromArray(data.nombreServicios, nombre);
+    data.nombreServicios = removeElementFromArray(data.nombreServicios, nombre);
   }
 }
 
