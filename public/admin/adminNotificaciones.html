@@ -505,6 +505,9 @@
       usuarioManager.insertarNotificaciones({email:email, servicios: data.servicios.join(","), nombreServicios: data.nombreServicios.join(",")}, function (rm) {
         loadNotificaciones();
         document.forms[0].reset();
+        data = {};
+        data.nombreServicios = [];
+        data.servicios = [];
       }, function(rm) {
         console.log(rm);
       });
@@ -556,14 +559,14 @@
   
   function servicioChanged(id, index, control) {
     var nombre = serviciosAvailable[index].nombre;
-  if (control.checked) {
-    data.servicios.push(id);
-    data.nombreServicios.push(nombre);
-  } else {
-    data.servicios = removeElementFromArray(data.servicios, id);
-    data.nombreServicios = removeElementFromArray(data.nombreServicios, nombre);
+    if (control.checked) {
+      data.servicios.push(id);
+      data.nombreServicios.push(nombre);
+    } else {
+      data.servicios = removeElementFromArray(data.servicios, id);
+      data.nombreServicios = removeElementFromArray(data.nombreServicios, nombre);
+    }
   }
-}
 
 function removeElementFromArray(array, element) {
   var newarray = [];
