@@ -261,17 +261,17 @@ var Usuario = function () {
             console.log("notificaciones:");
             console.log(notificaciones);
             var emails = [];
-            var serviciosAsignados = [];
-            var serviciosNombres = [];
+            var servicioNombre = "";
             for (var index = 0; index < notificaciones.length; index++) {
                 var notificacion = notificaciones[index];
-                serviciosAsignados = notificacion.tipoServicio.split(",");
-                serviciosNombres = notificacion.nombreServicios.split(",");
+                var serviciosAsignados = notificacion.tipoServicio.split(",");
+                var serviciosNombres = notificacion.nombreServicios.split(",");
                 if (serviciosAsignados.indexOf("" + solicitudData.idServicio) != -1) {
+                    servicioNombre = servicioNombre.length <= 0 ? findNombreServicio(solicitudData.idServicio, serviciosAsignados, serviciosNombres) : servicioNombre;
                     emails.push(notificacion.email);    
                 }
             }
-            var servicioNombre = findNombreServicio(serviciosAsignados, serviciosNombres);
+            
             var mailManager = new GMailManager();
             var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Servicio:</b>" + servicioNombre + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.txtRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
             var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails, "Solicitud de servicio creada",dataMsg);
