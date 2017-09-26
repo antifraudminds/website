@@ -415,8 +415,8 @@ postLogin = function (cliente) {
 
 function loadSolicitudes(cliente) {
   var solicitudesManager = new SolicitudManager();
-  if (currentCliente.id == 1) {
-    solicitudesManager.getAll(function (rm) {
+  if (currentCliente.id == 1) { //Es un usuario antifraudminds
+    solicitudesManager.getPermisionAll(currentCliente.idUsuario, function (rm) {
       console.log(rm);
       renderSolicitudes(rm.getObject());  
     }, function (rm) {

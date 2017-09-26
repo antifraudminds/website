@@ -160,6 +160,31 @@
         });
      }
      
+     this.getPermisionAll = function (idUsuario, callBackUpdated, callBackError) {
+     
+         $.ajax({
+            url: '/solicitud/permisionall/'+idUsuario,
+            type: 'GET', //Hace un update - Por definición insert ó update.
+            beforeSend: function (request) {
+                request.setRequestHeader( "manager-method","ClienteManager");
+            },
+            dataType   : 'json',
+            contentType: 'application/json',
+            success: function(responseManagerJson) {
+                var responseManager = new ResponseManager(responseManagerJson);
+                if (responseManager.getError() == "NO_ERROR") {
+                    if (callBackUpdated) {
+                        callBackUpdated(responseManager);
+                    }
+                } else {
+                    if (callBackError) {
+                        callBackError(responseManager);
+                    }
+                }
+            }
+        });
+     }
+     
      this.getSolicitud = function (idSolicitud, callBackUpdated, callBackError) {
      
          $.ajax({

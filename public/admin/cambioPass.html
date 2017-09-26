@@ -237,7 +237,7 @@ function toogleMenu() {
 }
   
 function cambiarPass(form) {
-    if (form.actualPass.value.length > 0 && form.newPass.value.length > 0 && form.reNewPass.value.length > 0 && form.reNewPass.value == form.newPass.value) {
+    if (form.currentPass.value.length > 0 && form.newPass.value.length > 0 && form.reNewPass.value.length > 0 && form.reNewPass.value == form.newPass.value) {
         var usuarioManager = new UsuarioManagerHandler();
         usuarioManager.cambiarPass(cliente.email, form.newPass.value, currentCliente.tipo, function (responseManager) {
             console.log(responseManager);

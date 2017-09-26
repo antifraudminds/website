@@ -109,6 +109,17 @@ var SolicitudControlador = function (routes) {
         }
     });
     
+     routes.push({
+        path:"/solicitud/permisionall/:idUsuario",
+        type:"GET",
+        func: function (req,res) {
+            var solicitud = new Solicitud();
+            solicitud.getPermisionAll(req.params.idUsuario, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
     routes.push({
         path:"/solicitud/:idSolicitud",
         type:"DELETE",

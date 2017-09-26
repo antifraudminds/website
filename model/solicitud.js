@@ -162,6 +162,26 @@ var Solicitud = function () {
         });
     }
     
+    this.getPermisionAll = function(idUsuario, responseCallback) {
+        instance.crearConexion(function (connection) {
+            var sql = "CALL getAllPeticionesByPermission("+idUsuario+");";
+            connection.query(sql, function (err, rows) {
+                var responseManager = new ResponseManager();
+                       if (err) {
+                            responseManager.error = err;
+                           console.log(responseManager.error);
+                           responseCallback(responseManager);
+                        } else {
+                            responseManager.error = "NO_ERROR";
+                            responseManager.object = rows[0];
+                            responseCallback(responseManager);
+                        }
+            });
+        });
+    }
+    
+    
+    
     this.getReporte = function(data, responseCallback) {
         instance.crearConexion(function (connection) {
             var fechaInicial = data.fechaInicial != null && data.fechaInicial.length > 0 ? "'" + data.fechaInicial + "'" : "null";
