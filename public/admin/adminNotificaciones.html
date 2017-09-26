@@ -427,6 +427,7 @@
   
   var data = {};
   data.servicios = [];
+  data.nombreServicios = [];
   var serviciosAvailable = [];
   
   
@@ -501,7 +502,7 @@
     var email = document.getElementById("email").value;
     if (email.length > 0) {
       var usuarioManager = new UsuarioManagerHandler();
-      usuarioManager.insertarNotificaciones({email:email, servicios: data.servicios.join(",")}, function (rm) {
+      usuarioManager.insertarNotificaciones({email:email, servicios: data.servicios.join(","), nombreServicios: data.nombreServicios.join(",")}, function (rm) {
         loadNotificaciones();
         document.forms[0].reset();
       }, function(rm) {
@@ -546,25 +547,27 @@
       if (serviciosHtmlString.length <= 0) {
         serviciosHtmlString += '<div class="checkbox" style="float:left;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
       } else {
-        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+', this);">'+servicio.nombre+'</label></div>';
+        serviciosHtmlString += '<div class="checkbox" style="float:left; margin-top: 10px; margin-left:20px;"><label><input type="checkbox" onchange="servicioChanged('+servicio.id+','+servicio.nombre+', this);">'+servicio.nombre+'</label></div>';
       }
     }
     serviciosContainer.html(serviciosHtmlString);
     loadNotificaciones();
   }
   
-  function servicioChanged(id, control) {
+  function servicioChanged(id, nombre, control) {
   if (control.checked) {
-    data.servicios.push(id);  
+    data.servicios.push(id);
+    data.nombreServicios.push(nombre);
   } else {
     data.servicios = removeElementFromArray(data.servicios, id);
+    data.servicios = removeElementFromArray(data.nombreServicios, nombre);
   }
 }
 
 function removeElementFromArray(array, element) {
   var newarray = [];
   for (var i =0; i < array.length ; i++) {
-    if (array[i] != element) {
+    if (array[i] != element && newarray.indexOf(array[i]) == -1) {
       newarray.push(array[i]);  
     }
   }  

@@ -95,6 +95,17 @@ var UsuarioControlador = function (routes) {
     });
     
     routes.push({
+        path:"/usuario/changepass",
+        type:"POST",
+        func: function (req,res) {
+            var usuario = new Usuario();
+            usuario.changePass(req.body, function(responseManager) {
+               res.send(responseManager); 
+            });
+        }
+    });
+    
+    routes.push({
         path:"/usuario/logued",
         type:"GET",
         func: function (req,res) {

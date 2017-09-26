@@ -170,7 +170,7 @@
             <div class="box-footer">
               <button type="button" class="btn btn-default" onclick="deleteSolicitud();"><i class="fa fa-trash-o" ></i> Delete</button>
               <button type="button" class="btn btn-default" onclick="window.print();"><i class="fa fa-print" ></i> Print</button>
-              <button type="button" class="btn btn-default" onclick="manageRespuesta();" style="margin-left: 40px; background: #2c9e2c; color: white; font-size: 12px; font-family: sans-serif; line-height: 14px; padding: 8px;"><i class="fa icon-envelope" style="padding-right: 10px;"></i><label id="btnRespuesta" style="display: inline-block; max-width: 100%; font-weight: 600;">Respuesta</label> </button>
+              <button id="containerBtnRespuesta" type="button" class="btn btn-default" onclick="manageRespuesta();" style="margin-left: 40px; background: #2c9e2c; color: white; font-size: 12px; font-family: sans-serif; line-height: 14px; padding: 8px;"><i class="fa icon-envelope" style="padding-right: 10px;"></i><label id="btnRespuesta" style="display: inline-block; max-width: 100%; font-weight: 600;">Respuesta</label> </button>
             </div>
             <!-- /.box-footer -->
           </div>
@@ -438,6 +438,9 @@ function loadSolicitud(idSolicitud) {
 function renderSolicitudes(solicitud) {
   console.log(solicitud);
   currentSolicitud = solicitud;
+  if (solicitud.tipo == 2) {
+    solicitud.fechaRespuesta = solicitud.fecha;
+  }
   
   $("#numSolicitud").html("No. Solicitud: " + solicitud.numeroSolicitud);
   $("#servicio").html("Servicio: " + solicitud.nombreServicio);
@@ -448,7 +451,11 @@ function renderSolicitudes(solicitud) {
   if (solicitud.idServicio == 7) {
     $("#estadoDenuncia").html("Estado Denuncia:" + solicitud.estadoDenuncia);
   } else {
-    $("#estadoDenuncia").hide();
+    if (solicitud.tipo == 2) {
+      $("#estadoDenuncia").html("Estado Denuncia: Respondido");
+    } else {
+      $("#estadoDenuncia").html("Sin respuesta");
+    }
   }
   if (solicitud.urlArchivo.length > 0) {
     var extArchivo = solicitud.urlArchivo.split(".")[1];
@@ -492,7 +499,7 @@ function renderRespuesta(respuestas) {
     if (currentSolicitud.tipo == 1) {
       $("#btnRespuesta").html("Agregar Respuesta"); 
     } else {
-      $("#btnRespuesta").hide(); 
+      $("#containerBtnRespuesta").hide(); 
     }
   }
 }

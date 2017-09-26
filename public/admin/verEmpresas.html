@@ -440,7 +440,7 @@
      key = empresasids.pop();
      loadQRCodeGeneration(key, empresasids);
    } else {
-     if (empresasids.length > 0) {
+     if (empresasids.length >= 0 && key != null) {
        var empresaManager = new EmpresaManager();
        empresaManager.getQRCode(key, function (rm) {
          if (rm.getObject().length > 0) {

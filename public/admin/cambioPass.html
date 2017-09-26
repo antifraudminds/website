@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminAM | Enviar Mensaje</title>
+  <title>AdminAM | Cambio de Contrase&ntilde;a</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
@@ -56,7 +56,7 @@
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
               <img src="dist/img/user1-128x128.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs" id="nombreMini">Seguros Bolivar</span>
+              <span class="hidden-xs" id="nombreMini">--</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
@@ -64,7 +64,7 @@
                 <img id="logoPopup" src="dist/img/user1-128x128.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  <label id="nombrePopup">Seguros Bolivar</label>
+                  <label id="nombrePopup">--</label>
                   <small id="ciudadPopup">Bogot&aacute;</small>
                 </p>
               </li>
@@ -87,7 +87,7 @@
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar" style="background-color:#000000;">
-    
+   
   </aside>
 
 
@@ -96,12 +96,12 @@
     <!-- Content Header (Page header) -->
    <section class="content-header">
       <h1>
-         Contactenos
+         Cambio de Contrase&ntilde;a
         <small></small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="indexUser.html"><i class="fa fa-dashboard"></i> Inicio</a></li>
-        <li class="active">Enviar mensaje</li>
+        <li class="active">Cambio de Contrase&ntilde;a</li>
       </ol>
     </section>
 
@@ -110,31 +110,40 @@
       <div class="row">
        
         <!-- /.col -->
-        <form onsubmit="sendContacto(this); return false;">
+        <form onsubmit="cambiarPass(this); return false;">
           
         <div class="col-md-12">
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Enviar mensaje</h3>
+              <h3 class="box-title">Cambio de Contrase&ntilde;a</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               
               <div class="row form-group">
   							<div class="col-md-12">
-  								<label class="sr-only" for="subject">Asunto</label>
-  								<input type="text" name="asunto"  class="form-control" placeholder="Asunto">
+  								<label class="sr-only" for="currentPass">Contrase&ntilde;a Actual</label>
+  								<input type="text" name="currentPass"  class="form-control" placeholder="Contrase&ntilde;a Actual">
   							</div>
   						</div>
-              <div class="form-group">
-                    <textarea name="mensaje"  class="form-control" style="height: 300px" placeholder="Mensaje"></textarea>
-              </div>
+             <div class="row form-group">
+  							<div class="col-md-12">
+  								<label class="sr-only" for="newPass">Nueva Contrase&ntilde;a</label>
+  								<input type="text" name="newPass"  class="form-control" placeholder="Nueva Contrase&ntilde;a">
+  							</div>
+  						</div>
+  						<div class="row form-group">
+  							<div class="col-md-12">
+  								<label class="sr-only" for="reNewPass">Repite la Nueva Contrase&ntilde;a</label>
+  								<input type="text" name="reNewPass"  class="form-control" placeholder="Repite la Nueva Contrase&ntilde;a">
+  							</div>
+  						</div>
               
             </div>
             <!-- /.box-body -->
             <div class="box-footer">
               <div class="pull-right">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Enviar</button>
+                <button type="submit" class="btn btn-primary"><i class="fa fa-envelope-o"></i> Cambiar</button>
               </div>
             </div>
             <!-- /.box-footer -->
@@ -227,19 +236,18 @@ function toogleMenu() {
   }
 }
   
-function sendContacto(form) {
-    if (form.asunto.value.length > 0 && form.mensaje.value.length > 0) {
-        var mensajeManager = new MensajeManager();
-        mensajeManager.insertar({nombre:dataCliente.nombreUsuario,nombreEmpresa: dataCliente.nombre, email:dataCliente.email, asunto:form.asunto.value, mensaje:form.mensaje.value}, function (rm) {
-            console.log(rm);
-            form.reset();
-            alert("Tu mensaje de contacto ha sido enviado");
-        }, function (rm) {
-            console.log("error");
-            console.log(rm);
+function cambiarPass(form) {
+    if (form.actualPass.value.length > 0 && form.newPass.value.length > 0 && form.reNewPass.value.length > 0 && form.reNewPass.value == form.newPass.value) {
+        var usuarioManager = new UsuarioManagerHandler();
+        usuarioManager.cambiarPass(cliente.email, form.newPass.value, currentCliente.tipo, function (responseManager) {
+            console.log(responseManager);
+            logout();
+             
+        },  function (responseManager) {
+            alert("Ocurrio un error intente de nuevo");
         });
     } else {
-        alert("Debes llenar todos los cuadros de texto");
+        alert("Debes llenar todos los cuadros de texto y/o verificar que los campos de Nueva Contraseña y Repita la Nueva Contraseña sean iguales.");
     }
 }
   

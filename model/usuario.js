@@ -163,6 +163,25 @@ var Usuario = function () {
         });
     }
     
+    this.changePass = function (userAuthData, responseCallback) {
+        instance.crearConexion(function (connection) {
+            if (connection) {
+                var sql = "CALL ChangePass('" + userAuthData.email + "', '"+userAuthData.password+"');";
+                console.log(sql);
+                connection.query(sql, function(err, rows) {
+                    var responseManager = new ResponseManager();
+                    if (err) {
+                        responseManager.error = err;
+                    } else {
+                       responseManager.error = "NO_ERROR";
+                       responseManager.object = "Password ha cambiado con exito.";
+                    }
+                    responseCallback(responseManager);
+                });
+            }
+        });
+    }
+    
     this.borrarUsuario = function (idUsuario, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
@@ -183,7 +202,7 @@ var Usuario = function () {
     this.insertarNotificaciones = function (data, responseCallback) {
         instance.crearConexion(function (connection) {
            if (connection) {
-               connection.query("CALL InsertarNotificacion('"+data.email+"','"+data.servicios+"')", function (err, rows) {
+               connection.query("CALL InsertarNotificacion('"+data.email+"','"+data.servicios+"','"+data.nombreServicios+"')", function (err, rows) {
                    var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
@@ -242,18 +261,31 @@ var Usuario = function () {
             console.log("notificaciones:");
             console.log(notificaciones);
             var emails = [];
+            var serviciosAsignados = [];
+            var serviciosNombres = [];
             for (var index = 0; index < notificaciones.length; index++) {
                 var notificacion = notificaciones[index];
-                var serviciosAsignados = notificacion.tipoServicio.split(",");
+                serviciosAsignados = notificacion.tipoServicio.split(",");
+                serviciosNombres = notificacion.nombreServicios.split(",");
                 if (serviciosAsignados.indexOf("" + solicitudData.idServicio) != -1) {
                     emails.push(notificacion.email);    
                 }
             }
+            var servicioNombre = findNombreServicio(serviciosAsignados, serviciosNombres);
             var mailManager = new GMailManager();
-            var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.txtRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
+            var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Servicio:</b>" + servicioNombre + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.txtRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
             var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails, "Solicitud de servicio creada",dataMsg);
             mailManager.sendEmail(mensajeData, responseCallback);
         });
+    }
+    
+    function findNombreServicio(idServicio, serviciosAsignados, serviciosNombres) {
+        for (var i = 0; i < serviciosAsignados.length; i++) {
+            if (serviciosAsignados[i] == idServicio) {
+                return serviciosNombres[i];
+            }
+        }
+        return "";
     }
     
     this.recoverPass = function (email, responseCallback) {

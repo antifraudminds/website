@@ -256,6 +256,31 @@
         });
     }
     
+    this.cambiarPass = function (user,pass,tipo, callBackUpdated, callBackError) {
+      $.ajax({
+            url: '/usuario/changepass',
+            type: 'POST', //Obtiene los datos del cliente.
+            data: JSON.stringify({email:user,password:pass,tipo:tipo}),
+            dataType   : 'json',
+            contentType: 'application/json',
+            beforeSend: function (request) {
+                request.setRequestHeader( "manager-method","ClienteManager");
+            },
+            success: function(responseManagerJson) {
+                var responseManager = new ResponseManager(responseManagerJson);
+                if (responseManager.getError() == "NO_ERROR") {
+                    if (callBackUpdated) {
+                        callBackUpdated(responseManager);
+                    }
+                } else {
+                    if (callBackError) {
+                        callBackError(responseManager);
+                    }
+                }
+            }
+        });
+    }
+    
     this.logOut = function(callBackUpdated, callBackError) {
         $.ajax({
             url: '/usuario/logout',
