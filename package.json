@@ -34,8 +34,6 @@
     "mysql": "~2.10.2",
     "node-static": "~0.7.7",
     "session": "~0.1.0",
-    "nodemailer" : "~2.3.0",
-    "nodemailer-smtp-transport" : "~2.4.1",
     "https" : "~1.0.0 ",
     "sequelize" : "~3.24.6",
     "qrcode-npm": "~0.0.3",
