@@ -1,6 +1,6 @@
 //Datos de Conexion a la Base de Datos.
-var DBUSER = "antifraud";
-var DBPASS = "4nt1fr4ud";
+var DBUSER = "antifraudminds";
+var DBPASS = "4nt1fr4udm1nd5";
 var DBNAME = "antifraud_minds";
 
 var Connection = function () {
