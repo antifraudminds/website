@@ -17,8 +17,8 @@ var Connection = function () {
     
     this.getConnParams = function() {
         return {
-          host     : isOpenShift ? process.env.OPENSHIFT_MYSQL_DB_HOST : process.env.IP,
-          port     : isOpenShift ? process.env.OPENSHIFT_MYSQL_DB_PORT : 3306,
+          host     : "172.31.62.19", //isOpenShift ? process.env.OPENSHIFT_MYSQL_DB_HOST : process.env.IP,
+          port     : 3306,
           user     : DBUSER,
           password : DBPASS,
           database : DBNAME
