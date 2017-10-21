@@ -315,51 +315,6 @@ var Usuario = function () {
         });
     }
     
-    this.sendContacto = function (data, responseCallback) {
-        sendContactoFunc(data);
-        var responseManager = new ResponseManager();
-        responseManager.error = "NO_ERROR";
-        responseManager.object = "El contacto enviado"; 
-    }
-    
-    function sendContactoFunc(data) {
-        var email = "info@upli.co";
-        /*var smtpConfig = {
-            host: 'smtp.office365.com',
-            port: 587,
-            secure: true, // use SSL
-            auth: {
-                user: 'developer@upli.co',
-                pass: 'D1m3t1l102938.'
-            }
-        };*/
-        var smtpConfig = {
-            service:'gmail',
-            auth: {
-                user: 'uplideveloper@gmail.com',
-                pass: 'D1m3t1l102938.'
-            }
-        };
-        
-        var transporter = nodemailer.createTransport(smtpConfig);
-        //var transporter = nodemailer.createTransport(smtpTransport(smtpConfig));
-        console.log(transporter);
-        if (transporter) {
-            console.log("enviando correo");
-            transporter.sendMail(
-                {
-                    from:"uplideveloper@gmail.com",
-                    to:email,
-                    subject: 'Contacto desde Upli.co ✔',
-                    html:"<b>Nombres:</b> " + data.FirstName + "<b>Apellidos:</b> " + data.LastName + "<b>Asunto:</b> " + data.subject + "<b>Comentarios:</b> " + data.comment
-                }, function (errEmail, response) {
-                    console.log("Estatus correo.....");
-                    console.log(errEmail);
-                    console.log(response);
-                });
-        }
-    }
-    
     function sendEmail(email, password, responseCallback) {
         console.log(email);
         console.log(password);
