@@ -1,6 +1,4 @@
 var ResponseManager = require("../model/responsemanager.js");
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
 var Connection = require("../model/connection.js");
 var Usuario = require("../model/usuario.js");
 var qrCode = require('qrcode-npm');
