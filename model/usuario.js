@@ -12,20 +12,9 @@ var Usuario = function () {
     
     //funciones
     this.crearConexion = function (conexionCreada) {
-        var connection = instance.mysql.createConnection(connParams);
-        connection.connect(function(err) {
-          if (err) {
-            console.error('error connecting: ' + err.stack);
-            conexionCreada(null);
-            return;
-          }
-        
-          console.log('connected as id ' + connection.threadId);
-          conexionCreada(connection);
-          setTimeout(function() {connection.end();}, 1000);
-          
-        });
+        connection.connect(conexionCreada);
     }
+    
     this.insertarUsuario = function (data, responseCallback) {
         instance.crearConexion(function (connection) {
             //console.log(connection);

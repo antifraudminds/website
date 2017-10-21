@@ -16,18 +16,7 @@ var DecrimData = function () {
     
     //funciones
     this.crearConexion = function (conexionCreada) {
-        var connection = instance.mysql.createConnection(connParams);
-        connection.connect(function(err) {
-          if (err) {
-            console.error('error connecting: ' + err.stack);
-            conexionCreada(null);
-            return;
-          }
-        
-          console.log('connected as id ' + connection.threadId);
-          conexionCreada(connection);
-          connection.end();
-        });
+        connection.connect(conexionCreada);
     }
     
     this.insertar = function(decrimData, responseCallback) {
