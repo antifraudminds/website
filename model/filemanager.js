@@ -1,7 +1,7 @@
 
 //Clase FileManager
 var FileManager = function (pathForFiles, files) {
-    var pathData = "opt/data";
+    var pathData = "/opt/data";
     this.fs = require("fs");
     this.path = require('path');
     this.pathForFiles = pathForFiles;
