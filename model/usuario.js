@@ -1,6 +1,4 @@
 var ResponseManager = require("../model/responsemanager.js");
-var nodemailer = require('nodemailer');
-var smtpTransport = require('nodemailer-smtp-transport');
 var GMailManager = require("../model/gmailmanager.js");
 var Connection = require("../model/connection.js");
 //Clase Usuario
