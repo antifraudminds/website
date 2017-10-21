@@ -204,8 +204,8 @@ var DecrimData = function () {
                     var identifier = (new Date()).getTime();
                     var dirName = __dirname;
                     var filenamePath = "../pdfgenerated/pdf_nuevo_" + identifier;
-                    if (process.env.OPENSHIFT_DATA_DIR != null) {
-                        dirName = process.env.OPENSHIFT_DATA_DIR;
+                    if ("/opt/data" != null) {
+                        dirName = "/opt/data";
                         filenamePath = "pdfgenerated/pdf_nuevo_" + identifier;
                     }
                     var pathPdfForUse = instance.path.join(dirName, filenamePath+".html");
@@ -395,10 +395,10 @@ var DecrimData = function () {
         
         var dirPath = __dirname;
         var pathForFiles = "../public";
-        if (process.env.OPENSHIFT_DATA_DIR != null) {
-            dirPath = process.env.OPENSHIFT_DATA_DIR;
+        if ("/opt/data" != null) {
+            dirPath = "/opt/data";
             pathForFiles = pathForFiles.replace("../", "");
-            console.log(process.env.OPENSHIFT_DATA_DIR);
+            console.log("/opt/data");
         }
         //for (var index = 0; index < archivos.length; index++) {
         if (indexArchivos < archivos.length) {
@@ -435,8 +435,8 @@ var DecrimData = function () {
         
         var dirName = __dirname;
         var filenamePath = "../pdfgenerated/";
-        if (process.env.OPENSHIFT_DATA_DIR != null) {
-            dirName = process.env.OPENSHIFT_DATA_DIR;
+        if ("/opt/data" != null) {
+            dirName = "/opt/data";
             filenamePath = "pdfgenerated/";
         }
         var pathPdfResult = instance.path.join(dirName, filenamePath + filename);

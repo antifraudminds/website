@@ -150,8 +150,8 @@ var SampleApp = function() {
                 }
             });
         self.app.use(express.static(__dirname + '/public'));
-        if (process.env.OPENSHIFT_DATA_DIR != null) {
-            self.app.use(express.static(process.env.OPENSHIFT_DATA_DIR + '/public'));
+        if ("/opt/data" != null) {
+            self.app.use(express.static('opt/data/public'));
         }
         self.app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
         self.app.use(bodyParser.json({limit: '50mb'}));

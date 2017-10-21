@@ -1,6 +1,7 @@
 
 //Clase FileManager
 var FileManager = function (pathForFiles, files) {
+    var pathData = "opt/data";
     this.fs = require("fs");
     this.path = require('path');
     this.pathForFiles = pathForFiles;
@@ -16,10 +17,10 @@ var FileManager = function (pathForFiles, files) {
                 var filePath = guid() + "." + ext;
                 var dirPath = __dirname;
                 var pathForFiles = instance.pathForFiles;
-                if (process.env.OPENSHIFT_DATA_DIR != null) {
-                    dirPath = process.env.OPENSHIFT_DATA_DIR;
+                if (pathData != null) {
+                    dirPath = pathData;
                     pathForFiles = instance.pathForFiles.replace("../", "");
-                    console.log(process.env.OPENSHIFT_DATA_DIR);
+                    console.log(pathData);
                 }
                 instance.fs.writeFile(instance.path.join(dirPath, pathForFiles + filePath), data, function (errW) {
                                         if(!errW) {
@@ -45,10 +46,10 @@ var FileManager = function (pathForFiles, files) {
         var filePath = guid() + ".png";
         var dirPath = __dirname;
         var pathForFiles = instance.pathForFiles;
-        if (process.env.OPENSHIFT_DATA_DIR != null) {
-            dirPath = process.env.OPENSHIFT_DATA_DIR;
+        if ("/opt/data" != null) {
+            dirPath = "/opt/data";
             pathForFiles = instance.pathForFiles.replace("../", "");
-            console.log(process.env.OPENSHIFT_DATA_DIR);
+            console.log("/opt/data");
         }
         instance.fs.writeFile(instance.path.join(dirPath, pathForFiles + filePath), base64Image, 'base64', function(err) {
           if (!err) {
