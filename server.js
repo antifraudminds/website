@@ -15,6 +15,7 @@ var SolicitudControlador = require(__dirname + "/controllers/solicitudControlado
 var ServicioControlador = require(__dirname + "/controllers/servicioControlador.js");
 var DecrimDataController = require(__dirname + "/controllers/decrimDataController.js");
 var MensajeController = require(__dirname + "/controllers/mensajeController.js");
+var CiudadController = require(__dirname + "/controllers/ciudadController.js");
 
 
 /**
@@ -51,7 +52,7 @@ var SampleApp = function() {
      *  Populate the cache.
      */
     self.populateCache = function() {
-       
+
     };
 
 
@@ -110,6 +111,7 @@ var SampleApp = function() {
         self.routes = ServicioControlador(self.routes);
         self.routes = DecrimDataController(self.routes);
         self.routes = MensajeController(self.routes);
+        self.routes = CiudadController(self.routes);        
     };
 
 
@@ -134,7 +136,7 @@ var SampleApp = function() {
                               'Location': '/admin/indexUser.html'
                               //add other headers here...
                             });
-                            res.end();    
+                            res.end();
                         } else {
                             next();
                         }
@@ -146,7 +148,7 @@ var SampleApp = function() {
                         res.end();
                     }
                 } else {
-                 next();   
+                 next();
                 }
             });
         self.app.use(express.static(__dirname + '/public'));
@@ -155,16 +157,16 @@ var SampleApp = function() {
         }
         self.app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
         self.app.use(bodyParser.json({limit: '50mb'}));
-        
+
         for (var r in self.routes) {
             if (self.routes[r].type == "GET") {
                 self.app.get(self.routes[r].path, self.routes[r].func);
             }
-            
+
             if (self.routes[r].type == "POST") {
                 self.app.post(self.routes[r].path, self.routes[r].func);
             }
-            
+
             if (self.routes[r].type == "PUT") {
                 if (self.routes[r].middleware) {
                     self.app.put(self.routes[r].path, self.routes[r].middleware, self.routes[r].func);
@@ -172,14 +174,14 @@ var SampleApp = function() {
                     self.app.put(self.routes[r].path, self.routes[r].func);
                 }
             }
-            
+
             if (self.routes[r].type == "DELETE") {
                 self.app.delete(self.routes[r].path, self.routes[r].func);
             }
         }
-        
-        
-        
+
+
+
     };
 
 

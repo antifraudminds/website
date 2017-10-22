@@ -6,15 +6,15 @@
   <title>Admin | Antifraud Minds</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
-  
+
    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    
+
     <meta property="og:nombre"             content="%nombre%" />
     <meta property="og:asunto"             content="%asunto%" />
     <meta property="og:email"              content="%email%" />
     <meta property="og:mensaje"            content="%mensaje%" />
     <meta property="og:fecha"              content="%fecha%" />
-  
+
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -38,7 +38,7 @@
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-  
+
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -66,28 +66,28 @@
       </a>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          
+
           <li class="dropdown user user-menu">
             <a href="javascript:void();" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs" id="nombreMini">Seguros Bolivar</span>
+              <img src="dist/img/nada.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs" id="nombreMini">AntiFraudMinds</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header" style="background-image: url(img/fondo.jpg);">
-                <img id="logoPopup" src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img id="logoPopup" src="dist/img/nada.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  <label id="nombrePopup">asdfaasdfSeguros Bolivar</label>
-                  <small id="ciudadPopup">fasdfsadfBogot&aacute;</small>
+                  <label id="nombrePopup">AntiFraudMinds</label>
+                  <small id="ciudadPopup">Bogot&aacute;</small>
                 </p>
               </li>
               <!-- Menu Body -->
-              
+
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  
+
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-primary btn-flat" onclick="logout();">Cerrar Sesi&oacute;n</a>
@@ -101,7 +101,7 @@
   </header>
   <!-- Left side column. contains the logo and sidebar -->
    <aside class="main-sidebar" >
-      
+
   </aside>
 
  <!-- Content Wrapper. Contains page content -->
@@ -133,17 +133,17 @@
                 <h5 id="email">
                   <span class="mailbox-read-time pull-right" id="fecha">15 Feb. 2016 11:03 PM</span></h5>
               </div>
-             
+
               <div class="mailbox-read-message">
                 <p id="mensaje"></p>
               </div>
               <!-- /.mailbox-read-message -->
             </div>
             <!-- /.box-body -->
-            
+
             <div class="box-footer">
               <div class="pull-right">
-                
+
               </div>
               <button type="button" class="btn btn-default" onClick="eliminarComment(currentMessageId);"><i class="fa fa-trash-o"></i> Delete</button>
             </div>
@@ -214,7 +214,7 @@
 <script  type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="../js/mensajesManager.js"></script>
 <script type="text/javascript">
-  
+
   $(document).ready(function () {
     isLogued();
     loadMensaje(getParameterByName("idMensaje"));
@@ -222,9 +222,9 @@
 
   var currentMessageId = -1;
 
-  
+
   function loadMensaje(idMensaje) {
-    
+
     currentMessageId = idMensaje;
     var mensajesManager = new MensajeManager();
           mensajesManager.obtenerMensajeId(idMensaje, function (rm) {
@@ -232,21 +232,21 @@
             console.log(rm);
             var mensaje = rm.getObject();
             if (mensaje.id == idMensaje) {
-              
+
               $("#nombre").html(mensaje.nombre);
               $("#asunto").html(mensaje.asunto);
               $("#email").html(mensaje.email);
               $("#mensaje").html(mensaje.mensaje);
               $("#fecha").html(formatFecha(mensaje.fecha));
             }
-            
+
           }, function (rm) {
             console.log("error");
             console.log(rm);
           });
-    
+
   }
-  
+
   function getParameterByName(name, url) {
       if (!url) url = window.location.href;
       name = name.replace(/[\[\]]/g, "\\$&");
@@ -262,18 +262,18 @@
       date = new Date(date.getTime() + 86400000);
       return fixZero(date.getDate()) + "/" + fixZero((date.getMonth() + 1)) + "/" + date.getFullYear();
   }
-  
+
   function fixZero(num) {
       return num < 10 ? "0" + num : num;
   }
-  
+
   postLogin = function (cliente) {
      if (cliente.tipo == 0) {
       loadSideBar();
     }
     renderData(cliente);
   }
-  
+
   function renderData(cliente) {
     $("#nombre").html(cliente.nombre);
     $("#ciudad").html(cliente.ciudad);
@@ -284,19 +284,19 @@
     $("#ciudadPopup").html(cliente.ciudad);
     $("#logoPopup").attr("src", cliente.logo);
   }
-  
+
   postLogout = function (data) {
     window.location.href = "/admin/index.html";
   }
-  
+
   function toogleMenu() {
     if ($(".dropdown-menu").is(":hidden")) {
-      $(".dropdown-menu").show();  
+      $(".dropdown-menu").show();
     } else {
       $(".dropdown-menu").hide();
     }
   }
-  
+
 </script>
 </body>
 </html>

@@ -6,13 +6,13 @@
  /* global jQuery*/
  /* global ResponseManager */
  function BannersManager() {
-     
+
  this.getSkeleton = function() {
      return {id:-1,url:"",urlImage:""};
  }
-     
+
  this.update = function (jsonData, files, callBackUpdated, callBackError) {
-     
+
         var data = new FormData();
         for (var key in jsonData) {
             data.append(key, jsonData[key]);
@@ -20,7 +20,7 @@
         for (var i = 0; i < files.length ; i++) {
             data.append('file'+i, files[i]);
         }
-        
+
          $.ajax({
             url: '/banners',
             type: 'PUT', //Hace un update - Por definición insert ó update.
@@ -45,9 +45,9 @@
             }
         });
      }
-     
+
  this.obtener = function (callBackUpdated, callBackError) {
-     
+
          $.ajax({
             url: '/banners/all/ban',
             type: 'GET', //Obtiene los datos del cliente.
@@ -69,9 +69,9 @@
             }
         });
      }
-     
+
     this.obtenerFondo = function (idFondo, callBackUpdated, callBackError) {
-     
+
          $.ajax({
             url: '/fondo/' + idFondo,
             type: 'GET', //Obtiene los datos del cliente.
@@ -92,11 +92,11 @@
                 }
             }
         });
-     } 
-     
-  this.eliminar = function(idIngrediente, callBackUpdated, callBackError) {
+     }
+
+  this.eliminar = function(idBanner, callBackUpdated, callBackError) {
     $.ajax({
-            url: '/medida/'+idIngrediente,
+            url: '/banners/'+idBanner,
             type: 'DELETE', //Obtiene los datos del cliente.
             contentType: 'application/json',
             beforeSend: function (request) {
@@ -114,11 +114,11 @@
                     }
                 }
             }
-        });    
-  }    
-     
+        });
+  }
+
   this.isLogued = function (callBackUpdated, callBackError) {
-     
+
          $.ajax({
             url: '/usuario/logued',
             type: 'GET', //Obtiene los datos del cliente.
@@ -139,7 +139,7 @@
                 }
             }
         });
-     } 
+     }
 
   this.authCliente = function (user,pass, callBackUpdated, callBackError) {
       $.ajax({
@@ -165,7 +165,7 @@
             }
         });
     }
-    
+
     this.logOutCliente = function(callBackUpdated, callBackError) {
         $.ajax({
             url: '/manager',
@@ -188,7 +188,7 @@
             }
         });
     }
-    
+
     this.getNumClientes = function(callBackUpdated, callBackError) {
         $.ajax({
             url: '/manager',
@@ -211,7 +211,7 @@
             }
         });
     }
-    
+
     this.setEstablecimientoACliente = function(idCliente,idEstablecimiento, callBackUpdated, callBackError) {
         $.ajax({
             url: '/manager',
@@ -235,15 +235,15 @@
             }
         });
     }
-     
+
  }
- 
+
  function fechaFormated(fecha) {
      var date = new Date(fecha);
      date.setTime(date.getTime()+(1000*60*60*24));
      return getMes(date.getMonth()+1) + " de " + date.getFullYear();
  }
- 
+
  function getMes(mes) {
      switch (mes) {
          case 1:
@@ -251,7 +251,7 @@
              break;
         case 2:
              return "Febrero";
-             break;     
+             break;
         case 3:
              return "Marzo";
              break;
@@ -281,7 +281,7 @@
              break;
         case 12:
              return "Diciembre";
-             break;     
+             break;
          default:
              // code
      }

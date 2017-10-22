@@ -10,9 +10,9 @@ var FileManager = function (pathForFiles, files) {
         console.log("instance.files.length:"+instance.files.length);
         if (instance.files.length > 0) {
             var file = instance.files.pop();
-            
+
             instance.fs.readFile(file.path, function (err, data) {
-                
+
                 var ext = file.name.split(".")[1];
                 var filePath = guid() + "." + ext;
                 var dirPath = __dirname;
@@ -32,7 +32,7 @@ var FileManager = function (pathForFiles, files) {
                                             console.log(filesPath);
                                             callback(filesPath, errW);
                                         }
-                                        
+
                                     });
             });
         } else {
@@ -41,12 +41,12 @@ var FileManager = function (pathForFiles, files) {
             callback(filesPath ? filesPath.length >0 ? filesPath : null : null, null);
         }
     }
-    
+
     this.saveBase64 = function(base64Image, callback) {
         var filePath = guid() + ".png";
         var dirPath = __dirname;
         var pathForFiles = instance.pathForFiles;
-        if ("/opt/data" != null) {
+        if (pathData != null) {
             dirPath = "/opt/data";
             pathForFiles = instance.pathForFiles.replace("../", "");
             console.log("/opt/data");
@@ -59,9 +59,9 @@ var FileManager = function (pathForFiles, files) {
           }
         });
     }
-    
+
     var instance = this;
-    
+
 }
 
 function guid() {
@@ -81,5 +81,5 @@ function getAsArray(obj) {
    }
    return objArray;
 }
-    
+
 module.exports = FileManager;

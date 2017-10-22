@@ -29,7 +29,7 @@
   <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker.css">
   <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-  
+
 
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -57,28 +57,28 @@
       </a>
       <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
-          
+
           <li class="dropdown user user-menu">
             <a href="javascript:void();" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user2-160x160.jpg" class="user-image" alt="User Image">
-              <span class="hidden-xs" id="nombreMini">Seguros Bolivar</span>
+              <img src="dist/img/nada.jpg" class="user-image" alt="User Image">
+              <span class="hidden-xs" id="nombreMini">AntiFraudMinds</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header" style="background-image: url(img/fondo.jpg);">
-                <img id="logoPopup" src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img id="logoPopup" src="dist/img/nada.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  <label id="nombrePopup">asdfaasdfSeguros Bolivar</label>
-                  <small id="ciudadPopup">fasdfsadfBogot&aacute;</small>
+                  <label id="nombrePopup">AntiFraudMinds</label>
+                  <small id="ciudadPopup">Bogot&aacute;</small>
                 </p>
               </li>
               <!-- Menu Body -->
-              
+
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  
+
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-primary btn-flat" onclick="logout();">Cerrar Sesi&oacute;n</a>
@@ -88,12 +88,12 @@
           </li>
         </ul>
       </div>
-      
+
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar" >
-      
+
   </aside>
 
    <!-- Content Wrapper. Contains page content -->
@@ -113,14 +113,14 @@
     <!-- Main content -->
     <section class="content">
       <div class="row">
-        
+
         <div class="col-md-12">
           <div class="box box-primary">
             <div class="box-header with-border">
               <h3 class="box-title">Mensajes</h3>
 
               <div class="box-tools pull-right">
-                
+
               </div>
               <!-- /.box-tools -->
             </div>
@@ -128,12 +128,12 @@
             <div class="box-body no-padding">
               <div class="mailbox-controls">
                 <!-- Check all button -->
-                
+
                 <!-- /.btn-group -->
                 <button type="button" class="btn btn-default btn-sm" onclick="loadLoquedicen();"><i class="fa fa-refresh"></i></button>
                 <div class="pull-right">
-                 
-                  
+
+
                   <!-- /.btn-group -->
                 </div>
                 <!-- /.pull-right -->
@@ -141,8 +141,8 @@
               <div class="table-responsive mailbox-messages">
                 <table class="table table-hover table-striped">
                   <tbody id="tableMensaje">
-                  
-                  
+
+
                   </tbody>
                 </table>
                 <!-- /.table -->
@@ -154,7 +154,7 @@
               <div class="mailbox-controls">
                 <button type="button" class="btn btn-default btn-sm" onclick="loadLoquedicen();"><i class="fa fa-refresh"></i></button>
                 <div class="pull-right">
-                 
+
                 </div>
                 <!-- /.pull-right -->
               </div>
@@ -225,16 +225,16 @@
 <script  type="text/javascript" src="js/login.js"></script>
 <script type="text/javascript" src="../js/mensajesManager.js"></script>
 <script type="text/javascript">
-  
+
   $(document).ready(function () {
     isLogued();
     loadLoquedicen();
   });
-  
+
   function loadLoquedicen() {
     /*
     <tr><th style="width: 10px">#</th><th>Ingredientes</th><th>Eliminar</th></tr>
-    
+
     */
     var mensajeTabla = document.getElementById("tableMensaje");
     var initTable = '<tr><th style="width: 10px">#</th><th>Nombre</th><th>Asunto</th><th>Email</th><th>Fecha</th></tr>';
@@ -246,7 +246,7 @@
       var tabletItem = "";
       for (var i = 0;i < mensajes.length ; i++) {
         var mensaje = mensajes[i];
-        tabletItem += '<tr><td>'+(i+1)+'</td><td class="mailbox-name"><a href="verMensajesInterna.html?idMensaje=' + mensaje.id + '">'+mensaje.nombre+'</a></td><td class="mailbox-subject">'+mensaje.asunto+'</td><td class="mailbox-subject"><b>'+mensaje.email+'</b></td><td class="mailbox-date">' + formatFecha(mensaje.fecha) +'</td></tr>';    
+        tabletItem += '<tr><td>'+(i+1)+'</td><td class="mailbox-name"><a href="verMensajesInterna.html?idMensaje=' + mensaje.id + '">'+mensaje.nombre+'</a></td><td class="mailbox-subject">'+mensaje.asunto+'</td><td class="mailbox-subject"><b>'+mensaje.email+'</b></td><td class="mailbox-date">' + formatFecha(mensaje.fecha) +'</td></tr>';
 
       }
       mensajeTabla.innerHTML += tabletItem;
@@ -254,28 +254,28 @@
       console.log("error");
       console.log(rm);
     });
-    
-    
+
+
   }
-  
+
   function eliminarComment(id) {
     if (confirm("Seguro desea eliminar esta Solicitud de Receta?")) {
       var loquedicenManager = new SolicitudRecetaClubManager();
       loquedicenManager.eliminar(id, function (rm) {
         loadLoquedicen();
       }, function (rm) {
-        
+
       });
     }
   }
-  
+
   function formatFecha(fecha) {
             console.log(fecha.split("T")[0]);
             var date = new Date(fecha.split("T")[0]+"Z");
             date = new Date(date.getTime() + 86400000);
             return fixZero(date.getDate()) + "/" + fixZero((date.getMonth() + 1)) + "/" + date.getFullYear();
         }
-        
+
   function fixZero(num) {
       return num < 10 ? "0" + num : num;
   }
@@ -285,7 +285,7 @@
     }
     renderData(cliente);
   }
-  
+
   function renderData(cliente) {
     $("#nombre").html(cliente.nombre);
     $("#ciudad").html(cliente.ciudad);
@@ -296,14 +296,14 @@
     $("#ciudadPopup").html(cliente.ciudad);
     $("#logoPopup").attr("src", cliente.logo);
   }
-  
+
   postLogout = function (data) {
     window.location.href = "/admin/index.html";
   }
-  
+
   function toogleMenu() {
     if ($(".dropdown-menu").is(":hidden")) {
-      $(".dropdown-menu").show();  
+      $(".dropdown-menu").show();
     } else {
       $(".dropdown-menu").hide();
     }

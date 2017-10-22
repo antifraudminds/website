@@ -59,25 +59,25 @@
         <ul class="nav navbar-nav">
           <li class="dropdown user user-menu">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-              <img src="dist/img/user1-128x128.jpg" class="user-image" alt="User Image">
+              <img src="dist/img/nada.jpg" class="user-image" alt="User Image">
               <span class="hidden-xs" id="nombreMini">Antifraud Minds</span>
             </a>
             <ul class="dropdown-menu">
               <!-- User image -->
               <li class="user-header" style="background-image: url(img/fondo.jpg);">
-                <img id="logoPopup" src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
+                <img id="logoPopup" src="dist/img/nada.jpg" class="img-circle" alt="User Image">
 
                 <p>
-                  <label id="nombrePopup">Antifraud</label>
+                  <label id="nombrePopup">AntifraudMinds</label>
                   <small id="ciudadPopup">Bogot&aacute;</small>
                 </p>
               </li>
               <!-- Menu Body -->
-              
+
               <!-- Menu Footer-->
               <li class="user-footer">
                 <div class="pull-left">
-                  
+
                 </div>
                 <div class="pull-right">
                   <a href="#" class="btn btn-primary btn-flat" onclick="logout();">Cerrar Sesi&oacute;n</a>
@@ -85,14 +85,14 @@
               </li>
             </ul>
           </li>
-          
+
         </ul>
       </div>
     </nav>
   </header>
   <!-- Left side column. contains the logo and sidebar -->
   <aside class="main-sidebar">
-    
+
   </aside>
 
   <!-- Content Wrapper. Contains page content -->
@@ -112,11 +112,11 @@
     <!-- Main content -->
     <section class="content">
       <!-- Small boxes (Stat box) -->
-      
+
       <!-- /.row -->
       <!-- Main row -->
       <div class="row">
-       
+
       <div class="col-md-12">
           <!-- general form elements -->
           <div class="box box-primary">
@@ -130,31 +130,31 @@
                 <form action="generarReporte.html" target="_blank">
                   <div class="box-body">
                     <h3 class="box-title">Generar Reporte a partir de Busqueda</h3>
-                    
+
                     <div class="form-group">
                       <label for="fechaInicial">Fecha Inicial</label>
                       <input type="date" class="form-control" name="fechaInicial" id="fechaInicial" placeholder="Fecha Inicial">
                     </div>
-                    
+
                     <div class="form-group">
                       <label for="fechaFinal">Fecha Final</label>
                       <input type="date" class="form-control" name="fechaFinal" id="fechaFinal" placeholder="Fecha Final">
                     </div>
-                    
+
                     <div class="box-body">
                       <label for="empresa">Empresa</label>
                       <select class="form-control select2" style="width: 100%; border-radius:none;" name="empresa" id="empresa">
                         <option selected="selected" value="-1">Seleccione una Empresa</option>
                       </select>
                     </div>
-                    
+
                     <div class="box-body">
                       <label for="servicio">Tipo Servicio</label>
                       <select class="form-control select2" style="width: 100%; border-radius:none;" name="servicio" id="servicio">
                         <option selected="selected" value="-1">Seleccione un tipo de servicio</option>
                       </select>
                     </div>
-                    
+
                     <div class="box-body">
                       <label for="usuario">Usuario</label>
                       <select class="form-control select2" style="width: 100%; border-radius:none;" name="usuario" id="usuario">
@@ -164,15 +164,15 @@
                 </div>
                   </div>
                   <!-- /.box-body -->
-    
+
                   <div class="box-footer">
                     <button class="btn btn-primary" type="submit">Generar Reporte</button>
                   </div>
                 </form>
               </li>
-              
+
             </ul>
-            
+
           </div>
           <!-- /.box -->
 
@@ -432,27 +432,27 @@
 
 
 <script type="text/javascript">
-  
+
   var data = {};
   data.servicios = [];
   var serviciosAvailable = [];
-  
-  
-  
+
+
+
   $(document).ready(function () {
     loadEmpresas();
     loadServicios();
     loadUsuarios();
     isLogued();
   });
-  
+
   postLogin = function (cliente) {
     if (cliente.tipo == 0) {
       loadSideBar();
     }
     renderData(cliente);
   }
-  
+
   function renderData(cliente) {
     $("#nombre").html(cliente.nombre);
     $("#ciudad").html(cliente.ciudad);
@@ -463,7 +463,7 @@
     $("#ciudadPopup").html(cliente.ciudad);
     $("#logoPopup").attr("src", cliente.logo);
   }
-  
+
   postLogout = function (data) {
     window.location.href = "/admin/index.html";
   }
@@ -478,7 +478,7 @@ function loadEmpresas() {
      console.log(rm);
    });
  }
- 
+
  function renderEmpresasCombo(empresas) {
    var comboEmpresas = document.getElementById("empresa");
    for (var i = 0; i < empresas.length; i++) {
@@ -487,10 +487,10 @@ function loadEmpresas() {
      option.setAttribute("value", empresa.id);
      option.innerHTML = empresa.nombre;
      comboEmpresas.appendChild(option);
-     
+
    }
  }
- 
+
  function loadServicios() {
     var servicioManager = new ServiciosManager();
     servicioManager.getAll(function (rm) {
@@ -499,7 +499,7 @@ function loadEmpresas() {
       console.log(rm);
     });
   }
-  
+
   function renderServicios(servicios) {
    var comboServicios = document.getElementById("servicio");
    for (var i = 0; i < servicios.length; i++) {
@@ -508,10 +508,10 @@ function loadEmpresas() {
      option.setAttribute("value", servicio.id);
      option.innerHTML = servicio.nombre;
      comboServicios.appendChild(option);
-     
+
    }
  }
- 
+
  function loadUsuarios() {
    var usuarioManager = new UsuarioManagerHandler();
    usuarioManager.getUsuarios(function (rm) {
@@ -522,7 +522,7 @@ function loadEmpresas() {
      console.log(rm);
    });
  }
- 
+
  function renderUsuarios(usuarios) {
    var comboUsuarios = document.getElementById("usuario");
    for (var i = 0; i < usuarios.length; i++) {
@@ -533,10 +533,10 @@ function loadEmpresas() {
      comboUsuarios.appendChild(option);
    }
  }
- 
- 
-  
- 
+
+
+
+
 </script>
 </body>
 </html>
