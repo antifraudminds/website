@@ -6,15 +6,15 @@ var Usuario = function () {
 
     //Obteniendo recursos
     this.mysql = require("mysql");
-    
+
     var connection = new Connection();
     var connParams = connection.getConnParams();
-    
+
     //funciones
     this.crearConexion = function (conexionCreada) {
         connection.connect(conexionCreada);
     }
-    
+
     this.insertarUsuario = function (data, responseCallback) {
         instance.crearConexion(function (connection) {
             //console.log(connection);
@@ -43,12 +43,12 @@ var Usuario = function () {
                             responseCallback(responseManager);
                         }
                     }
-                     
+
                 });
             }
         });
     }
-    
+
     this.modificarUsuario = function (data, responseCallback) {
         instance.crearConexion(function (connection) {
             //console.log(connection);
@@ -81,7 +81,7 @@ var Usuario = function () {
             }
         });
     }
-    
+
     function insertarServiciosAUsuario(idUsuario, servicios, callback) {
         instance.crearConexion(function (connServicios) {
             var sqlInsertServicios = "CALL InsertarServiciosAUsuario ("+idUsuario+",'"+servicios.join(",")+"')";
@@ -90,7 +90,7 @@ var Usuario = function () {
             });
         });
     }
-  
+
     this.obtenerUsuarios = function (responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
@@ -98,7 +98,7 @@ var Usuario = function () {
                     var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
-                        
+
                     } else {
                         responseManager.error = "NO_ERROR";
                         responseManager.object = rows[0];
@@ -108,7 +108,7 @@ var Usuario = function () {
             }
         });
     }
-    
+
     this.obtenerUsuario = function (id, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
@@ -116,7 +116,7 @@ var Usuario = function () {
                     var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
-                        
+
                     } else {
                         responseManager.error = "NO_ERROR";
                         responseManager.object = rows[0][0];
@@ -126,7 +126,7 @@ var Usuario = function () {
             }
         });
     }
-    
+
     this.authUser = function (userAuthData, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
@@ -137,11 +137,11 @@ var Usuario = function () {
                     if (err) {
                         responseManager.error = err;
                     } else {
-                        if (rows.length <= 0) {
-                            responseManager.error = "Usuario o password incorrecto";
+                        if (rows.length > 0 && rows[0].length > 0) {
+                            responseManager.error = "NO_ERROR";
+                            responseManager.object = rows[0][0];
                         } else {
-                           responseManager.error = "NO_ERROR";
-                           responseManager.object = rows[0][0]; 
+                            responseManager.error = "Usuario o password incorrecto";
                         }
                     }
                     responseCallback(responseManager);
@@ -149,7 +149,7 @@ var Usuario = function () {
             }
         });
     }
-    
+
     this.changePass = function (userAuthData, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
@@ -168,7 +168,7 @@ var Usuario = function () {
             }
         });
     }
-    
+
     this.borrarUsuario = function (idUsuario, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
@@ -178,14 +178,14 @@ var Usuario = function () {
                         responseManager.error = err;
                     } else {
                        responseManager.error = "NO_ERROR";
-                       responseManager.object = rows; 
+                       responseManager.object = rows;
                     }
                     responseCallback(responseManager);
                 });
             }
         });
     }
-    
+
     this.insertarNotificaciones = function (data, responseCallback) {
         instance.crearConexion(function (connection) {
            if (connection) {
@@ -193,18 +193,18 @@ var Usuario = function () {
                    var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
-                        
+
                     } else {
                         responseManager.error = "NO_ERROR";
-                       responseManager.object = rows; 
+                       responseManager.object = rows;
                     }
                     responseCallback(responseManager);
                 });
                 }
             });
     }
-    
-    
+
+
     this.getNotificaciones = function (responseCallback) {
         instance.crearConexion(function (connection) {
            if (connection) {
@@ -212,17 +212,17 @@ var Usuario = function () {
                    var responseManager = new ResponseManager();
                     if (err) {
                         responseManager.error = err;
-                        
+
                     } else {
                         responseManager.error = "NO_ERROR";
-                       responseManager.object = rows[0]; 
+                       responseManager.object = rows[0];
                     }
                     responseCallback(responseManager);
                 });
                 }
             });
     }
-    
+
     this.eliminarNotificacion = function (id, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
@@ -232,14 +232,14 @@ var Usuario = function () {
                         responseManager.error = err;
                     } else {
                        responseManager.error = "NO_ERROR";
-                       responseManager.object = rows; 
+                       responseManager.object = rows;
                     }
                     responseCallback(responseManager);
                 });
             }
         });
     }
-    
+
     this.sendNotificacion = function(solicitudData, responseCallback) {
         instance.getNotificaciones(function (rm) {
             console.log("solicitud data:");
@@ -255,17 +255,17 @@ var Usuario = function () {
                 var serviciosNombres = notificacion.nombreServicios.split(",");
                 if (serviciosAsignados.indexOf("" + solicitudData.idServicio) != -1) {
                     servicioNombre = servicioNombre.length <= 0 ? findNombreServicio(solicitudData.idServicio, serviciosAsignados, serviciosNombres) : servicioNombre;
-                    emails.push(notificacion.email);    
+                    emails.push(notificacion.email);
                 }
             }
-            
+
             var mailManager = new GMailManager();
             var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Servicio:</b>" + servicioNombre + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.txtRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
             var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails, "Solicitud de servicio creada",dataMsg);
             mailManager.sendEmail(mensajeData, responseCallback);
         });
     }
-    
+
     function findNombreServicio(idServicio, serviciosAsignados, serviciosNombres) {
         for (var i = 0; i < serviciosAsignados.length; i++) {
             if (serviciosAsignados[i] == idServicio) {
@@ -274,7 +274,7 @@ var Usuario = function () {
         }
         return "";
     }
-    
+
     this.recoverPass = function (email, responseCallback) {
         instance.crearConexion(function (connection) {
             if (connection) {
@@ -286,8 +286,8 @@ var Usuario = function () {
                     } else {
                        if (rows.length > 0) {
                            responseManager.error = "NO_ERROR";
-                           
-                           responseManager.object = "contraseña enviada a su correo"; 
+
+                           responseManager.object = "contraseña enviada a su correo";
                            var useremail = rows[0].email;
                            var userpass = rows[0].password;
                            sendEmail(useremail, userpass, responseCallback);
@@ -295,13 +295,13 @@ var Usuario = function () {
                            responseManager.object = "Usuario no encontrado, verifique sus datos y vuelva a intentarlo.";
                            responseCallback(responseManager);
                        }
-                       
+
                     }
                 });
             }
         });
     }
-    
+
     function sendEmail(email, password, responseCallback) {
         console.log(email);
         console.log(password);
@@ -309,10 +309,9 @@ var Usuario = function () {
         var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com",email,"Recuperación de Contraseña - www.antifraudminds.com","Los datos de inicio de sesión son: usuario: " + email + " password: " + password);
         mailManager.sendEmail(mensajeData, responseCallback);
     }
-    
+
     var instance = this;
 
 }
 
 module.exports = Usuario;
-
