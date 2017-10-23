@@ -229,7 +229,7 @@
        continue;
      }
      empresasMap[empresa.id] = empresa;
-     htmlstr += '<div class="box box-primary" style="float:left;width: 300px; margin-right:10px; height: 700px;" id="empresa'+empresa.id+'"><div class="box-body box-profile"><img class="profile-user-img img-responsive img-circle" src="'+empresa.logo+'" alt="'+empresa.nombre+'"><h3 class="profile-username text-center">'+empresa.nombre+'</h3><p class="text-muted text-center">'+empresa.ciudad+'</p><ul class="list-group list-group-unbordered">  <li class="list-group-item">    <b>Total Solicitudes</b> <a class="pull-right">'+getTotalSolicitudes(empresa.servicios)+'</a>  </li> '+getNumerosServicios(empresa.servicios)+' </ul><a href="editarEmpresa.html?idEmpresa='+empresa.id+'" style="position: absolute; bottom: 48px; width: 280px;" class="btn btn-primary btn-block" ><b>Editar</b></a><a href="javascript:borrar('+empresa.id+');" class="btn btn-primary btn-block" style="background-color:red; border-color:red; bottom: 8px; position: absolute; width: 280px;"><b>Borrar</b></a></div></div>';
+     htmlstr += '<div class="box box-primary" style="float:left;width: 300px; margin-right:10px; height: 700px;" id="empresa'+empresa.id+'"><div class="box-body box-profile"><img class="profile-user-img img-responsive img-circle" src="'+empresa.logo+'" alt="'+empresa.nombre+'"><h3 class="profile-username text-center">'+empresa.nombre+'</h3><p class="text-muted text-center">'+empresa.ciudad+'</p><ul class="list-group list-group-unbordered" style="height: 380px;overflow-y: scroll;"><li class="list-group-item" style="height: 80px"><table style="width: 100%"><tr><td><b>Total Solicitudes</b></td><td style="width: 80px; text-align: center">'+getTotalSolicitudes(empresa.servicios)+'</td></tr></table>  </li> '+getNumerosServicios(empresa.servicios)+' </ul><a href="editarEmpresa.html?idEmpresa='+empresa.id+'" style="position: absolute; bottom: 48px; width: 280px;" class="btn btn-primary btn-block" ><b>Editar</b></a><a href="javascript:borrar('+empresa.id+');" class="btn btn-primary btn-block" style="background-color:red; border-color:red; bottom: 8px; position:absolute; width: 280px;"><b>Borrar</b></a></div></div>';
    }
    document.getElementById("container").innerHTML = htmlstr;
 
@@ -287,7 +287,9 @@
    var htmlstr = '';
    for (var i=0;i<servicios.length;i++) {
       var servicio = servicios[i];
-      htmlstr += '<li class="list-group-item"><b>'+servicio.nombreServicio+'</b> <a class="pull-right">'+servicio.numeroUso+'</a>  </li>';
+      if (servicio.idServicio.length>0 && servicio.nombreServicio.length>0) {
+        htmlstr += '<li class="list-group-item" style="height: 80px"><table style="width: 100%"><tr><td><b>'+servicio.nombreServicio+'</b></td><td style="width: 80px; text-align: center">'+servicio.numeroUso+'</td></tr></table></li>';
+      }
    }
 
    return htmlstr;

@@ -139,12 +139,8 @@
               <div class="mailbox-controls">
                 <!-- /.btn-group -->
                 <button type="button" class="btn btn-default btn-sm" onclick="loadSolicitudes(currentCliente);"><i class="fa fa-refresh"></i></button>
-                <div class="pull-right">
-                  1-50/200
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-left"></i></button>
-                    <button type="button" class="btn btn-default btn-sm"><i class="fa fa-chevron-right"></i></button>
-                  </div>
+                <div id="numSolicitudes" class="pull-right">
+
                   <!-- /.btn-group -->
                 </div>
                 <!-- /.pull-right -->
@@ -243,14 +239,16 @@ function loadSolicitudes(cliente) {
 
 function renderSolicitudes(solicitudes) {
   var tableContentSolicitudes = document.getElementById("contentSolicitudes");
-  var contentStr = '<tr><th></th><th class="mailbox-star">Item</th><th class="mailbox-name">Nombre</th><th class="mailbox-subject">No. Solicitud</th><th class="mailbox-subject">Titulo</th><th class="mailbox-attachment">Archivos Adjuntos</th><th class="mailbox-date">Fecha Creaci&oacute;n</th><th class="mailbox-date">Fecha &Uacute;ltima respuesta</th></tr>';
+  var numSolicitudesTextControl = document.getElementById("numSolicitudes");
+  numSolicitudesTextControl.innerHTML = solicitudes.length + "/" + solicitudes.length;
+  var contentStr = '<tr><th></th><th class="mailbox-name">Nombre</th><th class="mailbox-subject">No. Solicitud</th><th class="mailbox-subject">Titulo</th><th class="mailbox-attachment">Archivos Adjuntos</th><th class="mailbox-date">Fecha Creaci&oacute;n</th><th class="mailbox-date">Fecha &Uacute;ltima respuesta</th></tr>';
   tableContentSolicitudes.innerHTML = contentStr;
   var fileSolicitudhtml = currentCliente.id == 1 ? "saVerSolicitud" : "suVerSolicitud";
   for (var i = 0; i < solicitudes.length; i++) {
     var solicitud = solicitudes[i];
     var fileAttachment = solicitud.urlArchivo.length > 0 ? '<a href="'+solicitud.urlArchivo+'" target="_blank"><i class="fa fa-paperclip"></i></a>' : '';
     var fechaRespuesta = solicitud.fechaRespuesta != null ? formatFecha(solicitud.fechaRespuesta) : "Sin Respuesta";
-    contentStr += '<tr><td></td><td class="mailbox-star"><i class="fa fa-circle text-success"></i></td><td class="mailbox-name"><a href="'+fileSolicitudhtml+'.html?idSolicitud='+solicitud.id+'">'+solicitud.nombre+'</a></td><td class="mailbox-subject">'+solicitud.numeroSolicitud+'</td><td class="mailbox-subject">'+solicitud.tituloSolicitud+'</td><td class="mailbox-attachment">' + fileAttachment +  '</td><td class="mailbox-date">'+formatFecha(solicitud.fecha)+'</td><td class="mailbox-date">'+ fechaRespuesta +'</td></tr>';
+    contentStr += '<tr><td></td><td class="mailbox-name"><a href="'+fileSolicitudhtml+'.html?idSolicitud='+solicitud.id+'">'+solicitud.nombre+'</a></td><td class="mailbox-subject">'+solicitud.numeroSolicitud+'</td><td class="mailbox-subject">'+solicitud.tituloSolicitud+'</td><td class="mailbox-attachment">' + fileAttachment +  '</td><td class="mailbox-date">'+formatFecha(solicitud.fecha)+'</td><td class="mailbox-date">'+ fechaRespuesta +'</td></tr>';
   }
   tableContentSolicitudes.innerHTML = contentStr;
   /**
