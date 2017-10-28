@@ -3,7 +3,7 @@ var DBUSER = "antifraudminds";
 var DBPASS = "4nt1fr4udm1nd5";
 var DBNAME = "antifraud_minds";
 
-var hosts = ["10.128.17.37", "mysql.antifraudminds.svc", "172.30.189.141"];
+var hosts = ["mysql.antifraudminds.svc", "10.131.16.240", "172.30.189.141"];
 
 var Mysql = require("mysql");
 

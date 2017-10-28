@@ -228,7 +228,7 @@ function loadSolicitudes(cliente) {
       console.log(rm);
     });
   } else {
-    solicitudesManager.get(cliente.id, function (rm) {
+    solicitudesManager.get(cliente.idUsuario, function (rm) {
       console.log(rm);
       renderSolicitudes(rm.getObject());
     }, function (rm) {

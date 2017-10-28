@@ -226,25 +226,30 @@
  function renderUsuarios(usuarios) {
    var contentStr = '';
    contentStr += '<tr><th></th><th class="mailbox-name">Nombre</th><th class="mailbox-name">C&eacute;dula</th><th class="mailbox-name">Cargo</th><th class="mailbox-name">Empresa</th><th class="mailbox-name">Email</th><th class="mailbox-name" colspan="2">Acciones</th></tr>';
-   for (var i=1; i<usuarios.length;i++) {
+   for (var i=0; i<usuarios.length;i++) {
      var usuario = usuarios[i];
-     contentStr += '<tr><td></td><td class="mailbox-name">'+usuario.nombre+'</td><td class="mailbox-name">'+usuario.cedula+'</td><td class="mailbox-name">' + usuario.cargo +  '</td><td class="mailbox-name">'+usuario.nombreEmpresa+'</td><td class="mailbox-name">'+usuario.email+'</td><td class="mailbox-name"><a href="editarUsuario.html?idUsuario='+usuario.id+'">Editar</a></td><td class="mailbox-name"><a href="javascript:borrar('+usuario.id+',\''+usuario.email+'\''+');">Eliminar</a></td></tr>';
+     var admin = usuario.tipo == 0 ? "<b>(Admin)<b>" : "";
+     contentStr += '<tr><td></td><td class="mailbox-name">'+admin+usuario.nombre+'</td><td class="mailbox-name">'+usuario.cedula+'</td><td class="mailbox-name">' + usuario.cargo +  '</td><td class="mailbox-name">'+usuario.nombreEmpresa+'</td><td class="mailbox-name">'+usuario.email+'</td><td class="mailbox-name"><a href="editarUsuario.html?idUsuario='+usuario.id+'">Editar</a></td><td class="mailbox-name"><a href="javascript:borrar('+usuario.id+',\''+usuario.email+'\''+');">Eliminar</a></td></tr>';
    }
    document.getElementById("contentUsuarios").innerHTML = contentStr;
  }
 
  function borrar(id, email) {
-   if (confirm("Desea borrar el usuario '" + email + "' ?")) {
-     var usuarioManager = new UsuarioManagerHandler();
-     usuarioManager.eliminarUsuario(id, function (rm) {
-       console.log(rm);
-       loadUsuarios();
-     },
-     function (rm){
-       console.log(rm);
-       alert("Ocurrio un error borrando el usuario " + email);
-     });
-   }
+   if (id == 1) {
+     alert("Usuario Admin no se puede borrar");
+   } else {
+     if (confirm("Desea borrar el usuario '" + email + "' ?")) {
+       var usuarioManager = new UsuarioManagerHandler();
+       usuarioManager.eliminarUsuario(id, function (rm) {
+         console.log(rm);
+         loadUsuarios();
+       },
+       function (rm){
+         console.log(rm);
+         alert("Ocurrio un error borrando el usuario " + email);
+       });
+     }
+  }
  }
 </script>
 </body>

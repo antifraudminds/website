@@ -240,14 +240,14 @@ var Usuario = function () {
         });
     }
 
-    this.sendNotificacion = function(solicitudData, responseCallback) {
+    this.sendNotificacion = function(emailCreador, solicitudData, responseCallback) {
         instance.getNotificaciones(function (rm) {
             console.log("solicitud data:");
             console.log(solicitudData);
             var notificaciones = rm.object;
             console.log("notificaciones:");
             console.log(notificaciones);
-            var emails = [];
+            var emails = [emailCreador];
             var servicioNombre = "";
             for (var index = 0; index < notificaciones.length; index++) {
                 var notificacion = notificaciones[index];
@@ -260,8 +260,38 @@ var Usuario = function () {
             }
 
             var mailManager = new GMailManager();
-            var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Servicio:</b>" + servicioNombre + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.txtRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds.";
+            var dataMsg = "<b>Nueva solicitud creada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Servicio:</b>" + servicioNombre + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + solicitudData.txtRequerimiento + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds (http://www.antifraudminds.com/admin).";
             var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails, "Solicitud de servicio creada",dataMsg);
+            mailManager.sendEmail(mensajeData, responseCallback);
+        });
+    }
+
+    this.sendRespuestaNotificacion = function(emailCreador, solicitudData, responseCallback) {
+        instance.getNotificaciones(function (rm) {
+            console.log("solicitud data:");
+            console.log(solicitudData);
+            var notificaciones = rm.object;
+            console.log("notificaciones:");
+            console.log(notificaciones);
+            var emails = [emailCreador];
+            if (solicitudData.remitente != null && solicitudData.remitente.length > 0) {
+              emails.push(solicitudData.remitente);
+            }
+            var servicioNombre = "";
+            for (var index = 0; index < notificaciones.length; index++) {
+                var notificacion = notificaciones[index];
+                var serviciosAsignados = notificacion.tipoServicio.split(",");
+                var serviciosNombres = notificacion.nombreServicios.split(",");
+                if (serviciosAsignados.indexOf("" + solicitudData.idServicio) != -1) {
+                    servicioNombre = servicioNombre.length <= 0 ? findNombreServicio(solicitudData.idServicio, serviciosAsignados, serviciosNombres) : servicioNombre;
+                    emails.push(notificacion.email);
+                }
+            }
+
+            var texto = solicitudData.txtRequerimiento ? solicitudData.txtRequerimiento : solicitudData.textRequerimiento;
+            var mailManager = new GMailManager();
+            var dataMsg = "<b>Nueva respuesta en solicitud agregada<b><br/> <b>No. Solicitud:</b>" + solicitudData.consecutivo + "<br/><b>Servicio:</b>" + servicioNombre + "<br/><b>Titulo:</b>" + solicitudData.tituloSolicitud + "<br/><b>Texto:</b>" + texto + "<br/> Esta informaci&oacute;n puede ser observada en el Sistema de Administración de AntifraudMinds (http://www.antifraudminds.com/admin).";
+            var mensajeData = mailManager.buildEmailMessage("developer.aminds@gmail.com", emails, "Respuesta a Solicitud en AntifraudMinds",dataMsg);
             mailManager.sendEmail(mensajeData, responseCallback);
         });
     }

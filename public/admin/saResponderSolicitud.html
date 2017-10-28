@@ -347,7 +347,7 @@ function getParameterByName(name, url) {
     if (form.estado.value > 0 || (textRequerimiento != null && textRequerimiento.length > 0)) {
       var newsolicitud = new SolicitudManager();
       tituloSolicitud = tituloSolicitud.length > 15 ? tituloSolicitud.substr(0,15) : tituloSolicitud;
-      var data = {idEmpresa:currentCliente.id, idServicio:form.servicio.value, textRequerimiento: textRequerimiento, tituloSolicitud: tituloSolicitud, idSolicitud:currentSolicitud.id, estadoDenuncia:form.estado.value};
+      var data = {idEmpresa:currentCliente.id, idServicio:form.servicio.value, textRequerimiento: textRequerimiento, tituloSolicitud: tituloSolicitud, idSolicitud:currentSolicitud.id, estadoDenuncia:form.estado.value, remitente: currentCliente.email};
       newsolicitud.respuestaSolicitud(data, form.attachment.files, function (rm) {
         console.log(rm);
         form.reset();

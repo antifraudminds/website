@@ -7,15 +7,15 @@ var Solicitud = function () {
 
     //Obteniendo recursos
     this.mysql = require("mysql");
-    
+
     var connection = new Connection();
     var connParams = connection.getConnParams();
-    
+
     //funciones
     this.crearConexion = function (conexionCreada) {
         connection.connect(conexionCreada);
     }
-    
+
     this.insertar = function (dataSolicitud, files, responseCallback) {
         if (Object.keys(files).length > 0) {
           var fileManager = new FileManager("../public/uploads/", files);
@@ -29,14 +29,14 @@ var Solicitud = function () {
                 dataSolicitud.urlArchivo = "";
                 insertarSolicitud(dataSolicitud, responseCallback);
             }
-            
-            
+
+
     }
-        
+
     function insertarSolicitud(dataSolicitud, responseCallback) {
-        
+
         instance.crearConexion(function (connection) {
-           var sql = "CALL InsertarPeticionServicio (" + dataSolicitud.idEmpresa + "," + dataSolicitud.idServicio + ",'" + dataSolicitud.txtRequerimiento + "','" + dataSolicitud.urlArchivo + "','" + dataSolicitud.tituloSolicitud + "'," + dataSolicitud.idUsuario + ")"; 
+           var sql = "CALL InsertarPeticionServicio (" + dataSolicitud.idEmpresa + "," + dataSolicitud.idServicio + ",'" + dataSolicitud.txtRequerimiento + "','" + dataSolicitud.urlArchivo + "','" + dataSolicitud.tituloSolicitud + "'," + dataSolicitud.idUsuario + ")";
            connection.query(sql, function(err, rows) {
                var responseManager = new ResponseManager();
                if (err) {
@@ -46,19 +46,20 @@ var Solicitud = function () {
                 } else {
                     responseManager.error = "NO_ERROR";
                     var usuario = new Usuario();
-                    
-                    dataSolicitud.consecutivo = rows[0][0].consecutivo;
-                    usuario.sendNotificacion(dataSolicitud, function () {
-                        responseManager.object = dataSolicitud;
-                        responseCallback(responseManager);    
+                    usuario.obtenerUsuario(dataSolicitud.idUsuario, function (rm) {
+
+                      dataSolicitud.consecutivo = rows[0][0].consecutivo;
+                      usuario.sendNotificacion(rm.object.email, dataSolicitud, function () {
+                          responseManager.object = dataSolicitud;
+                          responseCallback(responseManager);
+                      });
                     });
                 }
-                   
                });
-               
+
            });
     }
-    
+
     this.respuestaSolicitud = function(respuestaData, files, responseCallback) {
         if (Object.keys(files).length > 0) {
           var fileManager = new FileManager("../public/uploads/", files);
@@ -72,12 +73,12 @@ var Solicitud = function () {
                 respuestaData.urlArchivo = "";
                 insertarRespuestaSolicitud(respuestaData, responseCallback);
             }
-        
+
     }
-    
+
     function insertarRespuestaSolicitud(respuestaData, responseCallback) {
         instance.crearConexion(function (connection) {
-           var sql = "CALL InsertarRespuestaPeticionServicio(" + respuestaData.idSolicitud + ", " + respuestaData.idEmpresa + "," + respuestaData.idServicio + ",'" + respuestaData.textRequerimiento + "','" + respuestaData.urlArchivo + "','" + respuestaData.tituloSolicitud + "'," + respuestaData.estadoDenuncia + ")"; 
+           var sql = "CALL InsertarRespuestaPeticionServicio(" + respuestaData.idSolicitud + ", " + respuestaData.idEmpresa + "," + respuestaData.idServicio + ",'" + respuestaData.textRequerimiento + "','" + respuestaData.urlArchivo + "','" + respuestaData.tituloSolicitud + "'," + respuestaData.estadoDenuncia + ")";
            console.log(sql);
            connection.query(sql, function (err, rows) {
                var responseManager = new ResponseManager();
@@ -86,17 +87,45 @@ var Solicitud = function () {
                    console.log(responseManager.error);
                    responseCallback(responseManager);
                 } else {
-                    responseManager.error = "NO_ERROR";
-                    responseManager.object = respuestaData;
-                    responseCallback(responseManager);
+                    instance.getSolicitudOwner(respuestaData.idSolicitud, respuestaData.idEmpresa, respuestaData.idServicio, function (rm) {
+                      var usuario = new Usuario();
+                      console.log("email");
+                      console.log(rm.object.email);
+                      console.log(respuestaData);                      
+                      respuestaData.consecutivo = rm.object.consecutivo;
+                      usuario.sendRespuestaNotificacion(rm.object.email, respuestaData, function () {
+                        responseManager.error = "NO_ERROR";
+                        responseManager.object = respuestaData;
+                        responseCallback(responseManager);
+                      });
+                    });
                 }
            });
         });
     }
-    
+
+    this.getSolicitudOwner = function (idSolicitud, idEmpresa, idServicio, responseCallback) {
+      instance.crearConexion(function (connection) {
+         var sql = "select getSolicitudOwner(" + idSolicitud + ") as email, getConsecutivo("+idEmpresa+","+idServicio+") as consecutivo";
+         connection.query(sql, function (err, rows) {
+             var responseManager = new ResponseManager();
+             if (err) {
+                  responseManager.error = err;
+                 console.log(responseManager.error);
+                 responseCallback(responseManager);
+              } else {
+                  responseManager.error = "NO_ERROR";
+                  responseManager.object = rows[0];
+                  responseCallback(responseManager);
+              }
+         });
+      });
+
+    }
+
     this.getRespuestaSolicitud = function (idSolicitud, responseCallback) {
         instance.crearConexion(function (connection) {
-           var sql = "CALL GetRespuestasSolicitud(" + idSolicitud + ")"; 
+           var sql = "CALL GetRespuestasSolicitud(" + idSolicitud + ")";
            connection.query(sql, function (err, rows) {
                var responseManager = new ResponseManager();
                if (err) {
@@ -111,10 +140,10 @@ var Solicitud = function () {
            });
         });
     }
-    
+
     this.get = function(idEmpresa, responseCallback) {
         instance.crearConexion(function (connection) {
-            var sql = "CALL getPeticionServiciosPorEmpresa(" + idEmpresa + ");";
+            var sql = "CALL getPeticionServiciosPorUsuario(" + idEmpresa + ");";
             connection.query(sql, function (err, rows) {
                 var responseManager = new ResponseManager();
                        if (err) {
@@ -129,7 +158,7 @@ var Solicitud = function () {
             });
         });
     }
-    
+
     this.getAll = function(responseCallback) {
         instance.crearConexion(function (connection) {
             var sql = "CALL getAllPeticiones();";
@@ -147,7 +176,7 @@ var Solicitud = function () {
             });
         });
     }
-    
+
     this.getPermisionAll = function(idUsuario, responseCallback) {
         instance.crearConexion(function (connection) {
             var sql = "CALL getAllPeticionesByPermission("+idUsuario+");";
@@ -165,9 +194,9 @@ var Solicitud = function () {
             });
         });
     }
-    
-    
-    
+
+
+
     this.getReporte = function(data, responseCallback) {
         instance.crearConexion(function (connection) {
             var fechaInicial = data.fechaInicial != null && data.fechaInicial.length > 0 ? "'" + data.fechaInicial + "'" : "null";
@@ -175,7 +204,7 @@ var Solicitud = function () {
             var IdEmpresa = data.IdEmpresa != null && data.IdEmpresa > 0 ? data.IdEmpresa : "null";
             var IdServicio = data.IdServicio != null && data.IdServicio > 0 ? data.IdServicio : "null";
             var IdUsuario = data.IdUsuario != null && data.IdUsuario > 0 ? data.IdUsuario : "null";
-            
+
             var sql = "CALL getReporte("+fechaInicial+","+fechaFinal+","+IdEmpresa+","+IdServicio+","+IdUsuario+");";
             connection.query(sql, function (err, rows) {
                 var responseManager = new ResponseManager();
@@ -191,7 +220,7 @@ var Solicitud = function () {
             });
         });
     }
-    
+
     this.getSolicitud = function(idSolicitud, responseCallback) {
         instance.crearConexion(function (connection) {
             var sql = "CALL getPeticionServiciosPorSolicitud(" + idSolicitud + ");";
@@ -209,7 +238,7 @@ var Solicitud = function () {
             });
         });
     }
-    
+
     this.getConsultaCodigoUnico = function (codigoUnico, responseCallback) {
         instance.crearConexion(function (connection) {
             var sql = "CALL GetConsultaCodigoUnico('" + codigoUnico + "');";
@@ -227,7 +256,7 @@ var Solicitud = function () {
             });
         });
     }
-    
+
     this.delete = function(idSolicitud, responseCallback) {
         instance.crearConexion(function (connection) {
             var sql = "CALL EliminarSolicitud(" + idSolicitud + ");";
@@ -245,7 +274,7 @@ var Solicitud = function () {
             });
         });
     }
-     
+
     var instance = this;
 }
 

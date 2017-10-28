@@ -46,30 +46,6 @@
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
-  <style>
-	/*.slick-slide img {
-		vertical-align: middle;
-		display: inline-flex;
-	}
-
-	#aliados {
-    display: -webkit-box;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: -webkit-flex;
-    display: flex;
-    -webkit-box-align: center;
-    -moz-box-align: center;
-    -ms-flex-align: center;
-    -webkit-align-items: center;
-    align-items: center;
-    height: 100%;
-}
-
-	.slick-track {
-		height: 100px;
-	}*/
-	</style>
 	</head>
 	<body>
 
@@ -116,9 +92,14 @@
 			</div>
 		</div>
 		<!-- Banners Aliados Anti Fraude-->
-		<div style="width: 100%; margin-top: 190px;">
-			<div id="aliados" style="width: 300px; float: right; background-color: white; margin-right: 5px;z-index: 10000">
-			</div>
+		<div style="width: 100%; margin-top: 30px; text-align:center">
+			<center>
+				<div id="aliados" style="width: 400px; text-align:center; z-index: 10000">
+				</div>
+				<div style="margin-top: 20px; color: white; z-index: 1000; position: relative">
+						Nuestros aliados contra el fraude
+				</div>
+			</center>
 		</div>
 		<!-- End Banners Aliados Anti Fraude-->
 	</header>
@@ -414,12 +395,12 @@
 					var htmlBanners = '';
 		      for (var i = 0; i < banners.length ; i++) {
 		        var banner = banners[i];
-						var htmlContent = '<img style="background-image: url('+banner.urlImage+');background-repeat: no-repeat;background-size: contain;background-position: center; height: 75px; cursor: pointer" onclick="newTab(\''+banner.url+'\')"/>';
+						var htmlContent = '<div style="background-image: url('+banner.urlImage+');background-repeat: no-repeat;background-size: contain;background-position: center; height: 75px; cursor: pointer; text-decoration: none; border-color: transparent; outline: none;" onclick="newTab(\''+banner.url+'\')"/>';
 		        htmlBanners += htmlContent;
 		      }
 		      $("#aliados").html(htmlBanners);
 		      $("#aliados").slick({
-				  slidesToShow: 2,
+				  slidesToShow: 4,
 				  slidesToScroll: 1,
 				  autoplay: true,
 				  autoplaySpeed: 2000,
@@ -442,7 +423,7 @@
 		        var banner = banners[i];
 		        //var htmlContent = '<a href="'+banner.url+'" style="text-decoration:none" target="_blank"><img src="'+banner.urlImage+'" width="100%" height="100%"/></a>';
 						//var htmlContent = '<a href="'+banner.url+'" style="text-decoration:none; height: 75px" target="_blank"><img style="background-image: url('+banner.urlImage+');background-repeat: no-repeat;background-size: contain;background-position: center; height: 75px;"/></a>';
-						var htmlContent = '<img style="background-image: url('+banner.urlImage+');background-repeat: no-repeat;background-size: contain;background-position: center; height: 100px; cursor: pointer" onclick="newTab(\''+banner.url+'\')"/>';
+						var htmlContent = '<div style="background-image: url('+banner.urlImage+');background-repeat: no-repeat;background-size: contain;background-position: center; height: 100px; cursor: pointer" onclick="newTab(\''+banner.url+'\')"/>';
 		        htmlBanners += htmlContent;
 		      }
 		      if (htmlBanners.length > 0) {
