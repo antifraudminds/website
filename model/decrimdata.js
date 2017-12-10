@@ -226,15 +226,15 @@ var DecrimData = function () {
                                 nombre:"Cedula Adelante",
                                 tag:"cedulaAnverso",
                                 hasDimensions:true,
-                                width:"25%",
-                                height:"18.75%"
+                                width:"75%",
+                                height:"56.25%"
 
                             }, {
                                 nombre:"Cedula Atras",
                                 tag:"cedulaReverso",
                                 hasDimensions:true,
-                                width:"25%",
-                                height:"18.75%"
+                                width:"75%",
+                                height:"56.25%"
 
                             }, {
                                 nombre:"Huella",
@@ -247,8 +247,8 @@ var DecrimData = function () {
                                 nombre:"UFirma",
                                 tag:"firma",
                                 hasDimensions:true,
-                                width:"25%",
-                                height:"18.75%"
+                                width:"75%",
+                                height:"56.25%"
                             }
                             ];
                             console.log("Archivos convertidos a base 64");
