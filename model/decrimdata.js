@@ -194,10 +194,10 @@ var DecrimData = function () {
                     var identifier = (new Date()).getTime();
                     var dirName = __dirname;
                     var filenamePath = "../pdfgenerated/pdf_nuevo_" + identifier;
-                    /*if ("/opt/data" != null) {
+                    if ("/opt/data" != null) {
                         dirName = "/opt/data";
                         filenamePath = "pdfgenerated/pdf_nuevo_" + identifier;
-                    }*/
+                    }
                     var pathPdfForUse = instance.path.join(dirName, filenamePath+".html");
                     var pathPdfResult = instance.path.join(dirName, filenamePath+".pdf");
                     var filename = "pdf_nuevo_"+identifier+".pdf";
