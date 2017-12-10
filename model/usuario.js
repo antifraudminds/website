@@ -54,7 +54,7 @@ var Usuario = function () {
             //console.log(connection);
             if (connection) {
                 //var sqlInsertUsuario = "insert into usuarios (nombre,email,password, tipo) values ('"+usuarioData.nombres+"','"+usuarioData.email+"','"+usuarioData.password+"', "+usuarioData.tipo+")";
-                var sqlUpdateUsuario = "CALL ModificarUsuario("+data.id+",'"+data.nombre+"','"+data.email+"','"+data.cargo+"','"+data.cedula+"',"+data.idEmpresa+")";
+                var sqlUpdateUsuario = "CALL ModificarUsuario("+data.id+",'"+data.nombre+"','"+data.email+"','"+data.cargo+"','"+data.cedula+"',"+data.idEmpresa+","+data.tipo+")";
                 console.log("Modificando Usuario");
                 console.log(sqlUpdateUsuario);//muestro la consulta para ver que esta saliendo mal.....
                 connection.query(sqlUpdateUsuario, function(err, rows) {

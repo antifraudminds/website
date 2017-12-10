@@ -188,7 +188,7 @@
     </div>
     <strong>Todos los derechos reservados &copy; 2016 </strong>
   </footer>
-  
+
   <!-- Add the sidebar's background. This div must be placed
        immediately after the control sidebar -->
   <div class="control-sidebar-bg"></div>
@@ -223,7 +223,7 @@ var currentRespuestas = null;
 });
 
 postLogin = function (cliente) {
-  if (cliente.tipo == 1) {
+  if (cliente.tipo >= 1) {
       loadSideBarUser();
     }
   currentCliente = cliente;

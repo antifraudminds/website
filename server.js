@@ -111,7 +111,7 @@ var SampleApp = function() {
         self.routes = ServicioControlador(self.routes);
         self.routes = DecrimDataController(self.routes);
         self.routes = MensajeController(self.routes);
-        self.routes = CiudadController(self.routes);        
+        self.routes = CiudadController(self.routes);
     };
 
 
@@ -131,7 +131,7 @@ var SampleApp = function() {
                     var session = req.session;
                     console.log(session);
                     if (session != null && session.cliente != null) {
-                        if (req.originalUrl.indexOf("indexAdmin.html") != -1 && session.cliente.tipo == 1) {
+                        if (req.originalUrl.indexOf("indexAdmin.html") != -1 && session.cliente.tipo >= 1) {
                             res.writeHead(302, {
                               'Location': '/admin/indexUser.html'
                               //add other headers here...

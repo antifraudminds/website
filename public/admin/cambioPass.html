@@ -207,7 +207,7 @@ var currentCliente = null;
 });
 
 postLogin = function (cliente) {
-  if (cliente.tipo == 1) {
+  if (cliente.tipo >= 1) {
       loadSideBarUser();
     }
   currentCliente = cliente;

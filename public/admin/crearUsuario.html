@@ -150,6 +150,16 @@
                     </div>
                   </div>
                 </div>
+
+                <div class="form-group">
+                  <label for="plan">Plan</label> <br>
+                  <select name="plan">
+                    <option value="0">Admin</option>
+                    <option value="1">Gold</option>
+                    <option value="2">Platino</option>
+                  </select>
+                </div>
+
                 <div class="form-group">
                   <label for="nombre">Nombre</label>
                   <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Nombre">
@@ -379,7 +389,7 @@ function createUser(form) {
   if (form.email.value.length > 0 && form.password.value.length > 0 && form.nombre.value.length > 0 && form.cedula.value.length > 0 && form.cargo.value.length > 0 && form.empresa.value != "-1" && data.servicios.length > 0) {
     data.email = form.email.value;
     data.password = form.password.value;
-    data.tipo = 1;
+    data.tipo = form.plan.value;
     data.nombre = form.nombre.value;
     data.idEmpresa = form.empresa.value;
     data.cargo = form.cargo.value;

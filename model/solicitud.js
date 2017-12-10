@@ -19,7 +19,7 @@ var Solicitud = function () {
     this.insertar = function (dataSolicitud, files, responseCallback) {
         if (Object.keys(files).length > 0) {
           var fileManager = new FileManager("../public/uploads/", files);
-            fileManager.saveFiles(function (filesPath, errFiles) {
+            fileManager.saveAndZipFiles(function (filesPath, errFiles) {
                 if (!errFiles) {
                         dataSolicitud.urlArchivo = filesPath[0].path;
                         insertarSolicitud(dataSolicitud, responseCallback);
@@ -91,7 +91,7 @@ var Solicitud = function () {
                       var usuario = new Usuario();
                       console.log("email");
                       console.log(rm.object.email);
-                      console.log(respuestaData);                      
+                      console.log(respuestaData);
                       respuestaData.consecutivo = rm.object.consecutivo;
                       usuario.sendRespuestaNotificacion(rm.object.email, respuestaData, function () {
                         responseManager.error = "NO_ERROR";
