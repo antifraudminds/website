@@ -186,7 +186,7 @@ var DecrimData = function () {
                      console.log("Resultado");
                      console.log(rows);
 
-                     var fileTemplateGrab = dataResult.resultadoValidacion != "tipo2" ? "pdf0.html" : "pdf1.html";
+                     var fileTemplateGrab = dataResult.resultadoValidacion != "tipo2" ? "pdf0_1.html" : "pdf1.html";
                      var archivos = getArchivosFromQuery(rows);
                      archivos.push({nombre:"fotousuario",archivo:rows[0].foto});
                      archivos = getArchivosBase64IfRequired(archivos, 0, function (archivosBase64) {
@@ -218,7 +218,7 @@ var DecrimData = function () {
 
                         //Agrega foto del usuario
                         var fotoBase64 = archivosBase64[archivosBase64.length - 1].archivo;
-                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" width="200" height="266"/>');
+                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" width="16.67%" height="22.17%"/>');
 
                         //Tags para los archivos, y posición en el pdf de reporte.
                         var tags = [
@@ -226,15 +226,15 @@ var DecrimData = function () {
                                 nombre:"Cedula Adelante",
                                 tag:"cedulaAnverso",
                                 hasDimensions:true,
-                                width:300,
-                                height:225
+                                width:"25%",
+                                height:"18.75%"
 
                             }, {
                                 nombre:"Cedula Atras",
                                 tag:"cedulaReverso",
                                 hasDimensions:true,
-                                width:300,
-                                height:225
+                                width:"25%",
+                                height:"18.75%"
 
                             }, {
                                 nombre:"Huella",
@@ -247,8 +247,8 @@ var DecrimData = function () {
                                 nombre:"UFirma",
                                 tag:"firma",
                                 hasDimensions:true,
-                                width:350,
-                                height:171
+                                width:"25%",
+                                height:"18.75%"
                             }
                             ];
                             console.log("Archivos convertidos a base 64");
@@ -370,7 +370,7 @@ var DecrimData = function () {
                     if (tag.hasDimensions) {
                         data = data.replace("%" + tag.tag + "%", '<img src="data:image/jpeg;base64,'+archivo.archivo+'" width="'+tag.width+'" height="'+tag.height+'"/>');
                     } else {
-                        data = data.replace("%" + tag.tag + "%", '<img src="data:image/jpeg;base64,'+archivo.archivo+'"/>');
+                        data = data.replace("%" + tag.tag + "%", '<img style="width: 40%" src="data:image/jpeg;base64,'+archivo.archivo+'"/>');
                     }
                 }
             }
@@ -453,6 +453,18 @@ var DecrimData = function () {
         file.pipe(response);
     }
 
+    /*this.getFile = function(filename, res) {
+      var dirName = __dirname;
+      var filenamePath = "../pdfgenerated/";
+      var pathOptPath = null;//"/opt/data";
+      if (pathOptPath != null) {
+          dirName = pathOptPath;
+          filenamePath = "pdfgenerated/";
+      }
+      var pathPdfResult = instance.path.join(dirName, filenamePath + filename);
+      var html = instance.fs.readFileSync(pathPdfResult, 'utf8')
+      res.send(html)
+    }*/
 
     var instance = this;
 }
