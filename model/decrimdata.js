@@ -194,8 +194,9 @@ var DecrimData = function () {
                     var identifier = (new Date()).getTime();
                     var dirName = __dirname;
                     var filenamePath = "../pdfgenerated/pdf_nuevo_" + identifier;
-                    if ("/opt/data" != null) {
-                        dirName = "/opt/data";
+                    var pathDirOpt = "/opt/data";
+                    if (pathDirOpt != null) {
+                        dirName = pathDirOpt;
                         filenamePath = "pdfgenerated/pdf_nuevo_" + identifier;
                     }
                     var pathPdfForUse = instance.path.join(dirName, filenamePath+".html");
@@ -262,10 +263,12 @@ var DecrimData = function () {
                             dataResult.porcentajeRiesgo = "No hay Riesgo";
                         }
 
-                        data = data.replace("%resultadoValidacion%", getImageValidacion(dataResult.resultadoValidacion));
-                        data = data.replace("%resultadoIdentificacion%", getImageValidacion(dataResult.resultadoIdentificacion));
-                        data = data.replace("%resultadoIdentificacion%", getImageValidacion(dataResult.resultadoIdentificacion));
-                        data = data.replace("%resultadoHuella%", getImageValidacion(dataResult.resultadoHuella));
+                        if (dataResult.resultadoValidacion != "tipo2") {
+                          data = data.replace("%resultadoValidacion%", getImageValidacion(dataResult.resultadoValidacion));
+                          data = data.replace("%resultadoIdentificacion%", getImageValidacion(dataResult.resultadoIdentificacion));
+                          data = data.replace("%resultadoIdentificacion%", getImageValidacion(dataResult.resultadoIdentificacion));
+                          data = data.replace("%resultadoHuella%", getImageValidacion(dataResult.resultadoHuella));
+                        }
                         data = data.replace("%listaNegra%", dataResult.listaNegra);
                         data = data.replace("%porcentajeRiesgo%", dataResult.porcentajeRiesgo);
 
@@ -395,11 +398,12 @@ var DecrimData = function () {
 
         var dirPath = __dirname;
         var pathForFiles = "../public";
-        /*if ("/opt/data" != null) {
-            dirPath = "/opt/data";
+        var pathOptPath = "/opt/data";
+        if (pathOptPath != null) {
+            dirPath = pathOptPath;
             pathForFiles = pathForFiles.replace("../", "");
             console.log("/opt/data");
-        }*/
+        }
         //for (var index = 0; index < archivos.length; index++) {
         if (indexArchivos < archivos.length) {
             var archivo = archivos[indexArchivos];
@@ -435,8 +439,9 @@ var DecrimData = function () {
 
         var dirName = __dirname;
         var filenamePath = "../pdfgenerated/";
-        if ("/opt/data" != null) {
-            dirName = "/opt/data";
+        var pathOptPath = "/opt/data";
+        if (pathOptPath != null) {
+            dirName = pathOptPath;
             filenamePath = "pdfgenerated/";
         }
         var pathPdfResult = instance.path.join(dirName, filenamePath + filename);
