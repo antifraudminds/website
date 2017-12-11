@@ -186,7 +186,7 @@ var DecrimData = function () {
                      console.log("Resultado");
                      console.log(rows);
 
-                     var fileTemplateGrab = dataResult.resultadoValidacion != "tipo2" ? "pdf0_1.html" : "pdf1.html";
+                     var fileTemplateGrab = dataResult.resultadoValidacion != "tipo2" ? "pdf0_1.html" : "pdf1_1.html";
                      var archivos = getArchivosFromQuery(rows);
                      archivos.push({nombre:"fotousuario",archivo:rows[0].foto});
                      archivos = getArchivosBase64IfRequired(archivos, 0, function (archivosBase64) {
