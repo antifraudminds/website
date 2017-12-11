@@ -218,7 +218,7 @@ var DecrimData = function () {
 
                         //Agrega foto del usuario
                         var fotoBase64 = archivosBase64[archivosBase64.length - 1].archivo;
-                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" width="16.67%" height="22.17%"/>');
+                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" width="50%" height="66.51%"/>');
 
                         //Tags para los archivos, y posición en el pdf de reporte.
                         var tags = [
@@ -370,7 +370,7 @@ var DecrimData = function () {
                     if (tag.hasDimensions) {
                         data = data.replace("%" + tag.tag + "%", '<img src="data:image/jpeg;base64,'+archivo.archivo+'" width="'+tag.width+'" height="'+tag.height+'"/>');
                     } else {
-                        data = data.replace("%" + tag.tag + "%", '<img style="width: 40%" src="data:image/jpeg;base64,'+archivo.archivo+'"/>');
+                        data = data.replace("%" + tag.tag + "%", '<img style="width: 70%" src="data:image/jpeg;base64,'+archivo.archivo+'"/>');
                     }
                 }
             }
