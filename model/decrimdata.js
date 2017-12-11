@@ -218,7 +218,7 @@ var DecrimData = function () {
 
                         //Agrega foto del usuario
                         var fotoBase64 = archivosBase64[archivosBase64.length - 1].archivo;
-                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" width="50%" height="66.51%"/>');
+                        data = data.replace("%foto%", '<img src="data:image/jpeg;base64,'+fotoBase64+'" height="66.51%"/>');
 
                         //Tags para los archivos, y posición en el pdf de reporte.
                         var tags = [
